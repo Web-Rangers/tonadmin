@@ -26,6 +26,9 @@ const HashRate = React.lazy(() => import('../pages/analytics/HashRate'));
 const BleedRate = React.lazy(() => import('../pages/analytics/BleedRate'));
 const Machines = React.lazy(() => import('../pages/analytics/Machines'));
 
+
+const Responsiveness = React.lazy(() => import('../pages/responsiveness'));
+
 // app
 // root routes
 const rootRoute = {
@@ -145,9 +148,18 @@ const analyticRoutes = [
     }
 ]
 
+const commonRoutes = [
+    {
+        path: '/responsiveness',
+        name: 'Performance and responsiveness',
+        component: Responsiveness,
+        route: Route,
+    }
+]
+
 // All routes
 const authProtectedRoutes = [rootRoute, dashboardRoutes, ValidatorsListRoute];
-const publicRoutes = [...authRoutes, ...analyticRoutes];
+const publicRoutes = [...authRoutes, ...analyticRoutes, ...commonRoutes];
 
 const authProtectedFlattenRoutes = flattenRoutes([...authProtectedRoutes]);
 const publicProtectedFlattenRoutes = flattenRoutes([...publicRoutes]);
