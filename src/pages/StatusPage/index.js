@@ -17,6 +17,7 @@ import LiteserverStatus from '../status/components/LiteserverStatus.js';
 import ShardList from '../status/components/ShardList.js';
 import TransactionList from '../status/components/TransactionList.js';
 import Validators from './Validators.js';
+import BlockRate from './BlockRate.js';
 
 
 const StatusPage = (props): React$Element<React$FragmentType> => {
@@ -46,6 +47,7 @@ const StatusPage = (props): React$Element<React$FragmentType> => {
     const [dataValidators,setDataValidators] = useState();
     const [dataVoting,setDataVoting] = useState();    
     const [dataSlashing,setDataSlashing] = useState();
+    const [dataBlocks,setDataBlocks] = useState();
 
     useEffect(() => {},[readyState])
 
@@ -63,6 +65,7 @@ const StatusPage = (props): React$Element<React$FragmentType> => {
                 setDataValidators(lastmsgJSON.validators);
                 setDataVoting(lastmsgJSON.offers);
                 setDataSlashing(lastmsgJSON.complaints);
+                setDataBlocks(lastmsgJSON.blocks_rate);
             }
             catch (error) {
                 console.error(error);
@@ -110,8 +113,32 @@ const StatusPage = (props): React$Element<React$FragmentType> => {
                 <Col lg={4}>
                     <Validators socketState={readyState} data={dataValidators} />
                 </Col>
+                <Col lg={4}>
+                    <BridgeContainer socketState={readyState}>                        
+                        {!dataBridges ?
+                            <SkeletonTheme>
+                                <Skeleton count={5} />
+                            </SkeletonTheme>
+                            :
+                            <>
+                                <h4 className="header-title">Bridge Status</h4>
+                                <Row>
+                                    <Col lg={6} align={"center"}>
+                                        <BridgeStatus status={dataBridges.eth} title={"TON/ETH"} />
+                                    </Col>
+                                    <Col lg={6} align={"center"}>
+                                        <BridgeStatus status={dataBridges.bsc} title={"TON/BSC"} />
+                                    </Col>
+                                </Row>
+                            </>
+                        }
+                    </BridgeContainer>
+                </Col>
+                <Col lg={4}>
+                    <BlockRate socketState={readyState} data={dataBlocks} />
+                </Col>
             </Row>
-            <div style={pageStyle}>
+            {/* <div style={pageStyle}>
                 <div style={columnContainerStyle}>
                     <BlockchainStats tps={228} transferedAmount={'NA'} validatorCount={'NA'} />
                 </div>
@@ -120,21 +147,10 @@ const StatusPage = (props): React$Element<React$FragmentType> => {
                         <BlockList blocks={blocks}/>
                         <TransactionList transactions={transactions}/>
                     </ListContainer>
-                    <BridgeContainer>
-                        {!dataBridges ?
-                            <SkeletonTheme>
-                                <Skeleton count={4} />
-                            </SkeletonTheme>
-                            :
-                            <>
-                                <BridgeStatus status={dataBridges.eth} title={"TON/ETH"} />
-                                <BridgeStatus status={dataBridges.bsc} title={"TON/BSC"} />
-                            </>
-                        }
-                    </BridgeContainer>
+                    
                 </div>
 
-            </div>
+            </div> */}
         </>
     )
 }

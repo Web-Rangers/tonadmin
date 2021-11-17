@@ -1,32 +1,15 @@
-import React from 'react'
+import React from 'react';
+import { Row, Col, Card, Collapse, Button, Modal, Alert } from 'react-bootstrap';
+import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
+import useWebSocket, { ReadyState } from 'react-use-websocket';
 
-export default function BridgeContainer({children}) {
-    const style = {
-        display: 'flex',
-        flexDirection: 'column',
-        gap: '5px',
-        width: '280px',
-        height: '250px',
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: '#fff',
-        padding: '10px',
-        borderRadius: '5px',
-    }
-    const innerContainerStyle = {
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        flexDirection: 'row',
-        flexWrap: 'wrap',
-        gap: '10px',
-    }
+export default function BridgeContainer({socketState, children}) {
+    
     return (
-        <div style={style}>
-            <h2>Bridge Status</h2>
-            <div style={innerContainerStyle}>
+        <Card>
+            <Card.Body>
                 {children}
-            </div>
-        </div>
+            </Card.Body>
+        </Card>
     )
 }
