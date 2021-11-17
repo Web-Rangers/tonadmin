@@ -7,11 +7,21 @@ import ElectionsStatus from './ElectionsStatus.js';
 import ConfigVotings from './ConfigVotings.js';
 import SlashingData from './SlashingData.js';
 import DHTserversPerformance from './DHTserversPerformance.js';
-import ServerStatusList from "./ServerStatusList.js"
+import ServerStatusList from "./ServerStatusList.js";
+import BlockchainStats from '../status/components/BlockchainStats.js';
+import BlockList from '../status/components/BlockList.js';
+import BridgeContainer from '../status/components/BridgeContainer.js';
+import BridgeStatus from '../status/components/BridgeStatus.js';
+import ListContainer from '../status/components/ListContainer.js';
+import LiteserverStatus from '../status/components/LiteserverStatus.js';
+import ShardList from '../status/components/ShardList.js';
+import TransactionList from '../status/components/TransactionList.js';
 
-export default function Responsiveness(props){
+export default function StatusPage(props){
     const [socketUrl, setSocketUrl] = useState(process.env.REACT_APP_API_URL);
     const [messageHistory, setMessageHistory] = useState([]);
+    const [blocks, setBlocks] = useState([]);
+    const [transactions, setTransactions] = useState([]);
     const {
       sendMessage,
       lastMessage,
@@ -53,6 +63,20 @@ export default function Responsiveness(props){
         }
     }, [lastMessage, setMessageHistory]);
 
+    const pageStyle = {
+        marginTop: '50px',
+        marginBottom: '50px',
+        width: '100%',
+        marginRight: 'auto',
+        marginLeft: 'auto',
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        gap: '10px',
+        flexWrap: 'wrap',
+    }
+
     return (
         <>
             <Row>
@@ -74,6 +98,20 @@ export default function Responsiveness(props){
                     <DHTserversPerformance socketState={readyState} data={dataDHT} />
                 </Col>
             </Row>
+            <div style={pageStyle}>
+                <ListContainer>
+                    <BlockList blocks={blocks}/>
+                    <TransactionList transactions={transactions}/>
+                </ListContainer>
+                <BridgeContainer>
+                    <BridgeStatus status={true} title={"TON/ETH"} />
+                    <BridgeStatus status={false} title={"TON/BSC"} />
+                    <BridgeStatus status={false} title={"TON/DOGE"} />
+                    <BridgeStatus status={true} title={"TON/ELON"} />
+                </BridgeContainer>
+                <LiteserverStatus responseTime={"2s"} syncState="Synced" />
+                <BlockchainStats tps={228} transferedAmount={'1.2bil TON'} validatorCount={363} />
+            </div>
         </>
     )
 }
