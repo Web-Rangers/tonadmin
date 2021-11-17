@@ -1,6 +1,7 @@
 // @flow
 import React from 'react';
 import Routes from './routes/Routes';
+import dotenvConfig from './config.js';
 
 
 // Themes
