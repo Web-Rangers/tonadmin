@@ -13,10 +13,10 @@ export default function TransactionList({transactions}: TransactionListProps) {
         flexDirection: 'column',
         height: '250px',
         width: '620px',
-        backgroundColor: '#fafafa',
+        backgroundColor: '#fff',
         padding: '10px',
         gap: '10px',
-        border: '1px solid #ccc',
+        borderRadius: '5px',
     }
     const transactionStyle = {
         display: 'flex',

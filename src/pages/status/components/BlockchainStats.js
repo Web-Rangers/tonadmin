@@ -11,9 +11,10 @@ export default function BlockchainStats({transferedAmount, tps, validatorCount}:
         display: 'flex',
         flexDirection: 'column',
         fontSize: '16px',
-        backgroundColor: '#fafafa',
+        backgroundColor: '#fff',
         padding: '10px',
-        border: '1px solid #ccc',
+        borderRadius: '5px',
+        width: '49%',
     }
     const innerStyle = {
         display: 'flex',

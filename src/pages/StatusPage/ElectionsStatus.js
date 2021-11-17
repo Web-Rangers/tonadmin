@@ -14,7 +14,7 @@ const ElectionsStatus = ({socketState}) => {
     const [statusdataElections,setStatusdataElections] = useState();
 
     useEffect(async () => {
-        getElectionsStatus();
+        // getElectionsStatus();
         selectedDate.current = new Date();
     }, [socketState]);
 

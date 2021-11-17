@@ -64,16 +64,17 @@ export default function StatusPage(props){
     }, [lastMessage, setMessageHistory]);
 
     const pageStyle = {
-        marginTop: '50px',
-        marginBottom: '50px',
-        width: '100%',
-        marginRight: 'auto',
-        marginLeft: 'auto',
+        display: 'flex',
+        gap: '10px',
+        flexDirection: 'column',
+        marginBottom: '20px',
+    }
+    const columnContainerStyle = {
         display: 'flex',
         flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'center',
         gap: '10px',
+        justifyContent: 'center',
+        alignItems: 'center',
         flexWrap: 'wrap',
     }
 
@@ -99,18 +100,23 @@ export default function StatusPage(props){
                 </Col>
             </Row>
             <div style={pageStyle}>
-                <ListContainer>
-                    <BlockList blocks={blocks}/>
-                    <TransactionList transactions={transactions}/>
-                </ListContainer>
-                <BridgeContainer>
-                    <BridgeStatus status={true} title={"TON/ETH"} />
-                    <BridgeStatus status={false} title={"TON/BSC"} />
-                    <BridgeStatus status={false} title={"TON/DOGE"} />
-                    <BridgeStatus status={true} title={"TON/ELON"} />
-                </BridgeContainer>
-                <LiteserverStatus responseTime={"2s"} syncState="Synced" />
-                <BlockchainStats tps={228} transferedAmount={'1.2bil TON'} validatorCount={363} />
+                <div style={columnContainerStyle}>
+                    <LiteserverStatus responseTime={"2s"} syncState="Synced" />
+                    <BlockchainStats tps={228} transferedAmount={'1.2bil TON'} validatorCount={363} />
+                </div>
+                <div style={columnContainerStyle}>
+                    <ListContainer>
+                        <BlockList blocks={blocks}/>
+                        <TransactionList transactions={transactions}/>
+                    </ListContainer>
+                    <BridgeContainer>
+                        <BridgeStatus status={true} title={"TON/ETH"} />
+                        <BridgeStatus status={false} title={"TON/BSC"} />
+                        <BridgeStatus status={false} title={"TON/DOGE"} />
+                        <BridgeStatus status={true} title={"TON/ELON"} />
+                    </BridgeContainer>
+                </div>
+                
             </div>
         </>
     )

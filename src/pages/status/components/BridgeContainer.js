@@ -9,9 +9,9 @@ export default function BridgeContainer({children}) {
         height: '250px',
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: '#fafafa',
+        backgroundColor: '#fff',
         padding: '10px',
-        border: '1px solid #ccc',
+        borderRadius: '5px',
     }
     const innerContainerStyle = {
         display: 'flex',
@@ -19,7 +19,7 @@ export default function BridgeContainer({children}) {
         justifyContent: 'center',
         flexDirection: 'row',
         flexWrap: 'wrap',
-        gap: '10px'
+        gap: '10px',
     }
     return (
         <div style={style}>

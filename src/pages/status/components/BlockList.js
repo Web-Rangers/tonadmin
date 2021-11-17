@@ -11,9 +11,9 @@ export default function BlockList({blocks}: BlockListProps) {
         display: 'flex',
         flexDirection: 'column',
         height: '250px',
-        backgroundColor: '#fafafa',
+        backgroundColor: '#fff',
         padding: '10px',
-        border: '1px solid #ccc',
+        borderRadius: '5px',
     }
 
     return (

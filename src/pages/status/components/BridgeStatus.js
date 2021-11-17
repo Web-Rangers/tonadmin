@@ -15,6 +15,7 @@ export default function BridgeStatus({status, title}: BridgeStatusProps) {
         justifyContent: 'center',
         gap: '5px',
         border: '1px solid #ccc',
+        borderRadius: '5px',
     }
     const statusStyle = {
         color: status ? 'green' : 'red',

@@ -12,10 +12,12 @@ export default function LiteserverStatus({responseTime, syncState}: LiteserverSt
         justifyContent: 'center',
         padding: '10px',
         fontSize: '16px',
-        backgroundColor: '#fafafa',
-        border: '1px solid #ccc',
+        backgroundColor: '#fff',
+        borderRadius: '5px',
+        width: '49%',
     }
     const innerStyle = {
+        width: '100%',
         display: 'flex',
         flexDirection: 'row',
         gap: '20px',
