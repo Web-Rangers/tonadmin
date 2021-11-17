@@ -48,11 +48,12 @@ export default function StatusPage(props){
     //FAKE RESPONSE
     useEffect(async () => {
         setDataVoting({count:79});
-        setDataSlashing({count:11});        
+        setDataSlashing({count:11});   
     }, []);
 
     useEffect(() => {
         if (lastMessage) {
+            console.log( JSON.parse(lastMessage.data));
             try{
                 var lastmsgJSON = JSON.parse(lastMessage.data);
                 setMessageHistory(prev => prev.concat(lastMessage));
@@ -66,7 +67,7 @@ export default function StatusPage(props){
                 console.error(error);
             }            
         }
-    }, [lastMessage, setMessageHistory]);
+    }, [lastMessage, setMessageHistory, readyState]);
 
     const pageStyle = {
         display: 'flex',
