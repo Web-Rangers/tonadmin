@@ -38,27 +38,27 @@ const sizePerPageList = [
     }
 ];
 
-const DHTserversPerformance = ({socketState, data}) => {
-    
+const LiteServersPerformance = ({socketState, data}) => {
+
     return (
         <Card>
             <Card.Body>
-                    <h4 className="header-title">Public DHT-servers performance</h4>
-                    {(!data)||(socketState!=ReadyState.OPEN) ? 
+                    <h4 className="header-title">Public LiteServers performance</h4>
+                    {(!data)||(socketState!=ReadyState.OPEN) ?
                         <Skeleton count={4} height={15} />
-                        : 
+                        :
                         <Table
                         columns={columns}
                         data={data}
-                        pageSize={5}
+                        pageSize={10}
                         sizePerPageList={sizePerPageList}
                         isSortable={true}
                         pagination={true}
-                    /> 
+                    />
                     }
             </Card.Body>
         </Card>
     );
 };
 
-export default DHTserversPerformance;
+export default LiteServersPerformance;

@@ -27,7 +27,7 @@ const BleedRate = React.lazy(() => import('../pages/analytics/BleedRate'));
 const Machines = React.lazy(() => import('../pages/analytics/Machines'));
 
 
-const Responsiveness = React.lazy(() => import('../pages/StatusPage'));
+const StatusPage = React.lazy(() => import('../pages/StatusPage'));
 
 // app
 // root routes
@@ -152,7 +152,7 @@ const commonRoutes = [
     {
         path: '/statuspage',
         name: 'Status of TON network',
-        component: Responsiveness,
+        component: StatusPage,
         route: Route,
     }
 ]

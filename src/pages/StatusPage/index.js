@@ -6,7 +6,7 @@ import useWebSocket, { ReadyState } from 'react-use-websocket';
 import ElectionsStatus from './ElectionsStatus.js';
 import ConfigVotings from './ConfigVotings.js';
 import SlashingData from './SlashingData.js';
-import DHTserversPerformance from './DHTserversPerformance.js';
+import LiteServersPerformance from './LiteServersPerformance.js';
 import ServerStatusList from "./ServerStatusList.js";
 import BlockchainStats from '../status/components/BlockchainStats.js';
 import BlockList from '../status/components/BlockList.js';
@@ -17,7 +17,8 @@ import LiteserverStatus from '../status/components/LiteserverStatus.js';
 import ShardList from '../status/components/ShardList.js';
 import TransactionList from '../status/components/TransactionList.js';
 
-export default function StatusPage(props){
+
+const StatusPage = (props): React$Element<React$FragmentType> => {
     const [socketUrl, setSocketUrl] = useState(process.env.REACT_APP_API_URL);
     const [messageHistory, setMessageHistory] = useState([]);
     const [blocks, setBlocks] = useState([]);
@@ -36,9 +37,9 @@ export default function StatusPage(props){
         [ReadyState.CLOSING]: 'Closing',
         [ReadyState.CLOSED]: 'Closed',
         [ReadyState.UNINSTANTIATED]: 'Uninstantiated',
-    }[readyState];    
+    }[readyState];
     const [serversStatusResponse,setServersStatusResponse] = useState([false,false,false,false,false,false]);//False using for preloaders when socket is down and data is not exist
-    const [dataDHT,setDataDHT] = useState();
+    const [dataLT,setDataLT] = useState();
     const [dataElections,setDataElections] = useState();
     const [dataBridges,setDataBridges] = useState();
     //FAKE DATA
@@ -48,7 +49,7 @@ export default function StatusPage(props){
     //FAKE RESPONSE
     useEffect(async () => {
         setDataVoting({count:79});
-        setDataSlashing({count:11});        
+        setDataSlashing({count:11});
     }, []);
 
     useEffect(() => {
@@ -58,13 +59,13 @@ export default function StatusPage(props){
                 setMessageHistory(prev => prev.concat(lastMessage));
                 setServersStatusResponse(lastmsgJSON.services);
                 var liteservers = lastmsgJSON.liteservers.map((server) => {return {ip:server.ip,port:server.port,time:server.time ? server.time.toFixed(0)+"ms" : "offline"}});
-                setDataDHT(liteservers);
+                setDataLT(liteservers);
                 setDataElections(lastmsgJSON.elections);
                 setDataBridges(lastmsgJSON.bridge);
             }
             catch (error) {
                 console.error(error);
-            }            
+            }
         }
     }, [lastMessage, setMessageHistory]);
 
@@ -101,13 +102,13 @@ export default function StatusPage(props){
             </Row>
             <Row>
                 <Col>
-                    <DHTserversPerformance socketState={readyState} data={dataDHT} />
+                    <LiteServersPerformance socketState={readyState} data={dataLT} />
                 </Col>
             </Row>
             <div style={pageStyle}>
                 <div style={columnContainerStyle}>
-                    <LiteserverStatus responseTime={"2s"} syncState="Synced" />
-                    <BlockchainStats tps={228} transferedAmount={'1.2bil TON'} validatorCount={363} />
+                    <LiteserverStatus responseTime={"NA"} syncState="Synced" />
+                    <BlockchainStats tps={228} transferedAmount={'NA'} validatorCount={'NA'} />
                 </div>
                 <div style={columnContainerStyle}>
                     <ListContainer>
@@ -115,7 +116,7 @@ export default function StatusPage(props){
                         <TransactionList transactions={transactions}/>
                     </ListContainer>
                     <BridgeContainer>
-                        {!dataBridges ? 
+                        {!dataBridges ?
                             <SkeletonTheme>
                                 <Skeleton count={4} />
                             </SkeletonTheme>
@@ -123,14 +124,13 @@ export default function StatusPage(props){
                             <>
                                 <BridgeStatus status={dataBridges.eth} title={"TON/ETH"} />
                                 <BridgeStatus status={dataBridges.bsc} title={"TON/BSC"} />
-                                <BridgeStatus status={false} title={"Coming soon"} />
-                                <BridgeStatus status={false} title={"Coming soon"} />
                             </>
                         }
                     </BridgeContainer>
                 </div>
-                
+
             </div>
         </>
     )
 }
+export default StatusPage;
