@@ -52,6 +52,8 @@ const StatusPage = (props): React$Element<React$FragmentType> => {
         setDataSlashing({count:11});
     }, []);
 
+    useEffect(() => {},[readyState])
+
     useEffect(() => {
         if (lastMessage) {
             console.log( JSON.parse(lastMessage.data));
@@ -68,7 +70,7 @@ const StatusPage = (props): React$Element<React$FragmentType> => {
                 console.error(error);
             }
         }
-    }, [lastMessage, setMessageHistory, readyState]);
+    }, [lastMessage, setMessageHistory]);
 
     const pageStyle = {
         display: 'flex',
