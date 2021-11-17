@@ -49,11 +49,7 @@ const StatusPage = (props): React$Element<React$FragmentType> => {
     //FAKE RESPONSE
     useEffect(async () => {
         setDataVoting({count:79});
-<<<<<<< HEAD
-        setDataSlashing({count:11});   
-=======
         setDataSlashing({count:11});
->>>>>>> 002cc76858ace983ad7499ee761470f52a340bae
     }, []);
 
     useEffect(() => {
