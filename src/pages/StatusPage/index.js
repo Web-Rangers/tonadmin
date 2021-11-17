@@ -40,6 +40,7 @@ export default function StatusPage(props){
     const [serversStatusResponse,setServersStatusResponse] = useState([false,false,false,false,false,false]);//False using for preloaders when socket is down and data is not exist
     const [dataDHT,setDataDHT] = useState();
     const [dataElections,setDataElections] = useState();
+    const [dataBridges,setDataBridges] = useState();
     //FAKE DATA
     const [dataVoting,setDataVoting] = useState();
     const [dataSlashing,setDataSlashing] = useState();
@@ -52,13 +53,14 @@ export default function StatusPage(props){
 
     useEffect(() => {
         if (lastMessage) {
-            console.log(JSON.parse(lastMessage.data))
             try{
+                var lastmsgJSON = JSON.parse(lastMessage.data);
                 setMessageHistory(prev => prev.concat(lastMessage));
-                setServersStatusResponse(JSON.parse(lastMessage.data).services);
-                var liteservers = JSON.parse(lastMessage.data).liteservers.map((server) => {return {ip:server.ip,port:server.port,time:server.time ? server.time.toFixed(0)+"ms" : "offline"}});
+                setServersStatusResponse(lastmsgJSON.services);
+                var liteservers = lastmsgJSON.liteservers.map((server) => {return {ip:server.ip,port:server.port,time:server.time ? server.time.toFixed(0)+"ms" : "offline"}});
                 setDataDHT(liteservers);
-                setDataElections(JSON.parse(lastMessage.data).elections);
+                setDataElections(lastmsgJSON.elections);
+                setDataBridges(lastmsgJSON.bridge);
             }
             catch (error) {
                 console.error(error);
@@ -113,10 +115,18 @@ export default function StatusPage(props){
                         <TransactionList transactions={transactions}/>
                     </ListContainer>
                     <BridgeContainer>
-                        <BridgeStatus status={true} title={"TON/ETH"} />
-                        <BridgeStatus status={false} title={"TON/BSC"} />
-                        <BridgeStatus status={false} title={"TON/DOGE"} />
-                        <BridgeStatus status={true} title={"TON/ELON"} />
+                        {!dataBridges ? 
+                            <SkeletonTheme>
+                                <Skeleton count={4} />
+                            </SkeletonTheme>
+                            :
+                            <>
+                                <BridgeStatus status={dataBridges.eth} title={"TON/ETH"} />
+                                <BridgeStatus status={dataBridges.bsc} title={"TON/BSC"} />
+                                <BridgeStatus status={false} title={"Coming soon"} />
+                                <BridgeStatus status={false} title={"Coming soon"} />
+                            </>
+                        }
                     </BridgeContainer>
                 </div>
                 
