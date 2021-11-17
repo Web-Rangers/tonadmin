@@ -16,6 +16,7 @@ import ListContainer from '../status/components/ListContainer.js';
 import LiteserverStatus from '../status/components/LiteserverStatus.js';
 import ShardList from '../status/components/ShardList.js';
 import TransactionList from '../status/components/TransactionList.js';
+import Validators from './Validators.js';
 
 
 const StatusPage = (props): React$Element<React$FragmentType> => {
@@ -42,6 +43,7 @@ const StatusPage = (props): React$Element<React$FragmentType> => {
     const [dataLT,setDataLT] = useState();
     const [dataElections,setDataElections] = useState();
     const [dataBridges,setDataBridges] = useState();
+    const [dataValidators,setDataValidators] = useState();
     //FAKE DATA
     const [dataVoting,setDataVoting] = useState();
     const [dataSlashing,setDataSlashing] = useState();
@@ -65,6 +67,7 @@ const StatusPage = (props): React$Element<React$FragmentType> => {
                 setDataLT(liteservers);
                 setDataElections(lastmsgJSON.elections);
                 setDataBridges(lastmsgJSON.bridge);
+                setDataValidators(lastmsgJSON.validators);
             }
             catch (error) {
                 console.error(error);
@@ -108,9 +111,13 @@ const StatusPage = (props): React$Element<React$FragmentType> => {
                     <LiteServersPerformance socketState={readyState} data={dataLT} />
                 </Col>
             </Row>
+            <Row>
+                <Col lg={4}>
+                    <Validators socketState={readyState} data={dataValidators} />
+                </Col>
+            </Row>
             <div style={pageStyle}>
                 <div style={columnContainerStyle}>
-                    <LiteserverStatus responseTime={"NA"} syncState="Synced" />
                     <BlockchainStats tps={228} transferedAmount={'NA'} validatorCount={'NA'} />
                 </div>
                 <div style={columnContainerStyle}>
