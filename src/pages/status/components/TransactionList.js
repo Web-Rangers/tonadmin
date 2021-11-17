@@ -24,6 +24,7 @@ export default function TransactionList({transactions}: TransactionListProps) {
         padding: '5px',
         gap: '3px',
         border: '1px solid #ccc',
+        borderRadius: '5px',
     }
 
     return (
