@@ -50,7 +50,6 @@ export default function StatusPage(props){
     }, []);
 
     useEffect(() => {
-        console.log(connectionStatus);
         if (lastMessage) {
             try{
                 setMessageHistory(prev => prev.concat(lastMessage));
