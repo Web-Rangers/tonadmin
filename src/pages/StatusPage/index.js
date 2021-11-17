@@ -39,6 +39,7 @@ export default function StatusPage(props){
     }[readyState];    
     const [serversStatusResponse,setServersStatusResponse] = useState([false,false,false,false,false,false]);//False using for preloaders when socket is down and data is not exist
     const [dataDHT,setDataDHT] = useState();
+    const [dataElections,setDataElections] = useState();
     //FAKE DATA
     const [dataVoting,setDataVoting] = useState();
     const [dataSlashing,setDataSlashing] = useState();
@@ -51,11 +52,13 @@ export default function StatusPage(props){
 
     useEffect(() => {
         if (lastMessage) {
+            console.log(JSON.parse(lastMessage.data))
             try{
                 setMessageHistory(prev => prev.concat(lastMessage));
                 setServersStatusResponse(JSON.parse(lastMessage.data).services);
                 var liteservers = JSON.parse(lastMessage.data).liteservers.map((server) => {return {ip:server.ip,port:server.port,time:server.time ? server.time.toFixed(0)+"ms" : "offline"}});
                 setDataDHT(liteservers);
+                setDataElections(JSON.parse(lastMessage.data).elections);
             }
             catch (error) {
                 console.error(error);
@@ -85,7 +88,7 @@ export default function StatusPage(props){
             </Row>
             <Row>
                 <Col lg={4}>
-                    <ElectionsStatus socketState={readyState} />
+                    <ElectionsStatus socketState={readyState} data={dataElections} />
                 </Col>
                 <Col lg={4}>
                     <ConfigVotings socketState={readyState} data={dataVoting} />
