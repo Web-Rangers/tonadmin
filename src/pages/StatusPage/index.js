@@ -44,15 +44,8 @@ const StatusPage = (props): React$Element<React$FragmentType> => {
     const [dataElections,setDataElections] = useState();
     const [dataBridges,setDataBridges] = useState();
     const [dataValidators,setDataValidators] = useState();
-    //FAKE DATA
-    const [dataVoting,setDataVoting] = useState();
+    const [dataVoting,setDataVoting] = useState();    
     const [dataSlashing,setDataSlashing] = useState();
-
-    //FAKE RESPONSE
-    useEffect(async () => {
-        setDataVoting({count:0});
-        setDataSlashing({count:0});
-    }, []);
 
     useEffect(() => {},[readyState])
 
@@ -68,6 +61,8 @@ const StatusPage = (props): React$Element<React$FragmentType> => {
                 setDataElections(lastmsgJSON.elections);
                 setDataBridges(lastmsgJSON.bridge);
                 setDataValidators(lastmsgJSON.validators);
+                setDataVoting(lastmsgJSON.offers);
+                setDataSlashing(lastmsgJSON.complaints);
             }
             catch (error) {
                 console.error(error);
