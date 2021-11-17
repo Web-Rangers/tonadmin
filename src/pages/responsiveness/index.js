@@ -90,7 +90,6 @@ const PagesList = ({item, pagesData}) => {
     );
 };
 const ServerStatusList = ({socketState, serverStatusData}) => {
-    const [statusData,setStatusData] = useState(serverStatusData);
 
     return (
         <Col lg={4}>
@@ -103,10 +102,10 @@ const ServerStatusList = ({socketState, serverStatusData}) => {
                         </SkeletonTheme>
                         :
                         <>
-                        <h4 className="header-title">{statusData.service_name} status</h4>
+                        <h4 className="header-title">{serverStatusData.service_name} status</h4>
                         <div>
-                            {statusData.pages.filter((page) => page.response_status==200 ? page.response_status : null ).length/statusData.pages.length == 1 ? <h3 className="mt-3 mb-3 text-success">ONLINE 100%</h3> : statusData.pages.filter((page) => page.response_status==200 ? page.response_status : null ).length/statusData.pages.length > 0 ? <h3 className="mt-3 mb-3 text-warning">ONLINE {(statusData.pages.filter((page) => page.response_status==200 ? page.response_status : null ).length/statusData.pages.length*100).toFixed(0)}%</h3> : <h3 className="mt-3 mb-3 text-danger">OFFLINE</h3> }
-                            <PagesList item="1" pagesData={statusData} />
+                            {serverStatusData.pages.filter((page) => page.response_status==200 ? page.response_status : null ).length/serverStatusData.pages.length == 1 ? <h3 className="mt-3 mb-3 text-success">ONLINE 100%</h3> : serverStatusData.pages.filter((page) => page.response_status==200 ? page.response_status : null ).length/serverStatusData.pages.length > 0 ? <h3 className="mt-3 mb-3 text-warning">ONLINE {(serverStatusData.pages.filter((page) => page.response_status==200 ? page.response_status : null ).length/serverStatusData.pages.length*100).toFixed(0)}%</h3> : <h3 className="mt-3 mb-3 text-danger">OFFLINE</h3> }
+                            <PagesList item="1" pagesData={serverStatusData} />
                         </div>
                         </>  
                     }
@@ -155,13 +154,13 @@ export default function Responsiveness(props){
     }, []);
 
     useEffect(() => {
-        if (lastMessage !== null) {
+        if (lastMessage) {
             // console.log(lastMessage.data);
             setMessageHistory(prev => prev.concat(lastMessage));            
             // setStatusdataTonOrg(JSON.parse(lastMessage.data)[0]);
             // setStatusdataTonSh(JSON.parse(lastMessage.data)[1]);
             // setStatusdataToncenterCom(JSON.parse(lastMessage.data)[2]);
-            setServersStatusResponse(JSON.parse(lastMessage.data));
+            setServersStatusResponse(JSON.parse(lastMessage.data).services);
         }
     }, [lastMessage, setMessageHistory]);
     
