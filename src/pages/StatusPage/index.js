@@ -46,15 +46,16 @@ export default function StatusPage(props){
     //FAKE RESPONSE
     useEffect(async () => {
         setDataVoting({count:79});
-        setDataSlashing({count:11});
+        setDataSlashing({count:11});        
     }, []);
 
     useEffect(() => {
+        console.log(connectionStatus);
         if (lastMessage) {
             try{
                 setMessageHistory(prev => prev.concat(lastMessage));
                 setServersStatusResponse(JSON.parse(lastMessage.data).services);
-                var liteservers = JSON.parse(lastMessage.data).liteservers.map(server => {return {ip:server.ip,port:server.port,time:server.time.toFixed(0)+"ms"}});
+                var liteservers = JSON.parse(lastMessage.data).liteservers.map((server) => {return {ip:server.ip,port:server.port,time:server.time ? server.time.toFixed(0)+"ms" : "offline"}});
                 setDataDHT(liteservers);
             }
             catch (error) {
