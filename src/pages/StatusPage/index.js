@@ -114,24 +114,13 @@ const StatusPage = (props): React$Element<React$FragmentType> => {
                     <Validators socketState={readyState} data={dataValidators} />
                 </Col>
                 <Col lg={4}>
-                    <BridgeContainer socketState={readyState}>                        
-                        {!dataBridges ?
-                            <SkeletonTheme>
-                                <Skeleton count={5} />
-                            </SkeletonTheme>
-                            :
-                            <>
-                                <h4 className="header-title">Bridge Status</h4>
-                                <Row>
-                                    <Col lg={6} align={"center"}>
-                                        <BridgeStatus status={dataBridges.eth} title={"TON/ETH"} />
-                                    </Col>
-                                    <Col lg={6} align={"center"}>
-                                        <BridgeStatus status={dataBridges.bsc} title={"TON/BSC"} />
-                                    </Col>
-                                </Row>
-                            </>
-                        }
+                    <BridgeContainer socketState={readyState} data={dataBridges}>
+                        <Col lg={6} align={"center"}>
+                            <BridgeStatus status={dataBridges.eth} title={"TON/ETH"} />
+                        </Col>
+                        <Col lg={6} align={"center"}>
+                            <BridgeStatus status={dataBridges.bsc} title={"TON/BSC"} />
+                        </Col>
                     </BridgeContainer>
                 </Col>
                 <Col lg={4}>
