@@ -73,20 +73,20 @@ const StatusPage = (props): React$Element<React$FragmentType> => {
         }
     }, [lastMessage, setMessageHistory]);
 
-    const pageStyle = {
-        display: 'flex',
-        gap: '10px',
-        flexDirection: 'column',
-        marginBottom: '20px',
-    }
-    const columnContainerStyle = {
-        display: 'flex',
-        flexDirection: 'row',
-        gap: '10px',
-        justifyContent: 'center',
-        alignItems: 'center',
-        flexWrap: 'wrap',
-    }
+    // const pageStyle = {
+    //     display: 'flex',
+    //     gap: '10px',
+    //     flexDirection: 'column',
+    //     marginBottom: '20px',
+    // }
+    // const columnContainerStyle = {
+    //     display: 'flex',
+    //     flexDirection: 'row',
+    //     gap: '10px',
+    //     justifyContent: 'center',
+    //     alignItems: 'center',
+    //     flexWrap: 'wrap',
+    // }
 
     return (
         <>
