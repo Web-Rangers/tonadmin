@@ -38,15 +38,21 @@ const Pagination = ({ tableProps, sizePerPageList }: PaginationProps): React$Ele
 
                 <span className="d-inline-block align-items-center text-sm-start text-center my-sm-0 my-2">
                     <label>Go to page : </label>
-                    <input
+                    {tableProps.pageOptions.length>=1 ? 
+                        <input
                         type="number"
+                        min={1}
+                        max={tableProps.pageOptions.length}
                         defaultValue={tableProps.state.pageIndex + 1}
                         onChange={(e) => {
                             const page = e.target.value ? Number(e.target.value) - 1 : 0;
                             tableProps.gotoPage(page);
                         }}
-                        className="form-control w-25 ms-1 d-inline-block"
-                    />
+                        className="form-control w-auto ms-1 d-inline-block"
+                        />
+                        :
+                        null
+                    }                    
                 </span>
 
                 <div className="pagination pagination-rounded d-inline-flex ms-auto">
