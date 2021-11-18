@@ -72,21 +72,6 @@ const StatusPage = (props): React$Element<React$FragmentType> => {
         }
     }, [lastMessage, setMessageHistory]);
 
-    // const pageStyle = {
-    //     display: 'flex',
-    //     gap: '10px',
-    //     flexDirection: 'column',
-    //     marginBottom: '20px',
-    // }
-    // const columnContainerStyle = {
-    //     display: 'flex',
-    //     flexDirection: 'row',
-    //     gap: '10px',
-    //     justifyContent: 'center',
-    //     alignItems: 'center',
-    //     flexWrap: 'wrap',
-    // }
-
     return (
         <>
             <Row>
@@ -119,19 +104,6 @@ const StatusPage = (props): React$Element<React$FragmentType> => {
                     <BlockRate socketState={readyState} data={dataBlocks} />
                 </Col>
             </Row>
-            {/* <div style={pageStyle}>
-                <div style={columnContainerStyle}>
-                    <BlockchainStats tps={228} transferedAmount={'NA'} validatorCount={'NA'} />
-                </div>
-                <div style={columnContainerStyle}>
-                    <ListContainer>
-                        <BlockList blocks={blocks}/>
-                        <TransactionList transactions={transactions}/>
-                    </ListContainer>
-                    
-                </div>
-
-            </div> */}
         </>
     )
 }
