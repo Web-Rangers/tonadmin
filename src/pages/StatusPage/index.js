@@ -11,7 +11,6 @@ import ServerStatusList from "./ServerStatusList.js";
 import BlockchainStats from '../status/components/BlockchainStats.js';
 import BlockList from '../status/components/BlockList.js';
 import BridgeContainer from '../status/components/BridgeContainer.js';
-import BridgeStatus from '../status/components/BridgeStatus.js';
 import ListContainer from '../status/components/ListContainer.js';
 import LiteserverStatus from '../status/components/LiteserverStatus.js';
 import ShardList from '../status/components/ShardList.js';
@@ -114,14 +113,7 @@ const StatusPage = (props): React$Element<React$FragmentType> => {
                     <Validators socketState={readyState} data={dataValidators} />
                 </Col>
                 <Col lg={4}>
-                    <BridgeContainer socketState={readyState} data={dataBridges}>
-                        <Col lg={6} align={"center"}>
-                            <BridgeStatus status={dataBridges.eth} title={"TON/ETH"} />
-                        </Col>
-                        <Col lg={6} align={"center"}>
-                            <BridgeStatus status={dataBridges.bsc} title={"TON/BSC"} />
-                        </Col>
-                    </BridgeContainer>
+                    <BridgeContainer socketState={readyState} data={dataBridges} />
                 </Col>
                 <Col lg={4}>
                     <BlockRate socketState={readyState} data={dataBlocks} />
