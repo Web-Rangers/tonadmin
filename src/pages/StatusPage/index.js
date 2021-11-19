@@ -17,7 +17,7 @@ import LiteserverStatus from '../../components/StatusComponents/LiteserverStatus
 import ShardList from '../../components/StatusComponents/ShardList.js';
 import TransactionList from '../../components/StatusComponents/TransactionList.js';
 import Validators from '../../components/StatusComponents/Validators.js';
-import BlockRate from '../../components/StatusComponents/BlockRate.js';
+import LastBlock from '../../components/StatusComponents/LastBlock.js';
 
 
 const StatusPage = (props): React$Element<React$FragmentType> => {
@@ -47,6 +47,7 @@ const StatusPage = (props): React$Element<React$FragmentType> => {
     const [dataValidators,setDataValidators] = useState();
     const [dataVoting,setDataVoting] = useState();    
     const [dataSlashing,setDataSlashing] = useState();
+    const [dataLastBlock,setDataLastBlock] = useState();
     const [dataBlocks,setDataBlocks] = useState();
 
     useEffect(() => {},[readyState])
@@ -65,7 +66,8 @@ const StatusPage = (props): React$Element<React$FragmentType> => {
                 setDataValidators({active:lastmsgJSON.onlineValidators,total:lastmsgJSON.totalValidators});
                 setDataVoting(lastmsgJSON.offers);
                 setDataSlashing(lastmsgJSON.complaints);
-                setDataBlocks(lastmsgJSON.blocks_rate);
+                setDataLastBlock(lastmsgJSON.last_block);
+                setDataBlocks(lastmsgJSON.blocks);
             }
             catch (error) {
                 console.error(error);
@@ -102,7 +104,7 @@ const StatusPage = (props): React$Element<React$FragmentType> => {
                     <BridgeContainer socketState={readyState} data={dataBridges} />
                 </Col>
                 <Col lg={4}>
-                    <BlockRate socketState={readyState} data={dataBlocks} />
+                    <LastBlock socketState={readyState} data={dataLastBlock} />
                 </Col>
             </Row>
         </>
