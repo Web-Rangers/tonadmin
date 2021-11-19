@@ -63,7 +63,7 @@ const StatusPage = (props): React$Element<React$FragmentType> => {
                 setDataLT(liteservers);
                 setDataElections({electionId:lastmsgJSON.electionId,start:lastmsgJSON.startElection,next:lastmsgJSON.startNextElection,end:lastmsgJSON.endElection});
                 setDataBridges(lastmsgJSON.bridge);
-                setDataValidators({active:lastmsgJSON.onlineValidators,total:lastmsgJSON.totalValidators});
+                setDataValidators({active:lastmsgJSON.onlineValidators ? lastmsgJSON.onlineValidators : 0,total:lastmsgJSON.totalValidators ? lastmsgJSON.totalValidators : 0});
                 setDataVoting(lastmsgJSON.offers);
                 setDataSlashing(lastmsgJSON.complaints);
                 setDataLastBlock(lastmsgJSON.last_block);
