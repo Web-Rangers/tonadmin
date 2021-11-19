@@ -3,20 +3,21 @@ import { Row, Col, Card, Collapse, Button, Modal, Alert } from 'react-bootstrap'
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
 import useWebSocket, { ReadyState } from 'react-use-websocket';
 
-import ElectionsStatus from './ElectionsStatus.js';
-import ConfigVotings from './ConfigVotings.js';
-import SlashingData from './SlashingData.js';
-import LiteServersPerformance from './LiteServersPerformance.js';
-import ServerStatusList from "./ServerStatusList.js";
-import BlockchainStats from '../status/components/BlockchainStats.js';
-import BlockList from '../status/components/BlockList.js';
-import BridgeContainer from '../status/components/BridgeContainer.js';
-import ListContainer from '../status/components/ListContainer.js';
-import LiteserverStatus from '../status/components/LiteserverStatus.js';
-import ShardList from '../status/components/ShardList.js';
-import TransactionList from '../status/components/TransactionList.js';
-import Validators from './Validators.js';
-import BlockRate from './BlockRate.js';
+import ElectionsStatus from '../../components/StatusComponents/ElectionsStatus.js';
+import ConfigVotings from '../../components/StatusComponents/ConfigVotings.js';
+import SlashingData from '../../components/StatusComponents/SlashingData.js';
+import LiteServersPerformance from '../../components/StatusComponents/LiteServersPerformance.js';
+import ServerStatusList from "../../components/StatusComponents/ServerStatusList.js";
+import BlockchainStats from '../../components/StatusComponents/BlockchainStats.js';
+import BlockList from '../../components/StatusComponents/BlockList.js';
+import BridgeContainer from '../../components/StatusComponents/BridgeContainer.js';
+import BridgeStatus from '../../components/StatusComponents/BridgeStatus.js';
+import ListContainer from '../../components/StatusComponents/ListContainer.js';
+import LiteserverStatus from '../../components/StatusComponents/LiteserverStatus.js';
+import ShardList from '../../components/StatusComponents/ShardList.js';
+import TransactionList from '../../components/StatusComponents/TransactionList.js';
+import Validators from '../../components/StatusComponents/Validators.js';
+import BlockRate from '../../components/StatusComponents/BlockRate.js';
 
 
 const StatusPage = (props): React$Element<React$FragmentType> => {
