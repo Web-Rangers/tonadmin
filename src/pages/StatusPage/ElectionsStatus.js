@@ -18,7 +18,7 @@ const ElectionsStatus = ({socketState, data}) => {
 
     return (
         <>
-        {(!data)||(socketState!=ReadyState.OPEN)||(data.end==0)||(data.start==0)||(data.next==0) ?
+        {(!data)||(socketState!=ReadyState.OPEN)||(data.electionId==0)||(data.end==0)||(data.start==0)||(data.next==0) ?
             <Card> 
               <Card.Body>
                 <SkeletonTheme>

@@ -59,9 +59,9 @@ const StatusPage = (props): React$Element<React$FragmentType> => {
                 setServersStatusResponse(lastmsgJSON.services);
                 var liteservers = lastmsgJSON.liteservers.map((server) => {return {ip:server.ip,port:server.port,time:server.time ? server.time.toFixed(0)+"ms" : "offline"}});
                 setDataLT(liteservers);
-                setDataElections(lastmsgJSON.elections);
+                setDataElections({electionId:lastmsgJSON.electionId,start:lastmsgJSON.startElection,next:lastmsgJSON.startNextElection,end:lastmsgJSON.endElection});
                 setDataBridges(lastmsgJSON.bridge);
-                setDataValidators(lastmsgJSON.validators);
+                setDataValidators({active:lastmsgJSON.onlineValidators,total:lastmsgJSON.totalValidators});
                 setDataVoting(lastmsgJSON.offers);
                 setDataSlashing(lastmsgJSON.complaints);
                 setDataBlocks(lastmsgJSON.blocks_rate);
