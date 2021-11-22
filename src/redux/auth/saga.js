@@ -22,7 +22,9 @@ const api = new APICore();
 function* login({ payload: { apiURL, password } }) {
     try {
         const response = yield call(loginApi, [apiURL, password]);
+        console.log(response);
         const user = response.data.result;
+        
         api.setLoggedInUser(user);
         setAuthorization(user['token']);
 

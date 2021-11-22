@@ -4,7 +4,7 @@ const api = new APICore();
 
 // account
 function login(params: any): any {
-    return api.sendJRPC(`${params[0]}`, 'login', params);
+    return api.sendAuth(`/`, 'login', params);
 }
 
 function logout(): any {
