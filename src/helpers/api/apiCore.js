@@ -3,6 +3,7 @@ import https from 'https';
 
 import { store } from "react-notifications-component";
 
+import config from '../../config';
 // content type
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 //axios.defaults.baseURL = config.API_URL;
@@ -175,9 +176,11 @@ class APICore {
      * post jsonrpc given data to url
      */
     sendJRPC = (url, data, params = []) => {
+        console.log('aaaaaaaaaaaaa');
+        console.log(axios.defaults.baseURL);
       const httpsAgent = new https.Agent({ rejectUnauthorized: false });
         return axios.post(
-          url,
+          url+'admin/proxy',
           JSON.stringify({jsonrpc: "2.0", id: 0, method: data, params: params}, { httpsAgent }),
       /*    {transformRequest: (data, headers) => {
             delete headers.common['Authorization'];
@@ -267,9 +270,9 @@ class APICore {
 
         if (session) {
           sessionStorage.setItem(AUTH_SESSION_KEY, JSON.stringify(session));
-          sessionStorage.setItem('URL', session.api);
-          console.log("SET BASE URL: "+session.api)
-          axios.defaults.baseURL = session.api;
+          sessionStorage.setItem('URL', config.SERVER_URL);
+          console.log("SET BASE URL: "+config.SERVER_URL)
+          axios.defaults.baseURL = config.SERVER_URL;
         }
         else {
             sessionStorage.removeItem(AUTH_SESSION_KEY);
@@ -302,7 +305,7 @@ let user = getUserFromSession();
 if (user) {
     const { token, api } = user;
     if (token) {
-        axios.defaults.baseURL = api;
+        axios.defaults.baseURL = config.SERVER_URL;
         setAuthorization(token);
 
     }
