@@ -46,7 +46,7 @@ const StatusPage = (props): React$Element<React$FragmentType> => {
     const [dataBridges,setDataBridges] = useState();
     const [dataValidators,setDataValidators] = useState();
     const [dataVoting,setDataVoting] = useState();    
-    const [dataSlashing,setDataSlashing] = useState();
+    const [dataComplaints,setDataComplaints] = useState();
     const [dataLastBlock,setDataLastBlock] = useState();
     const [dataBlocks,setDataBlocks] = useState();
 
@@ -65,7 +65,7 @@ const StatusPage = (props): React$Element<React$FragmentType> => {
                 setDataBridges(lastmsgJSON.bridge);
                 setDataValidators({active:lastmsgJSON.onlineValidators ? lastmsgJSON.onlineValidators : 0,total:lastmsgJSON.totalValidators ? lastmsgJSON.totalValidators : 0});
                 setDataVoting(lastmsgJSON.offers);
-                setDataSlashing(lastmsgJSON.complaints);
+                setDataComplaints(lastmsgJSON.complaints);
                 setDataLastBlock(lastmsgJSON.last_block);
                 setDataBlocks(lastmsgJSON.blocks);
             }
@@ -88,7 +88,7 @@ const StatusPage = (props): React$Element<React$FragmentType> => {
                     <ConfigVotings socketState={readyState} data={dataVoting} />
                 </Col>
                 <Col lg={4}>
-                    <SlashingData socketState={readyState} data={dataSlashing} />
+                    <SlashingData socketState={readyState} data={dataComplaints} />
                 </Col>
             </Row>
             <Row>
