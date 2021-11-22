@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Row, Col, Card, Collapse, Button, Modal, Alert } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import classNames from 'classnames';
+import Moment from 'react-moment';
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
 import useWebSocket, { ReadyState } from 'react-use-websocket';
 
@@ -27,7 +28,7 @@ const ComplaintsList = ({item, complaintsData}) => {
                 </h5>
                 <Collapse in={open} appear>
                     <div>
-                        {complaintsData.map((complaint,index) => {return <p key={`${item}-${index}`} className="mt-2 mb-0">{complaint.electionId} / suggested fine - {complaint.suggestedFine} / approved - {complaint.approvedPercent}% / {complaint.isPassed ? <span className="text-success">passed</span> : <span className="text-danger">failed</span>}</p>})}
+                        {complaintsData.map((complaint,index) => {return <p key={`${item}-${index}`} className="mt-2 mb-0">{complaint.electionId} / suggested fine - {complaint.suggestedFine} / approved - {complaint.approvedPercent}% / <Moment format="HH:mm:ss" unix >{complaint.createdTime}</Moment> / {complaint.isPassed ? <span className="text-success">passed</span> : <span className="text-danger">failed</span>}</p>})}
                     </div>
                 </Collapse>
             </>
