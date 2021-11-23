@@ -26,8 +26,9 @@ const HashRate = React.lazy(() => import('../pages/analytics/HashRate'));
 const BleedRate = React.lazy(() => import('../pages/analytics/BleedRate'));
 const Machines = React.lazy(() => import('../pages/analytics/Machines'));
 
-
+//public pages
 const StatusPage = React.lazy(() => import('../pages/StatusPage'));
+const Landing = React.lazy(() => import('../pages/landing'));
 
 // app
 // root routes
@@ -153,6 +154,12 @@ const commonRoutes = [
         path: '/statuspage',
         name: 'Status of TON network',
         component: StatusPage,
+        route: Route,
+    },
+    {
+        path: '/landing',
+        name: 'Landing',
+        component: Landing,
         route: Route,
     }
 ]
