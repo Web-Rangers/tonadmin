@@ -3,7 +3,7 @@ import React from 'react';
 import { Nav, Navbar, Container } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
-import logo from '../../assets/images/logo.png';
+import logo from '../../assets/images/logo-styles/SVG/TON - Logo fixed.svg';
 
 const NavBar = (): React$Element<React$FragmentType> => {
 
@@ -17,7 +17,7 @@ const NavBar = (): React$Element<React$FragmentType> => {
             <Navbar collapseOnSelect expand="lg" variant="dark" className="py-lg-3">
                 <Container>
                     <Navbar.Brand href="/" className="me-lg-5">
-                        <img src={logo} alt="" className="logo-dark" height="18" />
+                        <img src={logo} alt="" className="logo-dark" height="36" />
                     </Navbar.Brand>
 
                     <Navbar.Toggle aria-controls="responsive-navbar-nav">
