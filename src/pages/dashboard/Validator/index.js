@@ -31,6 +31,7 @@ const ValidatorDashboardPage = (): React$Element<React$FragmentType> => {
     const getStatus = async () =>{
       setStatus(false)
       const result = await api.sendJRPC('/', 'status')
+      console.log(result);
       if(result && !result.error && result.data &&  result.data.result !== "empty"){
         let data = result.data.result
           setValidatorAddress(data.validatorWalletAddr)
