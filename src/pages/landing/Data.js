@@ -11,35 +11,33 @@ import image2 from '../../assets/images/features-2.svg';
 const services = [
     {
         icon: 'uil uil-desktop',
-        title: 'Responsive Layouts',
-        description: 'Et harum quidem rerum as expedita distinctio nam libero tempore cum soluta nobis est cumque quo.',
+        title: 'Validator Administration',
+        description: 'Manage your validator parameters.',
     },
     {
         icon: 'uil uil-vector-square',
-        title: 'Based on Bootstrap UI',
-        description: 'Temporibus autem quibusdam et aut officiis necessitatibus saepe eveniet ut sit et recusandae.',
+        title: 'Blockchain Status',
+        description: 'Monitor statistics like TPS, Hashrate, Complexity and more.',
     },
     {
-        icon: 'uil uil-presentation',
-        title: 'Creative Design',
-        description:
-            'Nam libero tempore, cum soluta a est eligendi minus id quod maxime placeate facere assumenda est.',
+        icon: 'uil uil-check',
+        title: 'Election Status',
+        description: 'See current elections and complaints',
     },
     {
-        icon: 'uil uil-apps',
-        title: 'Multiple Applications',
+        icon: 'uil uil-exchange',
+        title: 'Bridge Status',
+        description: 'See which TON bridges are operating right now',
+    },
+    {
+        icon: 'uil uil-server-network',
+        title: 'DHT Servers List',
         description: 'Et harum quidem rerum as expedita distinctio nam libero tempore cum soluta nobis est cumque quo.',
     },
     {
-        icon: 'uil uil-shopping-cart-alt',
-        title: 'Ecommerce Pages',
-        description: 'Temporibus autem quibusdam et aut officiis necessitatibus saepe eveniet ut sit et recusandae.',
-    },
-    {
-        icon: 'uil uil-grids',
-        title: 'Multiple Layouts',
-        description:
-            'Nam libero tempore, cum soluta a est eligendi minus id quod maxime placeate facere assumenda est.',
+        icon: 'uil uil-server-alt',
+        title: 'Lite Servers List',
+        description: 'Et harum quidem rerum as expedita distinctio nam libero tempore cum soluta nobis est cumque quo.',
     },
 ];
 
@@ -77,10 +75,9 @@ const features = [
         desc: 'Hyper comes with a variety of ready-to-use applications and pages that help to speed up the development',
         image: image1,
         features: [
-            'Projects & Tasks',
-            'Ecommerce Application Pages',
-            'Profile, pricing, invoice',
-            'Login, signup, forget password',
+            'Real-time data',
+            'Advanced Statistics',
+            'Easy to use',
         ],
     },
     {
@@ -94,7 +91,7 @@ const features = [
             ' Well documented and structured code',
             'Detailed Documentation',
         ],
-    },
+    }
 ];
 
 const plans = [
@@ -137,29 +134,29 @@ const plans = [
 const rawFaqs = [
     {
         id: 1,
-        question: 'Can I use this template for my client?',
-        answer: 'Yup, the marketplace license allows you to use this theme in any end products. For more information on licenses, please refere here.',
+        question: 'What is TON?',
+        answer: 'TODO',
         titleClass: 'text-body',
         textClass: 'pb-1 text-muted',
     },
     {
         id: 2,
-        question: 'Can this theme work with Wordpress?',
-        answer: "No. This is a HTML template. It won't directly with wordpress, though you can convert this into wordpress compatible theme.",
+        question: 'What is TONAdmin?',
+        answer: 'TODO',
         titleClass: 'text-body',
         textClass: 'pb-1 text-muted',
     },
     {
         id: 3,
-        question: 'How do I get help with the theme?',
-        answer: 'Use our dedicated support email (support@coderthemes.com) to send your issues or feedback. We are here to help anytime.',
+        question: 'How do I use TONAdmin?',
+        answer: 'TODO',
         titleClass: 'text-body',
         textClass: 'pb-1 text-muted',
     },
     {
         id: 4,
-        question: 'Will you regularly give updates of Hyper?',
-        answer: 'Yes, We will update the Hyper regularly. All the future updates would be available without any cost.',
+        question: 'How do I install TONAdmin?',
+        answer: 'TODO',
         titleClass: 'text-body',
         textClass: 'pb-1 text-muted',
     },

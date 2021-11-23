@@ -11,24 +11,17 @@ const Hero = (): React$Element<'section'> => {
                 <Row className="align-items-center">
                     <Col md={5}>
                         <div className="mt-md-4">
-                            <div>
-                                <Badge pill bg="danger">
-                                    {' '}
-                                    New{' '}
-                                </Badge>
-                                <span className="text-white-50 ms-1">Welcome to new landing page</span>
-                            </div>
                             <h2 className="text-white fw-normal mb-4 mt-3 hero-title">
-                                Responsive Web UI Kit & Dashboard Template
+                                TON Blockchain Monitoring & Validator Administration
                             </h2>
 
-                            <p className="mb-4 font-16 text-white-50">
-                                Hyper is a fully featured dashboard and admin template comes with tones of well designed
-                                UI elements, components, widgets and pages.
+                            <p style={{opacity:"0.75"}} className="mb-4 font-16 text-white">
+                                TonAdmin is a web-based which displays summarized data on the state and availability of TON Blockchain.
+                                Also includes a dashboard for validator administration and wallet managment.
                             </p>
 
-                            <a href="/" target="_blank" className="btn btn-success">
-                                Preview <i className="mdi mdi-arrow-right ms-1"></i>
+                            <a href="/account/login" className="btn btn-success">
+                                Log In <i className="mdi mdi-arrow-right ms-1"></i>
                             </a>
                         </div>
                     </Col>

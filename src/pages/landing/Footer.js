@@ -2,7 +2,7 @@
 import React from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 
-import logo from '../../assets/images/logo.png';
+import logo from '../../assets/images/logo-styles/SVG/TON - Logo fixed.svg';
 
 const Footer = (): React$Element<React$FragmentType> => {
     return (
@@ -11,7 +11,7 @@ const Footer = (): React$Element<React$FragmentType> => {
                 <Container>
                     <Row>
                         <Col lg={6}>
-                            <img src={logo} alt="" className="logo-dark" height="18" />
+                            <img src={logo} alt="" className="logo-dark" height="50" />
                             <p className="text-muted mt-4">
                                 Hyper makes it easier to build better websites with
                                 <br /> great speed. Save hundreds of hours of design
