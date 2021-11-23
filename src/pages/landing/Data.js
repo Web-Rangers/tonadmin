@@ -155,7 +155,7 @@ const rawFaqs = [
     },
     {
         id: 4,
-        question: 'How do I install TONAdmin?',
+        question: 'How do I install a validator?',
         answer: 'TODO',
         titleClass: 'text-body',
         textClass: 'pb-1 text-muted',
