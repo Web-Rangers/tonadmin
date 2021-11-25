@@ -78,7 +78,21 @@ const StatusPage = (props): React$Element<React$FragmentType> => {
     return (
         <>
             <Row>
+                <Col>
+                    <div className="page-title-box">
+                        <h4 className="page-title" >Status of TON Services</h4>
+                    </div>
+                </Col>
+            </Row>
+            <Row>
                 {serversStatusResponse ? serversStatusResponse.map((server, index) => <Col key={`status_${index}`} lg={4}><ServerStatusList socketState={readyState} serverStatusData={server} /></Col>) : null}
+            </Row>
+            <Row style={{marginTop:"-24px"}}>
+                <Col>
+                    <div className="page-title-box">
+                        <h4 className="page-title" >Elections</h4>
+                    </div>
+                </Col>
             </Row>
             <Row>
                 <Col lg={4}>
@@ -91,18 +105,50 @@ const StatusPage = (props): React$Element<React$FragmentType> => {
                     <SlashingData socketState={readyState} data={dataComplaints} />
                 </Col>
             </Row>
+            <Row style={{marginTop:"-24px"}}>
+                <Col>
+                    <div className="page-title-box">
+                        <h4 className="page-title" >Liteservers</h4>
+                    </div>
+                </Col>
+            </Row>
             <Row>
                 <Col>
                     <LiteServersPerformance socketState={readyState} data={dataLT} />
+                </Col>
+            </Row>
+            <Row style={{marginTop:"-24px"}}>
+                <Col>
+                    <div className="page-title-box">
+                        <h4 className="page-title" >Validators</h4>
+                    </div>
                 </Col>
             </Row>
             <Row>
                 <Col lg={4}>
                     <Validators socketState={readyState} data={dataValidators} />
                 </Col>
+            </Row>
+            <Row style={{marginTop:"-24px"}}>
+                <Col>
+                    <div className="page-title-box">
+                        <h4 className="page-title" >Status of Bridges</h4>
+                    </div>
+                </Col>
+            </Row>
+            <Row>
                 <Col lg={4}>
                     <BridgeContainer socketState={readyState} data={dataBridges} />
                 </Col>
+            </Row>
+            <Row style={{marginTop:"-24px"}}>
+                <Col>
+                    <div className="page-title-box">
+                        <h4 className="page-title" >Blocks</h4>
+                    </div>
+                </Col>
+            </Row>
+            <Row>
                 <Col lg={4}>
                     <LastBlock socketState={readyState} data={dataLastBlock} />
                 </Col>
