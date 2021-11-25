@@ -147,7 +147,7 @@ const ServerStatusList = ({socketState, serverStatusData}) => {
     }
     useEffect(() => {
         updateChart('1month');
-    });
+    },[]);
 
     return (
         <Card className='widget-flat'>
