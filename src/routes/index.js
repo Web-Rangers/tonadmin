@@ -157,8 +157,8 @@ const commonRoutes = [
         route: Route,
     },
     {
-        path: '/landing',
-        name: 'Landing',
+        path: '/welcome',
+        name: 'Welcome',
         component: Landing,
         route: Route,
     }
