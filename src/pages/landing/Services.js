@@ -23,14 +23,10 @@ const Services = ({ services }: ServicesProps): React$Element<React$FragmentType
                                     <i className="mdi mdi-infinity"></i>
                                 </h1>
                                 <h3>
-                                    The admin is fully <span className="text-primary">responsive</span> and easy to{' '}
-                                    <span className="text-primary">customize</span>
+                                    All-in-one solution for <span className="text-primary"> monitoring </span> and <span className="text-primary">validating</span> TON Blockchain
                                 </h3>
                                 <p className="text-muted mt-2">
-                                    The clean and well commented code allows easy customization of the theme.It's
-                                    designed for
-                                    <br />
-                                    describing your app, agency or business.
+                                   TonAdmin provides real-time data about TON blockchain.
                                 </p>
                             </div>
                         </Col>

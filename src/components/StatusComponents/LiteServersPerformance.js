@@ -43,10 +43,11 @@ const LiteServersPerformance = ({socketState, data}) => {
     return (
         <Card>
             <Card.Body>
-                    <h4 className="header-title">Public LiteServers performance</h4>
                     {(!data)||(socketState!=ReadyState.OPEN) ?
-                        <Skeleton count={4} height={15} />
+                        <Skeleton count={5} height={15} />
                         :
+                        <>
+                        <h4 className="header-title">Public LiteServers performance</h4>
                         <Table
                         columns={columns}
                         data={data}
@@ -54,7 +55,8 @@ const LiteServersPerformance = ({socketState, data}) => {
                         sizePerPageList={sizePerPageList}
                         isSortable={true}
                         pagination={true}
-                    />
+                        />
+                        </>
                     }
             </Card.Body>
         </Card>
