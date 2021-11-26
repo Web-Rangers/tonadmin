@@ -35,7 +35,7 @@ const Landing = React.lazy(() => import('../pages/landing'));
 const rootRoute = {
     path: '/',
     exact: true,
-    component: () => <Redirect to="/landing" />,
+    component: () => <Redirect to="/account/login" />,
   route: Route,
 };
 
