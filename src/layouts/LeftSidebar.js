@@ -154,13 +154,6 @@ const LeftSidebar = ({ isCondensed, isLight, hideLogo, hideUserProfile }: LeftSi
                     </SimpleBar>
                     <div  style={{ position: "absolute", bottom: 20, height: 40, }}>
                       <div className="d-flex justify-content-center" style={{width: 260}}>
-                        <FormInput
-                            type="text"
-                            name="apiURL"
-                            disabled={true}
-                            value={sessionStorage.getItem('URL').replace('https://','').replace('/','')}
-                            containerClass={'d-inline-block'}
-                        />
                       <a href="/account/logout"><i className="uil uil-exit " style={{fontSize: 20, lineHeight: "40px", paddingLeft: 10}}></i></a>
                       </div>
                     </div>
