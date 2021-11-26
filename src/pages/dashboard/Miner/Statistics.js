@@ -33,11 +33,8 @@ const Statistics = (props): React$Element<React$FragmentType> => {
         setHash((maxHash/10**9).toFixed(0))
       })
 
-      let price = await api.get("https://api.ton.sh/getPrice")
-      setPrice(price.data.result)
-
-
-
+      let price = await api.get("https://ton.org/getpriceg/")
+      setPrice(price.data['the-open-network'].usd)
     }, []);
 
 
