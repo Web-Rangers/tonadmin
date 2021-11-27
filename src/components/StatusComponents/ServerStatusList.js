@@ -160,7 +160,7 @@ const ServerStatusList = ({socketState, serverStatusData}) => {
                     :
                     <>
                     <h4 className="header-title">{serverStatusData.service_name} status 
-                        <div className="float-end">
+                        {/* <div className="float-end">
                             <button onClick={toggleChart} className="btn btn-light p-0 border">
                                 {!chartView ?
                                     <i className='mdi mdi-chart-line bg-white text-success widget-icon'></i>
@@ -168,14 +168,14 @@ const ServerStatusList = ({socketState, serverStatusData}) => {
                                     <i className='mdi mdi-format-align-justify bg-white text-success widget-icon'></i>
                                 }
                             </button>
-                        </div>
+                        </div> */}
                     </h4>
                     <div>
-                        {!chartView ?
-                            <>
+                        {/* {!chartView ?
+                            <> */}
                                 {serverStatusData.pages.filter((page) => page.response_status==200 ? page.response_status : null ).length/serverStatusData.pages.length == 1 ? <h3 className="mt-3 mb-3 text-success">ONLINE 100%</h3> : serverStatusData.pages.filter((page) => page.response_status==200 ? page.response_status : null ).length/serverStatusData.pages.length > 0 ? <h3 className="mt-3 mb-3 text-warning">ONLINE {(serverStatusData.pages.filter((page) => page.response_status==200 ? page.response_status : null ).length/serverStatusData.pages.length*100).toFixed(0)}%</h3> : <h3 className="mt-3 mb-3 text-danger">OFFLINE</h3> }
                                 <PagesList item="1" pagesData={serverStatusData} />
-                            </>
+                            {/* </>
                             :
                             <>
                             <ul className="nav d-none d-lg-flex mt-3">
@@ -213,7 +213,7 @@ const ServerStatusList = ({socketState, serverStatusData}) => {
                                 height={350}
                             />
                             </>
-                        }
+                        } */}
                     </div>
                     </>  
                 }
