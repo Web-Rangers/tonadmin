@@ -14,6 +14,8 @@ import logoDarkSm from '../assets/images/logo_sm_dark.png';
 
 import profileImg from '../assets/images/users/avatar-1.jpg';
 
+import { APICore } from '../helpers/api/apiCore';
+
 type SideBarContentProps = {
     hideUserProfile: boolean,
 };
@@ -63,6 +65,7 @@ type LeftSidebarProps = {
 };
 
 const LeftSidebar = ({ isCondensed, isLight, hideLogo, hideUserProfile }: LeftSidebarProps): React$Element<any> => {
+    const api = new APICore();
     const menuNodeRef: any = useRef(null);
 
     /**
@@ -152,11 +155,38 @@ const LeftSidebar = ({ isCondensed, isLight, hideLogo, hideUserProfile }: LeftSi
                             hideUserProfile={hideUserProfile}
                         />
                     </SimpleBar>
-                    <div  style={{ position: "absolute", bottom: 20, height: 40, }}>
-                      <div className="d-flex justify-content-end" style={{width: 260}}>
-                      <a href="/account/logout"><i className="uil uil-exit " style={{fontSize: 20, lineHeight: "40px", padding: 40}}></i></a>
-                      </div>
-                    </div>
+                    {api.isUserAuthenticated() === true ? 
+                        <div  style={{ position: "absolute", bottom: 20, height: 40,width:"100%" }}>
+                            {/* <div className="d-flex justify-content-end" style={{width: 260}}>
+                                <a href="/account/logout"><i className="uil uil-exit " style={{fontSize: 20, lineHeight: "40px", padding: 40}}></i></a>
+                            </div> */}
+                            <div className="side-nav">
+                                <div className="side-nav-item">
+                                    <Link
+                                        to="/account/logout"
+                                        className="side-nav-link-ref side-sub-nav-link side-nav-link text-center"                                
+                                    >
+                                        <span> Sign out </span>
+                                        <i className="uil uil-exit " style={{margin:"0 0 0 10px"}}></i>
+                                    </Link>
+                                </div>
+                            </div>
+                        </div>
+                        :
+                        <div  style={{ position: "absolute", bottom: 20, height: 40,width:"100%" }}>
+                            <div className="side-nav">
+                                <div className="side-nav-item">
+                                    <Link
+                                        to="/account/login"
+                                        className="side-nav-link-ref side-sub-nav-link side-nav-link text-center"                                
+                                    >
+                                        <span> Sign in </span>
+                                        <i className="uil uil-entry " style={{margin:"0 0 0 10px"}}></i>
+                                    </Link>
+                                </div>
+                            </div>
+                        </div>
+                    }                    
                   </div>
                 )}
                 {isCondensed && <SideBarContent isLight={isLight} hideUserProfile={hideUserProfile} />}

@@ -1,8 +1,14 @@
-import MENU_ITEMS from '../constants/menu';
+import {MENU_ITEMS, MENU_ITEMS_WITHOUT_LOGIN} from '../constants/menu';
+import { APICore } from '../helpers/api/apiCore';
 
 const getMenuItems = () => {
+    const api = new APICore();
     // NOTE - You can fetch from server and return here as well
-    return MENU_ITEMS;
+    if (api.isUserAuthenticated() === true) {
+        return MENU_ITEMS;
+    } else {
+        return MENU_ITEMS_WITHOUT_LOGIN;
+    }
 };
 
 const findAllParent = (menuItems, menuItem) => {

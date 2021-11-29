@@ -8,7 +8,7 @@ import * as layoutConstants from '../constants/layout';
 import DefaultLayout from '../layouts/Default';
 import VerticalLayout from '../layouts/Vertical';
 
-import { authProtectedFlattenRoutes, publicProtectedFlattenRoutes } from './index';
+import { authProtectedFlattenRoutes, publicProtectedFlattenRoutes, commonProtectedFlattenRoutes } from './index';
 
 const Routes = (props) => {
     const { layout, user } = useSelector((state) => ({
@@ -20,6 +20,26 @@ const Routes = (props) => {
     return (
         <BrowserRouter>
             <Switch>
+                <Route path={commonProtectedFlattenRoutes.map((r) => r['path'])}>
+                    <VerticalLayout {...props} layout={layout}>
+                        <Switch>
+                            {commonProtectedFlattenRoutes.map((route, index) => {
+                                return (
+                                    !route.children && (
+                                        <route.route
+                                            key={index}
+                                            path={route.path}
+                                            roles={route.roles}
+                                            exact={route.exact}
+                                            component={route.component}
+                                        />
+                                    )
+                                );
+                            })}
+                        </Switch>
+                    </VerticalLayout>
+                </Route>
+
                 <Route path={publicProtectedFlattenRoutes.map((r) => r['path'])}>
                     <DefaultLayout {...props} layout={layout}>
                         <Switch>
