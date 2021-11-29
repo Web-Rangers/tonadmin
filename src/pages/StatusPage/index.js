@@ -18,6 +18,7 @@ import ShardList from '../../components/StatusComponents/ShardList.js';
 import TransactionList from '../../components/StatusComponents/TransactionList.js';
 import Validators from '../../components/StatusComponents/Validators.js';
 import LastBlock from '../../components/StatusComponents/LastBlock.js';
+import ValidatorsStatusList from '../../components/StatusComponents/ValidatorsStatusList.js';
 
 
 const StatusPage = (props): React$Element<React$FragmentType> => {
@@ -45,6 +46,7 @@ const StatusPage = (props): React$Element<React$FragmentType> => {
     const [dataElections,setDataElections] = useState();
     const [dataBridges,setDataBridges] = useState();
     const [dataValidators,setDataValidators] = useState();
+    const [dataValidatorsList,setDataValidatorsList] = useState();
     const [dataVoting,setDataVoting] = useState();    
     const [dataComplaints,setDataComplaints] = useState();
     const [dataLastBlock,setDataLastBlock] = useState();
@@ -64,6 +66,33 @@ const StatusPage = (props): React$Element<React$FragmentType> => {
                 setDataElections({electionId:lastmsgJSON.electionId,start:lastmsgJSON.startElection,next:lastmsgJSON.startNextElection,end:lastmsgJSON.endElection});
                 setDataBridges(lastmsgJSON.bridge);
                 setDataValidators({active:lastmsgJSON.onlineValidators ? lastmsgJSON.onlineValidators : 0,total:lastmsgJSON.totalValidators ? lastmsgJSON.totalValidators : 0});
+                
+                let ValidatorsResponse = lastmsgJSON.validators;
+                let tableDataValidators = [];
+                let totalWeight = 0
+                Object.keys(ValidatorsResponse).forEach(row => {
+                    totalWeight += ValidatorsResponse[row].weight
+                })
+                Object.keys(ValidatorsResponse).forEach(row => {
+                    tableDataValidators.push({
+                        adnlAddr: ValidatorsResponse[row].walletAddr ? ValidatorsResponse[row].walletAddr: ValidatorsResponse[row].adnlAddr,
+                        status: ValidatorsResponse[row].status,
+                        efficiency: ValidatorsResponse[row].efficiency,
+                        weight: (ValidatorsResponse[row].weight/totalWeight*100).toFixed(1) + '%',
+                        online: ValidatorsResponse[row].online,
+                    })
+                })
+                tableDataValidators.sort(function (a, b) {
+                    if (a.efficiency > b.efficiency) {
+                      return -1;
+                    }
+                    if (a.efficiency < b.efficiency) {
+                      return 1;
+                    }
+                    // a должно быть равным b
+                    return 0;
+                });
+                setDataValidatorsList(tableDataValidators);
                 setDataVoting(lastmsgJSON.offers);
                 setDataComplaints(lastmsgJSON.complaints);
                 setDataLastBlock(lastmsgJSON.last_block);
@@ -117,16 +146,10 @@ const StatusPage = (props): React$Element<React$FragmentType> => {
                     <LiteServersPerformance socketState={readyState} data={dataLT} />
                 </Col>
             </Row>
-            <Row style={{marginTop:"-24px"}}>
-                <Col>
-                    <div className="page-title-box">
-                        <h4 className="page-title" >Validators</h4>
-                    </div>
-                </Col>
-            </Row>
             <Row>
-                <Col lg={4}>
-                    <Validators socketState={readyState} data={dataValidators} />
+                <Validators socketState={readyState} data={dataValidators} />
+                <Col lg={12}>
+                    <ValidatorsStatusList socketState={readyState} data={dataValidatorsList} />
                 </Col>
             </Row>
             <Row style={{marginTop:"-24px"}}>

@@ -6,25 +6,23 @@ import useWebSocket, { ReadyState } from 'react-use-websocket';
 const Validators = ({socketState, data}) => {       
     
     return (
-        <Card>
-            <Card.Body>
+            <>
                 {   (!data)||(socketState!=ReadyState.OPEN) ?
                     <SkeletonTheme>
                         <Skeleton count={5} />
                     </SkeletonTheme>
                     :
                     <>
-                    <h4 className="header-title">Validators</h4>
-                    <div>
-                        <h3 className="mt-3 mb-3">{data.active}/{data.total}</h3>
-                        <p className="mb-0 text-muted">
-                            <span className="text-nowrap">Active/Total</span>
-                        </p>
-                    </div>
+                    <Row style={{marginTop:"-24px"}}>
+                        <Col>
+                            <div className="page-title-box">
+                                <h4 className="page-title" >Validators {data.active}/{data.total} <small className=" text-muted text-nowrap">(Active/Total)</small></h4>                                
+                            </div>
+                        </Col>
+                    </Row>
                     </>
                 }
-            </Card.Body>
-        </Card>
+            </>
     )
 }
   
