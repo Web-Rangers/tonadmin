@@ -41,7 +41,7 @@ const StatusPage = (props): React$Element<React$FragmentType> => {
         [ReadyState.CLOSED]: 'Closed',
         [ReadyState.UNINSTANTIATED]: 'Uninstantiated',
     }[readyState];
-    const [serversStatusResponse,setServersStatusResponse] = useState([false,false,false,false,false,false]);//False using for preloaders when socket is down and data is not exist
+    const [serversStatusResponse,setServersStatusResponse] = useState();//False using for preloaders when socket is down and data is not exist
     const [dataLT,setDataLT] = useState();
     const [dataElections,setDataElections] = useState();
     const [dataBridges,setDataBridges] = useState();
@@ -56,7 +56,7 @@ const StatusPage = (props): React$Element<React$FragmentType> => {
 
     useEffect(() => {
         if (lastMessage) {
-            console.log( JSON.parse(lastMessage.data));
+            // console.log( JSON.parse(lastMessage.data));
             try{
                 var lastmsgJSON = JSON.parse(lastMessage.data);
                 setMessageHistory(prev => prev.concat(lastMessage));
@@ -114,7 +114,7 @@ const StatusPage = (props): React$Element<React$FragmentType> => {
                 </Col>
             </Row>
             <Row>
-                {serversStatusResponse ? serversStatusResponse.map((server, index) => <Col key={`status_${index}`} lg={4}><ServerStatusList socketState={readyState} serverStatusData={server} /></Col>) : null}
+                {serversStatusResponse ? serversStatusResponse.map((server, index) => <Col key={`status_${index}`} lg={4}><ServerStatusList socketState={readyState} serverStatusData={server} /></Col>) : <Card className='widget-flat'><Card.Body><SkeletonTheme><Skeleton count={5} /></SkeletonTheme></Card.Body></Card>}
             </Row>
             <Row style={{marginTop:"-24px"}}>
                 <Col>

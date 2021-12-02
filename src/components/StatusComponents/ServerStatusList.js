@@ -5,6 +5,8 @@ import useWebSocket, { ReadyState } from 'react-use-websocket';
 import classNames from 'classnames';
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
 import Chart from 'react-apexcharts';
+// FAKE DATA
+import { APICore } from '../../helpers/api/apiCore';
 
 const PagesList = ({item, pagesData}) => {
     const [open, setOpen] = useState(false);
@@ -14,15 +16,14 @@ const PagesList = ({item, pagesData}) => {
     };
 
     const showChart = (service_name,page_name) =>{
-        const url = `${REACT_APP_SERVER_URL}/api/chart/server/month`;
-        const formData = new FormData();
-        formData.append([service_name], service_name);
-        formData.append([page_name], page_name);
+        const url = `${process.env.REACT_APP_SERVER_URL}/api/v1/chart/service?service_name=${service_name}&page_name=${page_name}`;
         const headers = new Headers();
+        headers.append('Content-Type', 'application/json');
+        headers.append('Accept', 'application/json');
         const request = {
             method: "GET",
             headers: headers,
-            credentials: "include"
+            credentials: "include",
         }
         fetch(url, request)
             .then(async (response) => {
@@ -53,8 +54,7 @@ const PagesList = ({item, pagesData}) => {
         </>
     );
 };
-// FAKE DATA
-import { APICore } from '../../helpers/api/apiCore';
+
 
 const api = new APICore();
 const colors = ['#0088CC'];
@@ -92,8 +92,6 @@ let apexBarChartOpts = {
     colors: colors,
     xaxis: {
         type: 'datetime',
-        trim: true,
-        tickAmount: 20,
         tooltip: {
             enabled: false,
         },
@@ -104,7 +102,7 @@ let apexBarChartOpts = {
     yaxis: {
         labels: {
             formatter: function (val) {
-                return val/10**12 + 'T';
+                return Math.floor(val);
             },
             offsetX: -15,
         },
@@ -121,13 +119,7 @@ let apexBarChartOpts = {
         },
     },
 };
-let apexBarChartData = [
-    {
-        name: 'Hashrate',
-        data: [],
-    },
-];
-// FAKE DATA END
+
 const ServerStatusList = ({socketState, serverStatusData}) => {
     const [chartView, setChartView] = useState(false);
     const [isActiveChart, setIsActiveChart] = useState();
@@ -138,46 +130,52 @@ const ServerStatusList = ({socketState, serverStatusData}) => {
 
     const toggleChart = () => {
         setChartView(!chartView);
+        if (!chartView) updateChart(serverStatusData.service_name, 'd', 1)
     }
 
-    const updateChart = async (period) => {
-        let chartData = []
-        api.get(window.location.protocol + "//ton.swisscops.com/statistics/jsons/hashrate_"+period + '.json').then(response => {
-          let data = JSON.parse(response.data.replace(/[\n\r\t]/g,""));
-          let start = data.meta.start;
-          let step = data.meta.step;
-          for(let item of data.data){
-            if(item[0]){
-              chartData.push({'x': new Date(start * 1000), 'y' : item[0]})
-            }
-            start += step;
-          }
-    
-          let apexBarChartData = [
-              {
-                  name: 'Hashrate',
-                  data: chartData,
-              },
-          ];
-          setApexBarChartData(apexBarChartData);
-          setIsActiveChart(period);
-        //   this.setState({apexBarChartData, isActiveChart: period, loading: false})
+    useEffect(() => {
+        updateChart(serverStatusData.service_name, 'd', 1)
+    },[])
+
+    const updateChart = async (service_name, time_period, time_value) => {
+        const url = `${process.env.REACT_APP_SERVER_URL}/api/v1/chart/service?service_name=${service_name}&time_period=${time_period}&time_value=${time_value}`;
+        const headers = new Headers();
+        headers.append('Content-Type', 'application/json');
+        headers.append('Accept', 'application/json');
+        const request = {
+            method: "GET",
+            headers: headers,
+            credentials: "include",
+        }
+        fetch(url, request).then(async response => {
+            let data = await response.json();
+            data = data.result.chart;
+            let chartData = [];
+            Object.entries(data).map(([key, value]) => {
+                let timestamp = key+1;
+                if (time_period === 'h') timestamp = timestamp*1000*60
+                if (time_period === 'd') timestamp = timestamp*1000*60*60
+                if (time_period === 'm') timestamp = timestamp*1000*60*60*24
+                if (time_period === 'y') timestamp = timestamp*1000*60*60*24*30
+                console.log(new Date(new Date().getTime() - timestamp), timestamp, new Date().getTime())
+                chartData.push({'x': new Date(new Date().getTime() - timestamp), 'y' : value})
+            })
+            let apexBarChartData = [
+                {
+                    name: 'Response Time',
+                    data: chartData,
+                },
+            ];
+            setApexBarChartData(apexBarChartData);
+            setIsActiveChart(`${time_value}${time_period}`);
         })
     
     }
-    useEffect(() => {
-        updateChart('1month');
-    },[]);
 
     return (
         <Card className='widget-flat'>
             <Card.Body>
                 {
-                    (socketState!=ReadyState.OPEN)||(!serverStatusData) ?
-                    <SkeletonTheme>
-                        <Skeleton count={5} />
-                    </SkeletonTheme>
-                    :
                     <>
                     <h4 className="header-title">{serverStatusData.service_name} status 
                         <div className="float-end">
@@ -200,27 +198,27 @@ const ServerStatusList = ({socketState, serverStatusData}) => {
                             <>
                             <ul className="nav d-none d-lg-flex mt-3">
                                 <li className="nav-item">
-                                    <button className={`nav-link ${isActiveChart == '1day' ? "active" : "text-muted"}`} onClick={() => updateChart('1day') }>
+                                    <button className={`nav-link ${isActiveChart == '1d' ? "active" : "text-muted"}`} onClick={() => updateChart(serverStatusData.service_name, 'd', 1) }>
                                         1d
                                     </button>
                                 </li>
                                 <li className="nav-item">
-                                    <button className={`nav-link ${isActiveChart == '1week' ? "active" : "text-muted"}`} onClick={() => updateChart('1week') } >
+                                    <button className={`nav-link ${isActiveChart == '1w' ? "active" : "text-muted"}`} onClick={() => updateChart(serverStatusData.service_name, 'w', 1) } >
                                         7d
                                     </button>
                                 </li>
                                 <li className="nav-item">
-                                    <button className={`nav-link ${isActiveChart == '1month' ? "active" : "text-muted"}`} onClick={() => updateChart('1month') } >
+                                    <button className={`nav-link ${isActiveChart == '1m' ? "active" : "text-muted"}`} onClick={() => updateChart(serverStatusData.service_name, 'm', 1) } >
                                         1m
                                     </button>
                                 </li>
                                 <li className="nav-item">
-                                    <button className={`nav-link ${isActiveChart == '3month' ? "active" : "text-muted"}`} onClick={() => updateChart('3month') } >
+                                    <button className={`nav-link ${isActiveChart == '3m' ? "active" : "text-muted"}`} onClick={() => updateChart(serverStatusData.service_name, 'm', 3) } >
                                         3m
                                     </button>
                                 </li>
                                 <li className="nav-item">
-                                    <button className={`nav-link ${isActiveChart == '6months' ? "active" : "text-muted"}`} onClick={() => updateChart('6months') } >
+                                    <button className={`nav-link ${isActiveChart == '6m' ? "active" : "text-muted"}`} onClick={() => updateChart(serverStatusData.service_name, 'm', 6) } >
                                         6m
                                     </button>
                                 </li>
