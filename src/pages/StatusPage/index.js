@@ -143,7 +143,9 @@ const StatusPage = (props): React$Element<React$FragmentType> => {
             </Row>
             <Row>
                 <Col>
-                    <LiteServersPerformance socketState={readyState} data={dataLT} />
+                    {dataLT&&(readyState===ReadyState.OPEN) ? 
+                        <LiteServersPerformance socketState={readyState} data={dataLT} /> 
+                        :<Card> <Card.Body> <Skeleton count={5} height={15} /> </Card.Body> </Card> }
                 </Col>
             </Row>
             <Row>
