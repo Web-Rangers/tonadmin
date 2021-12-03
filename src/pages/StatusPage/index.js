@@ -19,6 +19,7 @@ import TransactionList from '../../components/StatusComponents/TransactionList.j
 import Validators from '../../components/StatusComponents/Validators.js';
 import LastBlock from '../../components/StatusComponents/LastBlock.js';
 import ValidatorsStatusList from '../../components/StatusComponents/ValidatorsStatusList.js';
+import GiverInfo from '../../components/StatusComponents/GiverInfo.js';
 
 
 const StatusPage = (props): React$Element<React$FragmentType> => {
@@ -41,7 +42,7 @@ const StatusPage = (props): React$Element<React$FragmentType> => {
         [ReadyState.CLOSED]: 'Closed',
         [ReadyState.UNINSTANTIATED]: 'Uninstantiated',
     }[readyState];
-    const [serversStatusResponse,setServersStatusResponse] = useState();//False using for preloaders when socket is down and data is not exist
+    const [serversStatusResponse,setServersStatusResponse] = useState();
     const [dataLT,setDataLT] = useState();
     const [dataElections,setDataElections] = useState();
     const [dataBridges,setDataBridges] = useState();
@@ -152,6 +153,11 @@ const StatusPage = (props): React$Element<React$FragmentType> => {
                 <Validators socketState={readyState} data={dataValidators} />
                 <Col lg={12}>
                     <ValidatorsStatusList socketState={readyState} data={dataValidatorsList} />
+                </Col>
+            </Row>
+            <Row>
+                <Col lg={12}>
+                    <GiverInfo/>
                 </Col>
             </Row>
             <Row style={{marginTop:"-24px"}}>
