@@ -7,7 +7,8 @@ import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
 import Chart from 'react-apexcharts';
 // FAKE DATA
 import { APICore } from '../../helpers/api/apiCore';
-import { Bar, BarChart, Tooltip, XAxis, YAxis, Line, LineChart, Legend, ResponsiveContainer } from 'recharts';
+import { Bar, BarChart, Label, Tooltip, XAxis, YAxis, Line, LineChart, Legend, ResponsiveContainer } from 'recharts';
+import Moment from 'react-moment';
 
 const PagesList = ({item, pagesData}) => {
     const [open, setOpen] = useState(false);
@@ -174,13 +175,13 @@ const ServerStatusList = ({socketState, serverStatusData}) => {
                 if (time_period === 'd') timestamp = timestamp*100*60*60
                 if (time_period === 'm') timestamp = timestamp*100*60*60*24
                 if (time_period === 'y') timestamp = timestamp*100*60*60*24*30
-                let time = new Date(new Date().getTime() - timestamp)
+                let time = new Date(new Date().getTime() - timestamp);
                 console.log(time)
-                chartData.push({'x': time, 'y' : value})
+                chartData.push({'x': `${time.getDate()}.${time.getMonth()+1}.${time.getFullYear()} ${time.getHours()}:${time.getMinutes()<10 ? "0"+time.getMinutes():time.getMinutes()}`, 'ping' : Math.round(value)})
             })
             let apexBarChartData = {
                 name: 'Response Time',
-                data: chartData,
+                data: chartData.reverse(),
             }
 
             setApexBarChartData(apexBarChartData);
@@ -213,8 +214,8 @@ const ServerStatusList = ({socketState, serverStatusData}) => {
                             </>
                             :
                             <>
-                            <ul className="nav d-none d-lg-flex mt-3">
-                            <li className="nav-item">
+                            <ul className="nav d-lg-flex mt-3">
+                                <li className="nav-item">
                                     <button className={`nav-link ${isActiveChart == '1h' ? "active" : "text-muted"}`} onClick={() => updateChart(serverStatusData.service_name, 'h', 1) }>
                                         1h
                                     </button>
@@ -253,24 +254,22 @@ const ServerStatusList = ({socketState, serverStatusData}) => {
                                 height={350}
                             /> */}
                             {apexBarChartData.data ?              
-                            <ResponsiveContainer height={250}>
+                            <ResponsiveContainer height={280}>
                                     <LineChart
-                                    height={200}
-                                    width={600}
                                     data={apexBarChartData.data}
                                     margin={{
-                                        top: 5,
-                                        right: 30,
-                                        left: 20,
+                                        top: 50,
+                                        right: 20,
+                                        left: -20,
                                         bottom: 5,
                                     }}
                                     >
                                         {/* <CartesianGrid /> */}
                                         <XAxis stroke="#adb5bd" dataKey="x" fontSize="12px" />
-                                        <YAxis stroke="#adb5bd" dataKey="y" fontSize="12px" />
+                                        <YAxis stroke="#adb5bd" dataKey="ping" fontSize="12px" />
                                         <Tooltip />
-                                        <Legend />
-                                        <Line type="monotone" dataKey="y" stroke="#727cf5" strokeWidth="2px" />
+                                        {/* <Legend /> */}
+                                        <Line type="monotone" dataKey="ping" stroke="#0088CC" strokeWidth="2px" />
                                     </LineChart>
                                 </ResponsiveContainer>
                             :
