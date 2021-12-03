@@ -178,7 +178,7 @@ class APICore {
     sendJRPC = (url, data, params = []) => {
       const httpsAgent = new https.Agent({ rejectUnauthorized: false });
         return axios.post(
-            config.SERVER_URL+'api/v1/admin/proxy',
+            config.SERVER_URL+'/api/v1/admin/proxy',
             JSON.stringify({jsonrpc: "2.0", id: 0, method: data, params: params}, { httpsAgent }),
       /*    {transformRequest: (data, headers) => {
             delete headers.common['Authorization'];
@@ -189,7 +189,7 @@ class APICore {
     sendAuth = (url, data, params = []) => {
       const httpsAgent = new https.Agent({ rejectUnauthorized: false });
         return axios.post(
-          config.SERVER_URL+'api/v1/admin/'+data,
+          config.SERVER_URL+'/api/v1/admin/'+data,
           JSON.stringify({jsonrpc: "2.0", id: 0, method: data, params: params}, { httpsAgent }),
       /*    {transformRequest: (data, headers) => {
             delete headers.common['Authorization'];
