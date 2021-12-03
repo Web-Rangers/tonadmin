@@ -151,7 +151,6 @@ const ServerStatusList = ({socketState, serverStatusData}) => {
 
     useEffect(() => {
         //updateChart(serverStatusData.service_name, 'd', 1)
-        console.log(apexBarChartData);
     },[apexBarChartData])
 
     const updateChart = async (service_name, time_period, time_value) => {
@@ -176,7 +175,6 @@ const ServerStatusList = ({socketState, serverStatusData}) => {
                 if (time_period === 'm') timestamp = timestamp*100*60*60*24
                 if (time_period === 'y') timestamp = timestamp*100*60*60*24*30
                 let time = new Date(new Date().getTime() - timestamp);
-                console.log(time)
                 chartData.push({'x': `${time.getFullYear()}-${time.getMonth()+1}-${time.getDate()} ${time.getHours()}:${time.getMinutes()<10 ? "0"+time.getMinutes():time.getMinutes()}`, 'ping' : Math.round(value)})
             })
             let apexBarChartData = {
