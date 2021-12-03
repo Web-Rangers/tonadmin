@@ -20,6 +20,7 @@ import Validators from '../../components/StatusComponents/Validators.js';
 import LastBlock from '../../components/StatusComponents/LastBlock.js';
 import ValidatorsStatusList from '../../components/StatusComponents/ValidatorsStatusList.js';
 import GiverInfo from '../../components/StatusComponents/GiverInfo.js';
+import BlockInfo from '../../components/StatusComponents/BlockInfo.js';
 
 
 const StatusPage = (props): React$Element<React$FragmentType> => {
@@ -182,6 +183,9 @@ const StatusPage = (props): React$Element<React$FragmentType> => {
             <Row>
                 <Col lg={4}>
                     <LastBlock socketState={readyState} data={dataLastBlock} />
+                </Col>
+                <Col lg={8}>
+                    <BlockInfo />
                 </Col>
             </Row>
         </>
