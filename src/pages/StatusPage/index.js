@@ -114,7 +114,7 @@ const StatusPage = (props): React$Element<React$FragmentType> => {
                 </Col>
             </Row>
             <Row>
-                {serversStatusResponse ? serversStatusResponse.map((server, index) => <Col key={`status_${index}`} lg={4}><ServerStatusList socketState={readyState} serverStatusData={server} /></Col>) : <Card className='widget-flat'><Card.Body><SkeletonTheme><Skeleton count={5} /></SkeletonTheme></Card.Body></Card>}
+                {serversStatusResponse ? serversStatusResponse.map((server, index) => <Col key={`status_${index}`} lg={4}><ServerStatusList socketState={readyState} serverStatusData={server} /></Col>) : <Col lg={12}><Card className='widget-flat'><Card.Body><SkeletonTheme><Skeleton count={5} /></SkeletonTheme></Card.Body></Card></Col>}
             </Row>
             <Row style={{marginTop:"-24px"}}>
                 <Col>
