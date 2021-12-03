@@ -177,7 +177,7 @@ const ServerStatusList = ({socketState, serverStatusData}) => {
                 if (time_period === 'y') timestamp = timestamp*100*60*60*24*30
                 let time = new Date(new Date().getTime() - timestamp);
                 console.log(time)
-                chartData.push({'x': `${time.getDate()}.${time.getMonth()+1}.${time.getFullYear()} ${time.getHours()}:${time.getMinutes()<10 ? "0"+time.getMinutes():time.getMinutes()}`, 'ping' : Math.round(value)})
+                chartData.push({'x': `${time.getFullYear()}-${time.getMonth()+1}-${time.getDate()} ${time.getHours()}:${time.getMinutes()<10 ? "0"+time.getMinutes():time.getMinutes()}`, 'ping' : Math.round(value)})
             })
             let apexBarChartData = {
                 name: 'Response Time',
@@ -226,7 +226,7 @@ const ServerStatusList = ({socketState, serverStatusData}) => {
                                     </button>
                                 </li>
                                 <li className="nav-item">
-                                    <button className={`nav-link ${isActiveChart == '1w' ? "active" : "text-muted"}`} onClick={() => updateChart(serverStatusData.service_name, 'w', 1) } >
+                                    <button className={`nav-link ${isActiveChart == '7d' ? "active" : "text-muted"}`} onClick={() => updateChart(serverStatusData.service_name, 'd', 7) } >
                                         7d
                                     </button>
                                 </li>
