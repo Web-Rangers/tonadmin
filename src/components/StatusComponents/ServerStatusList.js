@@ -7,6 +7,7 @@ import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
 import Chart from 'react-apexcharts';
 // FAKE DATA
 import { APICore } from '../../helpers/api/apiCore';
+import { Bar, BarChart, Tooltip, XAxis, YAxis, Line, LineChart, Legend, ResponsiveContainer } from 'recharts';
 
 const PagesList = ({item, pagesData}) => {
     const [open, setOpen] = useState(false);
@@ -119,7 +120,21 @@ let apexBarChartOpts = {
         },
     },
 };
+function CustomDot(props){
+    const { cx, cy, fill } = props;
 
+    return <svg x={cx-3} y={cy-3} fill={fill} >
+        <circle cx="3" cy="3" r="3" ></circle>     
+    </svg>
+}
+
+function CustomActiveDot(props){
+    const { cx, cy, fill } = props;
+
+    return <svg x={cx-5} y={cy-5} fill={fill} stroke="white" >
+        <circle cx="5" cy="5" r="5" ></circle>     
+    </svg>
+}
 const ServerStatusList = ({socketState, serverStatusData}) => {
     const [chartView, setChartView] = useState(false);
     const [isActiveChart, setIsActiveChart] = useState();
@@ -134,8 +149,9 @@ const ServerStatusList = ({socketState, serverStatusData}) => {
     }
 
     useEffect(() => {
-        updateChart(serverStatusData.service_name, 'd', 1)
-    },[])
+        //updateChart(serverStatusData.service_name, 'd', 1)
+        console.log(apexBarChartData);
+    },[apexBarChartData])
 
     const updateChart = async (service_name, time_period, time_value) => {
         const url = `${process.env.REACT_APP_SERVER_URL}/api/v1/chart/service?service_name=${service_name}&time_period=${time_period}&time_value=${time_value}`;
@@ -160,12 +176,11 @@ const ServerStatusList = ({socketState, serverStatusData}) => {
                 console.log(new Date(new Date().getTime() - timestamp), timestamp, new Date().getTime())
                 chartData.push({'x': new Date(new Date().getTime() - timestamp), 'y' : value})
             })
-            let apexBarChartData = [
-                {
-                    name: 'Response Time',
-                    data: chartData,
-                },
-            ];
+            let apexBarChartData = {
+                name: 'Response Time',
+                data: chartData,
+            }
+
             setApexBarChartData(apexBarChartData);
             setIsActiveChart(`${time_value}${time_period}`);
         })
@@ -223,13 +238,37 @@ const ServerStatusList = ({socketState, serverStatusData}) => {
                                     </button>
                                 </li>
                             </ul>
-                            <Chart
+                            {/* <Chart
                                 options={apexBarChartOpts}
                                 series={apexBarChartData}
                                 type="area"
                                 className="apex-charts mt-1"
                                 height={350}
-                            />
+                            /> */}
+                            {apexBarChartData.data ?              
+                            <ResponsiveContainer height={250}>
+                                    <LineChart
+                                    height={200}
+                                    width={600}
+                                    data={apexBarChartData.data}
+                                    margin={{
+                                        top: 5,
+                                        right: 30,
+                                        left: 20,
+                                        bottom: 5,
+                                    }}
+                                    >
+                                        {/* <CartesianGrid /> */}
+                                        <XAxis stroke="#adb5bd" dataKey="x" fontSize="12px" />
+                                        <YAxis stroke="#adb5bd" dataKey="y" fontSize="12px" />
+                                        <Tooltip />
+                                        <Legend />
+                                        <Line type="monotone" dataKey="y" stroke="#727cf5" strokeWidth="2px" />
+                                    </LineChart>
+                                </ResponsiveContainer>
+                            :
+                            null
+                            }
                             </>
                         }
                     </div>
