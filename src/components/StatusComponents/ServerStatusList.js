@@ -53,7 +53,7 @@ const PagesList = ({item, pagesData}) => {
     }
 
     function updateChart(time_period, time_value){
-        const url = `${process.env.REACT_APP_SERVER_URL}/api/v1/chart/service?service_name=${currentPage.current.service}&page_name=${currentPage.current.page}&time_period=${time_period}&time_value=${time_value}`;
+        const url = `${process.env.REACT_APP_SERVER_URL}/api/v1/chart/service/pagechart?service_name=${currentPage.current.service}&page_name=${currentPage.current.page}&time_period=${time_period}&time_value=${time_value}`;
         const headers = new Headers();
         headers.append('Content-Type', 'application/json');
         headers.append('Accept', 'application/json');
