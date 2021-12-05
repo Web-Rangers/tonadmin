@@ -22,7 +22,7 @@ const PagesList = ({item, pagesData}) => {
     };
 
     const showChart = async (service_name, page_name, time_period, time_value) =>{
-        const url = `${process.env.REACT_APP_SERVER_URL}/api/v1/chart/service?service_name=${service_name}&page_name=${page_name}&time_period=${time_period}&time_value=${time_value}`;
+        const url = `${process.env.REACT_APP_SERVER_URL}/api/v1/chart/service/pagechart?service_name=${service_name}&page_name=${page_name}&time_period=${time_period}&time_value=${time_value}`;
         const headers = new Headers();
         headers.append('Content-Type', 'application/json');
         headers.append('Accept', 'application/json');
