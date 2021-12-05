@@ -57,7 +57,7 @@ const LiteServersPerformance = ({socketState, data}) => {
     }
 
     function updateChart(time_period, time_value){
-        const url = `${process.env.REACT_APP_SERVER_URL}/api/v1/chart/server?server="${currentServer.current.ip}"&port=${currentServer.current.port}&time_period=${time_period}&time_value=${time_value}`;
+        const url = `${process.env.REACT_APP_SERVER_URL}/api/v1/chart/server/server_chart?ip=${currentServer.current.ip}&port=${currentServer.current.port}&time_period=${time_period}&time_value=${time_value}`;
         const headers = new Headers();
         headers.append('Content-Type', 'application/json');
         headers.append('Accept', 'application/json');
