@@ -57,7 +57,6 @@ export default function BlockInfo() {
             .then(async (response) => {
                 const data = await response.json();
                 const tableData = []
-                console.log(data);
                 Object.entries(data.result.blocks_rate).forEach(([key, value]) => {
                     // console.log(key, value);
                     tableData.push({
@@ -88,7 +87,7 @@ export default function BlockInfo() {
             <Card.Body>
                 <Table
                     columns={columns}
-                    data={data}                        
+                    data={data}                  
                     pageSize={10}
                     sizePerPageList={sizePerPageList}
                     isSortable={true}
