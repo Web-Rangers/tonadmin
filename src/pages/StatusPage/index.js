@@ -163,18 +163,6 @@ const StatusPage = (props): React$Element<React$FragmentType> => {
             <Row style={{marginTop:"-24px"}}>
                 <Col>
                     <div className="page-title-box">
-                        <h4 className="page-title" >Status of Bridges</h4>
-                    </div>
-                </Col>
-            </Row>
-            <Row>
-                <Col lg={4}>
-                    <BridgeContainer socketState={readyState} data={dataBridges} />
-                </Col>
-            </Row>
-            <Row style={{marginTop:"-24px"}}>
-                <Col>
-                    <div className="page-title-box">
                         <h4 className="page-title" >Blocks</h4>
                     </div>
                 </Col>
