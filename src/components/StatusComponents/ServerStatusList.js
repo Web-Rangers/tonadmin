@@ -22,7 +22,7 @@ const PagesList = ({item, pagesData}) => {
     };
 
     const showChart = async (service_name, page_name, time_period, time_value) =>{
-        const url = `${process.env.REACT_APP_SERVER_URL}/api/v1/chart/service?service_name=${service_name}&page_name=${page_name}&time_period=${time_period}&time_value=${time_value}`;
+        const url = `${process.env.REACT_APP_SERVER_URL}/api/v1/chart/service/pagechart?service_name=${service_name}&page_name=${page_name}&time_period=${time_period}&time_value=${time_value}`;
         const headers = new Headers();
         headers.append('Content-Type', 'application/json');
         headers.append('Accept', 'application/json');
@@ -53,7 +53,7 @@ const PagesList = ({item, pagesData}) => {
     }
 
     function updateChart(time_period, time_value){
-        const url = `${process.env.REACT_APP_SERVER_URL}/api/v1/chart/service?service_name=${currentPage.current.service}&page_name=${currentPage.current.page}&time_period=${time_period}&time_value=${time_value}`;
+        const url = `${process.env.REACT_APP_SERVER_URL}/api/v1/chart/service/pagechart?service_name=${currentPage.current.service}&page_name=${currentPage.current.page}&time_period=${time_period}&time_value=${time_value}`;
         const headers = new Headers();
         headers.append('Content-Type', 'application/json');
         headers.append('Accept', 'application/json');
@@ -158,7 +158,7 @@ const PagesList = ({item, pagesData}) => {
                         return <p key={`${item}-${index}`} className="mt-2 mb-0">
                             <a target="_blank" href={page.url}>{page.name}</a>
                             /
-                            <a onClick={() => showChart(pagesData.service_name,page.name,'d',7)}>
+                            <a onClick={() => showChart(pagesData.service_name,page.name,'d',1)}>
                                 <i className='mdi mdi-chart-timeline-variant bg-white text-primary widget-icon'></i>
                             </a> / status - {page.response_status==200 ? <span className="text-success">{page.response_status}</span> : <span className="text-danger">{page.response_status}</span>} / ping - {page.response_time}ms</p>})}
                 </div>
