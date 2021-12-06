@@ -1,13 +1,8 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import { Card, Dropdown } from 'react-bootstrap'
 import Table from '../Table';
 
 const columns = [
-    {
-        Header: 'Address',
-        accessor: 'address',
-        sort: true,
-    },
     {
         Header: 'Height',
         accessor: 'height',
@@ -38,13 +33,14 @@ const sizePerPageList = [
 
 export default function BlockInfo() {
     const [data, setData] = useState([])
+    const offset = useRef(1);
 
     useEffect(() => {
-        fetchData(50, 1)
+        fetchData(50, offset.current)
     },[])
 
-    function fetchData(limit, offset) {
-        const url = `${process.env.REACT_APP_SERVER_URL}/api/v1/metric/blocks?limit=${limit}&offset_id=${offset}`;
+    function fetchData(limit) {
+        const url = `${process.env.REACT_APP_SERVER_URL}/api/v1/metric/blocks?limit=${limit}&offset_id=${offset.current}`;
         const headers = new Headers();
         headers.append('Content-Type', 'application/json');
         headers.append('Accept', 'application/json');
@@ -60,8 +56,7 @@ export default function BlockInfo() {
                 Object.entries(data.result.blocks_rate).forEach(([key, value]) => {
                     // console.log(key, value);
                     tableData.push({
-                        address: <a href={`https://ton.sh/address/${key}`} target="_blank">{key}</a>,
-                        height: value.height,
+                        height: <a href={`https://ton.sh/block/-1/${value.height}`} target="_blank">{value.height}</a>,
                         transactions: <Dropdown>
                             <Dropdown.Toggle variant="success" id="dropdown-basic">
                                 Transactions
@@ -74,6 +69,7 @@ export default function BlockInfo() {
                         </Dropdown>
                     })
                 })
+                offset.current += 50;
                 setData(tableData);
             })
             .catch(error => console.log('page chart error', error))
@@ -92,6 +88,7 @@ export default function BlockInfo() {
                     sizePerPageList={sizePerPageList}
                     isSortable={true}
                     pagination={true}
+                    onLastPage={()=>{fetchData(50)}}
                 />
             </Card.Body>
         </Card>

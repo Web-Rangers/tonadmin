@@ -58,7 +58,7 @@ const StatusPage = (props): React$Element<React$FragmentType> => {
 
     useEffect(() => {
         if (lastMessage) {
-            console.log( JSON.parse(lastMessage.data));
+            // console.log( JSON.parse(lastMessage.data));
             try{
                 var lastmsgJSON = JSON.parse(lastMessage.data);
                 setMessageHistory(prev => prev.concat(lastMessage));

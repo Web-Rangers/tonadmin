@@ -7,9 +7,10 @@ type PaginationProps = {
         text: string,
         value: number,
     }[],
+    onLastPage: Function,
 };
 
-const Pagination = ({ tableProps, sizePerPageList }: PaginationProps): React$Element<React$FragmentType> => {
+const Pagination = ({ tableProps, sizePerPageList, onLastPage }: PaginationProps): React$Element<React$FragmentType> => {
     return (
         <>
             <div className="d-lg-flex align-items-center text-center pb-1">
@@ -69,9 +70,9 @@ const Pagination = ({ tableProps, sizePerPageList }: PaginationProps): React$Ele
                         {'<'}
                     </button>{' '}
                     <button
-                        onClick={() => tableProps.nextPage()}
+                        onClick={!tableProps.canNextPage && onLastPage ? () => onLastPage()  : () => tableProps.nextPage()}
                         className="page-link"
-                        disabled={!tableProps.canNextPage}>
+                        disabled={!tableProps.canNextPage && !onLastPage}>
                         {'>'}
                     </button>{' '}
                     <button

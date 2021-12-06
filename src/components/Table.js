@@ -74,6 +74,7 @@ type TableProps = {
         text: string,
         value: number,
     }[],
+    onLastPage: Function
 };
 
 const Table = (props: TableProps): React$Element<React$FragmentType> => {
@@ -82,6 +83,7 @@ const Table = (props: TableProps): React$Element<React$FragmentType> => {
     const pagination = props['pagination'] || false;
     const isSelectable = props['isSelectable'] || false;
     const isExpandable = props['isExpandable'] || false;
+    const onLastPage = props['onLastPage'] || false;
 
     const dataTable = useTable(
         {
@@ -198,7 +200,7 @@ const Table = (props: TableProps): React$Element<React$FragmentType> => {
                 </table>
             </div>
 
-            {pagination && <Pagination tableProps={dataTable} sizePerPageList={props['sizePerPageList']} />}
+            {pagination && <Pagination onLastPage={props['onLastPage']} tableProps={dataTable} sizePerPageList={props['sizePerPageList']} />}
         </>
     );
 };
