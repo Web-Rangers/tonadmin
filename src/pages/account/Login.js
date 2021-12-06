@@ -80,7 +80,7 @@ const Login = (): React$Element<any> => {
                 <VerticalForm
                     onSubmit={onSubmit}
                     resolver={schemaResolver}
-                    defaultValues={{ apiURL: 'https://89.163.135.167:4000/', password: '123' }}>
+                >
                     <FormInput
                         label={t('Validator URL')}
                         type="text"
