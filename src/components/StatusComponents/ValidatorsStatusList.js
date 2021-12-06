@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Row, Col, Card, Button, Modal, Alert } from 'react-bootstrap';
 import useWebSocket, { ReadyState } from 'react-use-websocket';
 import Skeleton from 'react-loading-skeleton';
@@ -81,26 +81,39 @@ function Wallet({ value }) {
 }
 
 const ValidatorsStatusList = ({socketState, data}) => {
+  const [tableData, setTableData] = useState(data)
+  const update = useRef(false)
+
+  useEffect(()=>{
+    if(update.current){
+        setTableData(data);
+    }
+  }, data)
 
     return (
         <>
             <Card>
+              <Card.Header>
+                <Card.Title>
+                  <Row>
+                    <Col lg={10}>
+                      <h4 className="mb-0">Validators Status</h4>
+                    </Col>
+                    <Col lg={2}>
+                      <Button variant={update.current ? "primary" : "danger"} onClick={()=>{update.current = !update.current}}>Live update {update.current? 'ON':'OFF'} </Button>
+                    </Col>
+                  </Row>
+                </Card.Title>
+              </Card.Header>
                 <Card.Body>
-                    {(!data)||(socketState!=ReadyState.OPEN) ?
-                        <Skeleton count={5} height={15} />
-                        :
-                        <>
-                        <h4 className="header-title">TON Validators list</h4>
-                        <Table
-                            columns={columns}
-                            data={data}                        
-                            pageSize={10}
-                            sizePerPageList={sizePerPageList}
-                            isSortable={true}
-                            pagination={true}
-                        />
-                        </>
-                    }
+                  <Table
+                      columns={columns}
+                      data={tableData}                        
+                      pageSize={10}
+                      sizePerPageList={sizePerPageList}
+                      isSortable={true}
+                      pagination={true}
+                  />
                 </Card.Body>
             </Card>
         </>

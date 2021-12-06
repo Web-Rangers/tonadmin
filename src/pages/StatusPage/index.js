@@ -152,7 +152,8 @@ const StatusPage = (props): React$Element<React$FragmentType> => {
             <Row>
                 <Validators socketState={readyState} data={dataValidators} />
                 <Col lg={12}>
-                    <ValidatorsStatusList socketState={readyState} data={dataValidatorsList} />
+                    {(dataValidatorsList && readyState===ReadyState.OPEN) ? <ValidatorsStatusList socketState={readyState} data={dataValidatorsList} />
+                    :<Card> <Card.Body> <Skeleton count={5} height={15} /> </Card.Body> </Card> }
                 </Col>
             </Row>
             <Row>
