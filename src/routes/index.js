@@ -151,7 +151,7 @@ const analyticRoutes = [
 
 const commonRoutes = [
     {
-        path: '/statuspage',
+        path: '/status',
         name: 'Status of TON network',
         component: StatusPage,
         route: Route,
