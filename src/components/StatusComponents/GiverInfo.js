@@ -13,6 +13,11 @@ const columns = [
         accessor: 'balance',
         sort: true,
     },
+    {
+        Header: 'USD',
+        accessor: 'usd',
+        sort: true,
+    }
 
 ];
 
@@ -33,8 +38,7 @@ const sizePerPageList = [
 
 export default function GiverInfo() {
     const [data, setData] = useState([])
-
-    useEffect(() => {
+    useEffect(async () => {
         const url = `${process.env.REACT_APP_SERVER_URL}/api/v1/metric/givers`;
         const headers = new Headers();
         headers.append('Content-Type', 'application/json');
@@ -44,15 +48,17 @@ export default function GiverInfo() {
             headers: headers,
             credentials: "include",
         }
+        const prices = await fetch('https://ton.org/getpriceg/').then(res => res.json());
         fetch(url, request)
             .then(async (response) => {
                 const data = await response.json();
                 const tableData = []
                 Object.entries(data.result.givers).forEach(([key, value]) => {
-                    console.log(key, value);
+                    // console.log(key, value);
                     tableData.push({
                         address: <a href={`https://ton.sh/address/${key}`} target="_blank">{key}</a>,
-                        balance: `${value} TON`
+                        balance: `${value.toFixed(2)} TON`,
+                        usd: `${(value * prices['the-open-network'].usd).toFixed(2)} USD`,
                     })
                 })
                 setData(tableData);
