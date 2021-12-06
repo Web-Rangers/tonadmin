@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Row, Col, Card, Collapse, Button, Modal, Alert } from 'react-bootstrap';
 import useWebSocket, { ReadyState } from 'react-use-websocket';
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
@@ -48,6 +48,8 @@ const LiteServersPerformance = ({socketState, data}) => {
     const [modal, setModal] = useState(false)
     const [chartData, setChartData] = useState()
     const [isActiveChart, setIsActiveChart] = useState('1m')
+    const [tableData, setTableData] = useState(data)
+    const update = useRef(false)
     const currentServer = useRef({ip: '', port: ''})
 
     function showModal(info){
@@ -55,6 +57,12 @@ const LiteServersPerformance = ({socketState, data}) => {
         currentServer.current = {ip: info.ip, port: info.port};
         updateChart('d', 1)
     }
+    
+    useEffect(()=>{
+        if(update.current){
+            setTableData(data);
+        }
+    }, data)
 
     function updateChart(time_period, time_value){
         const url = `${process.env.REACT_APP_SERVER_URL}/api/v1/chart/server/server_chart?ip=${currentServer.current.ip}&port=${currentServer.current.port}&time_period=${time_period}&time_value=${time_value}`;
@@ -147,11 +155,22 @@ const LiteServersPerformance = ({socketState, data}) => {
                 </Modal.Body>
             </Modal>
             <Card>
+                <Card.Header>
+                    <Card.Title>
+                        <Row>
+                            <Col lg={10}>
+                                <h4 className="header-title">Public LiteServers performance</h4>
+                            </Col>
+                            <Col lg={2}>
+                                <Button variant={update.current ? "primary" : "danger"} onClick={()=>{update.current = !update.current}}>Live update {update.current? 'ON':'OFF'} </Button>
+                            </Col>
+                        </Row>
+                    </Card.Title>
+                </Card.Header>
                 <Card.Body>
-                    <h4 className="header-title">Public LiteServers performance</h4>
                     <Table
                         columns={columns}
-                        data={data}
+                        data={tableData}
                         pageSize={10}
                         sizePerPageList={sizePerPageList}
                         isSortable={true}
