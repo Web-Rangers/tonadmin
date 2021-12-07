@@ -82,7 +82,7 @@ function Wallet({ value }) {
 
 const ValidatorsStatusList = ({socketState, data}) => {
   const [tableData, setTableData] = useState(data)
-  const update = useRef(false)
+  const update = useRef(true)
 
   useEffect(()=>{
     if(update.current){

@@ -49,7 +49,7 @@ const LiteServersPerformance = ({socketState, data}) => {
     const [chartData, setChartData] = useState()
     const [isActiveChart, setIsActiveChart] = useState('1m')
     const [tableData, setTableData] = useState(data)
-    const update = useRef(false)
+    const update = useRef(true)
     const currentServer = useRef({ip: '', port: ''})
 
     function showModal(info){
