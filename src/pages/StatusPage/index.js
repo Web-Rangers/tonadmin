@@ -118,17 +118,38 @@ const StatusPage = (props): React$Element<React$FragmentType> => {
             </Row>
             <Row>
                 {serversStatusResponse ? serversStatusResponse.map((server, index) => <Col key={`status_${index}`} lg={4} md={6}><ServerStatusList socketState={readyState} serverStatusData={server} /></Col>) : <Col lg={12}><Card className='widget-flat'><Card.Body><SkeletonTheme><Skeleton count={5} /></SkeletonTheme></Card.Body></Card></Col>}
+            </Row>            
+            <Row style={{marginTop:"-24px"}}>
+                <Col>
+                    <div className="page-title-box">
+                        <h4 className="page-title" >Network activities</h4>
+                    </div>
+                </Col>
+            </Row>
+            <Row>                
+                <Col lg={4}>
+                    <ElectionsStatus socketState={readyState} data={dataElections} />
+                </Col>
+                <Col lg={4}>
+                    <ConfigVotings socketState={readyState} data={dataVoting} />
+                </Col>
+                <Col lg={4}>
+                    <SlashingData socketState={readyState} data={dataComplaints} />
+                </Col>
             </Row>
             <Row style={{marginTop:"-24px"}}>
                 <Col>
                     <div className="page-title-box">
-                        <h4 className="page-title" >Elections</h4>
+                        <h4 className="page-title" >Blocks</h4>
                     </div>
                 </Col>
             </Row>
             <Row>
                 <Col lg={4}>
-                    <ElectionsStatus socketState={readyState} data={dataElections} />
+                    <LastBlock socketState={readyState} data={dataLastBlock} />
+                </Col>
+                <Col lg={4}>
+                    <TPSinfo socketState={readyState} data={dataTPS} />
                 </Col>
             </Row>
             <Row style={{marginTop:"-24px"}}>
@@ -155,36 +176,6 @@ const StatusPage = (props): React$Element<React$FragmentType> => {
             <Row>
                 <Col lg={12}>
                     <GiverInfo/>
-                </Col>
-            </Row>
-            <Row style={{marginTop:"-24px"}}>
-                <Col>
-                    <div className="page-title-box">
-                        <h4 className="page-title" >Blocks</h4>
-                    </div>
-                </Col>
-            </Row>
-            <Row>
-                <Col lg={4}>
-                    <LastBlock socketState={readyState} data={dataLastBlock} />
-                </Col>
-                <Col lg={4}>
-                    <TPSinfo socketState={readyState} data={dataTPS} />
-                </Col>
-            </Row>
-            <Row style={{marginTop:"-24px"}}>
-                <Col>
-                    <div className="page-title-box">
-                        <h4 className="page-title" >Network actions</h4>
-                    </div>
-                </Col>
-            </Row>
-            <Row>
-                <Col lg={4}>
-                    <ConfigVotings socketState={readyState} data={dataVoting} />
-                </Col>
-                <Col lg={4}>
-                    <SlashingData socketState={readyState} data={dataComplaints} />
                 </Col>
             </Row>
         </>
