@@ -20,6 +20,7 @@ import Validators from '../../components/StatusComponents/Validators.js';
 import LastBlock from '../../components/StatusComponents/LastBlock.js';
 import ValidatorsStatusList from '../../components/StatusComponents/ValidatorsStatusList.js';
 import GiverInfo from '../../components/StatusComponents/GiverInfo.js';
+import TPSinfo from '../../components/StatusComponents/TPSinfo.js';
 
 
 const StatusPage = (props): React$Element<React$FragmentType> => {
@@ -52,6 +53,7 @@ const StatusPage = (props): React$Element<React$FragmentType> => {
     const [dataComplaints,setDataComplaints] = useState();
     const [dataLastBlock,setDataLastBlock] = useState();
     const [dataBlocks,setDataBlocks] = useState();
+    const [dataTPS,setDataTPS] = useState();
 
     useEffect(() => {},[readyState])
 
@@ -97,6 +99,7 @@ const StatusPage = (props): React$Element<React$FragmentType> => {
                 setDataComplaints(lastmsgJSON.complaints);
                 setDataLastBlock(lastmsgJSON.last_block);
                 setDataBlocks(lastmsgJSON.blocks);
+                setDataTPS(lastmsgJSON.tpsAvg[0]);
             }
             catch (error) {
                 console.error(error);
@@ -126,12 +129,6 @@ const StatusPage = (props): React$Element<React$FragmentType> => {
             <Row>
                 <Col lg={4}>
                     <ElectionsStatus socketState={readyState} data={dataElections} />
-                </Col>
-                <Col lg={4}>
-                    <ConfigVotings socketState={readyState} data={dataVoting} />
-                </Col>
-                <Col lg={4}>
-                    <SlashingData socketState={readyState} data={dataComplaints} />
                 </Col>
             </Row>
             <Row style={{marginTop:"-24px"}}>
@@ -170,6 +167,24 @@ const StatusPage = (props): React$Element<React$FragmentType> => {
             <Row>
                 <Col lg={4}>
                     <LastBlock socketState={readyState} data={dataLastBlock} />
+                </Col>
+                <Col lg={4}>
+                    <TPSinfo socketState={readyState} data={dataTPS} />
+                </Col>
+            </Row>
+            <Row style={{marginTop:"-24px"}}>
+                <Col>
+                    <div className="page-title-box">
+                        <h4 className="page-title" >Network actions</h4>
+                    </div>
+                </Col>
+            </Row>
+            <Row>
+                <Col lg={4}>
+                    <ConfigVotings socketState={readyState} data={dataVoting} />
+                </Col>
+                <Col lg={4}>
+                    <SlashingData socketState={readyState} data={dataComplaints} />
                 </Col>
             </Row>
         </>
