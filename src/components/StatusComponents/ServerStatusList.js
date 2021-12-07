@@ -45,7 +45,15 @@ const PagesList = ({item, pagesData}) => {
                     chartData.push(formatChartData(time, value))
                 })
                 currentPage.current={service: service_name, page: page_name}
-                setChartData(chartData)
+                setChartData(chartData.sort(function (a, b) {
+                    if (a.timeForSort < b.timeForSort) {
+                      return -1;
+                    }
+                    if (a.timeForSort > b.timeForSort) {
+                      return 1;
+                    }
+                    return 0;
+                }))
                 setIsActiveChart(`${time_value}${time_period}`)
                 setModal(true)
             })
@@ -76,12 +84,11 @@ const PagesList = ({item, pagesData}) => {
                     chartData.push(formatChartData(time, value))
                 })
                 setChartData(chartData.sort(function (a, b) {
-                    console.log('a '+a.timeForSort+' b '+b.timeForSort);
                     if (a.timeForSort < b.timeForSort) {
-                      return 1;
+                      return -1;
                     }
                     if (a.timeForSort > b.timeForSort) {
-                      return -1;
+                      return 1;
                     }
                     return 0;
                 }))
@@ -142,7 +149,7 @@ const PagesList = ({item, pagesData}) => {
                             }}
                         >
                             {/* <CartesianGrid /> */}
-                            <XAxis reversed stroke="#adb5bd" dataKey="x" fontSize="12px" />
+                            <XAxis stroke="#adb5bd" dataKey="x" fontSize="12px" />
                             <YAxis stroke="#adb5bd" dataKey="ping" fontSize="12px" />
                             <Tooltip />
                             {/* <Legend /> */}
@@ -217,12 +224,11 @@ const ServerStatusList = ({socketState, serverStatusData}) => {
             let apexBarChartData = {
                 name: 'Response Time',
                 data: chartData.sort(function (a, b) {
-                    console.log('a '+a.timeForSort+' b '+b.timeForSort);
                     if (a.timeForSort < b.timeForSort) {
-                      return 1;
+                      return -1;
                     }
                     if (a.timeForSort > b.timeForSort) {
-                      return -1;
+                      return 1;
                     }
                     return 0;
                 }),

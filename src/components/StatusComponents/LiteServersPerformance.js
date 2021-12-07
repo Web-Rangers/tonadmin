@@ -82,10 +82,10 @@ const LiteServersPerformance = ({socketState, data}) => {
                 })
                 setChartData(chartData.sort(function (a, b) {
                     if (a.timeForSort < b.timeForSort) {
-                      return 1;
+                      return -1;
                     }
                     if (a.timeForSort > b.timeForSort) {
-                      return -1;
+                      return 1;
                     }
                     return 0;
                 }))
