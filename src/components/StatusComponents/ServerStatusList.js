@@ -75,7 +75,16 @@ const PagesList = ({item, pagesData}) => {
                     let time = new Date(new Date().getTime() - timestamp);
                     chartData.push(formatChartData(time, value))
                 })
-                setChartData(chartData.reverse())
+                setChartData(chartData.sort(function (a, b) {
+                    console.log('a '+a.timeForSort+' b '+b.timeForSort);
+                    if (a.timeForSort < b.timeForSort) {
+                      return 1;
+                    }
+                    if (a.timeForSort > b.timeForSort) {
+                      return -1;
+                    }
+                    return 0;
+                }))
                 setIsActiveChart(`${time_value}${time_period}`)
             })
             .catch(error => console.log('page chart error', error))   
@@ -207,7 +216,16 @@ const ServerStatusList = ({socketState, serverStatusData}) => {
             })
             let apexBarChartData = {
                 name: 'Response Time',
-                data: chartData.reverse(),
+                data: chartData.sort(function (a, b) {
+                    console.log('a '+a.timeForSort+' b '+b.timeForSort);
+                    if (a.timeForSort < b.timeForSort) {
+                      return 1;
+                    }
+                    if (a.timeForSort > b.timeForSort) {
+                      return -1;
+                    }
+                    return 0;
+                }),
             }
 
             setApexBarChartData(apexBarChartData);
@@ -307,5 +325,5 @@ const ServerStatusList = ({socketState, serverStatusData}) => {
 export default ServerStatusList;
 
 function formatChartData(time, value) {
-    return { 'x': `${time.getFullYear()}-${time.getMonth() + 1}-${time.getDate()} ${time.getHours()}:${time.getMinutes() < 10 ? "0" + time.getMinutes() : time.getMinutes()}`, 'ping': Math.round(value) };
+    return { 'x': `${time.getFullYear()}-${time.getMonth() + 1}-${time.getDate()} ${time.getHours()}:${time.getMinutes() < 10 ? "0" + time.getMinutes() : time.getMinutes()}`, 'ping': Math.round(value), 'timeForSort':time };
 }

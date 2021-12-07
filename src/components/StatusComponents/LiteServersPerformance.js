@@ -80,7 +80,15 @@ const LiteServersPerformance = ({socketState, data}) => {
                     let time = new Date(new Date().getTime() - timestamp);
                     chartData.push(formatChartData(time, value))
                 })
-                setChartData(chartData)
+                setChartData(chartData.sort(function (a, b) {
+                    if (a.timeForSort < b.timeForSort) {
+                      return 1;
+                    }
+                    if (a.timeForSort > b.timeForSort) {
+                      return -1;
+                    }
+                    return 0;
+                }))
                 setIsActiveChart(`${time_value}${time_period}`)
             })
             .catch(error => console.log('page chart error', error))
@@ -137,7 +145,7 @@ const LiteServersPerformance = ({socketState, data}) => {
                                 }}
                             >
                                 {/* <CartesianGrid /> */}
-                                <XAxis reversed stroke="#adb5bd" dataKey="x" fontSize="12px" />
+                                <XAxis stroke="#adb5bd" dataKey="x" fontSize="12px" />
                                 <YAxis stroke="#adb5bd" dataKey="ping" fontSize="12px" />
                                 <Tooltip />
                                 {/* <Legend /> */}
@@ -175,7 +183,7 @@ const LiteServersPerformance = ({socketState, data}) => {
 
 
 function formatChartData(time, value) {
-    return { 'x': `${time.getFullYear()}-${time.getMonth() + 1}-${time.getDate()} ${time.getHours()}:${time.getMinutes() < 10 ? "0" + time.getMinutes() : time.getMinutes()}`, 'ping': Math.round(value) };
+    return { 'x': `${time.getFullYear()}-${time.getMonth() + 1}-${time.getDate()} ${time.getHours()}:${time.getMinutes() < 10 ? "0" + time.getMinutes() : time.getMinutes()}`, 'ping': Math.round(value), 'timeForSort':time };
 }
 
 

@@ -90,7 +90,6 @@ const StatusPage = (props): React$Element<React$FragmentType> => {
                     if (a.efficiency < b.efficiency) {
                       return 1;
                     }
-                    // a должно быть равным b
                     return 0;
                 });
                 setDataValidatorsList(tableDataValidators);
