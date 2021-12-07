@@ -75,7 +75,7 @@ const PagesList = ({item, pagesData}) => {
                     let time = new Date(new Date().getTime() - timestamp);
                     chartData.push(formatChartData(time, value))
                 })
-                setChartData(chartData)
+                setChartData(chartData.reverse())
                 setIsActiveChart(`${time_value}${time_period}`)
             })
             .catch(error => console.log('page chart error', error))   
@@ -85,7 +85,7 @@ const PagesList = ({item, pagesData}) => {
         <>
         <Modal show={modal} onHide={() => setModal(false)}>
             <Modal.Header closeButton >
-                <h3>{currentPage.current.service}/{currentPage.current.page} </h3>
+                <h3>{currentPage.current.service}/{currentPage.current.page}</h3>
             </Modal.Header>
             <Modal.Body>
             <ul className="nav d-lg-flex mt-3">
@@ -124,6 +124,7 @@ const PagesList = ({item, pagesData}) => {
                     <ResponsiveContainer height={280}>
                         <LineChart
                             data={chartData}
+
                             margin={{
                                 top: 50,
                                 right: 20,
@@ -132,7 +133,7 @@ const PagesList = ({item, pagesData}) => {
                             }}
                         >
                             {/* <CartesianGrid /> */}
-                            <XAxis stroke="#adb5bd" dataKey="x" fontSize="12px" />
+                            <XAxis reversed stroke="#adb5bd" dataKey="x" fontSize="12px" />
                             <YAxis stroke="#adb5bd" dataKey="ping" fontSize="12px" />
                             <Tooltip />
                             {/* <Legend /> */}

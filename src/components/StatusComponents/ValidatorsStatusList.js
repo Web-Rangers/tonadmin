@@ -82,13 +82,6 @@ function Wallet({ value }) {
 
 const ValidatorsStatusList = ({socketState, data}) => {
   const [tableData, setTableData] = useState(data)
-  const update = useRef(true)
-
-  useEffect(()=>{
-    if(update.current){
-        setTableData(data);
-    }
-  }, data)
 
     return (
         <>
@@ -98,9 +91,6 @@ const ValidatorsStatusList = ({socketState, data}) => {
                   <Row>
                     <Col lg={10}>
                       <h4 className="mb-0">Validators Status</h4>
-                    </Col>
-                    <Col lg={2}>
-                      <Button variant={update.current ? "primary" : "danger"} onClick={()=>{update.current = !update.current}}>Live update {update.current? 'ON':'OFF'} </Button>
                     </Col>
                   </Row>
                 </Card.Title>
