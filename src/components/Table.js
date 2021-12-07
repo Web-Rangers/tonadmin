@@ -1,5 +1,5 @@
 // @flow
-import React, { useRef, useEffect, forwardRef } from 'react';
+import React, { useRef, useEffect, forwardRef, useMemo } from 'react';
 import {
     useTable,
     useSortBy,
@@ -87,7 +87,9 @@ const Table = (props: TableProps): React$Element<React$FragmentType> => {
         {
             columns: props['columns'],
             data: props['data'],
-            initialState: { pageSize: props['pageSize'] || 10 },
+            initialState: {pageSize: props['pageSize'] || 10 },
+            autoResetSortBy: false,
+            autoResetPage: false,
         },
         isSearchable && useGlobalFilter,
         isSortable && useSortBy,
@@ -148,7 +150,6 @@ const Table = (props: TableProps): React$Element<React$FragmentType> => {
                 ]);
         }
     );
-
     let rows = pagination ? dataTable.page : dataTable.rows;
 
     return (

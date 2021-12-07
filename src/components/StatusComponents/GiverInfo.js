@@ -48,7 +48,9 @@ export default function GiverInfo() {
             headers: headers,
             credentials: "include",
         }
-        const prices = await fetch('https://ton.org/getpriceg/').then(res => res.json());
+        const prices = await fetch('https://ton.org/getpriceg/')
+            .then(res => res.json())
+            .catch(err => console.log(err));
         fetch(url, request)
             .then(async (response) => {
                 const data = await response.json();

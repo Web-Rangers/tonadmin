@@ -91,6 +91,8 @@ const Table = (props: TableProps): React$Element<React$FragmentType> => {
             columns: props['columns'],
             data: props['data'],
             initialState: { pageSize: props['pageSize'] || 10 },
+            autoResetSortBy: false,
+            autoResetPage: false,
         },
         isSearchable && useGlobalFilter,
         isSortable && useSortBy,
