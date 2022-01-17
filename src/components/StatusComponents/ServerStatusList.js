@@ -22,7 +22,7 @@ const PagesList = ({item, pagesData}) => {
     };
 
     const showChart = async (service_name, page_name, time_period, time_value) =>{
-        const url = `${process.env.REACT_APP_SERVER_URL}/api/v1/chart/service/pagechart?service_name=${service_name}&page_name=${page_name}&time_period=${time_period}&time_value=${time_value}`;
+        const url = `${process.env.REACT_APP_SERVER_URL}/api/v1/chart/service/page_chart?service_name=${service_name}&page_name=${page_name}&time_period=${time_period}&time_value=${time_value}`;
         const headers = new Headers();
         headers.append('Content-Type', 'application/json');
         headers.append('Accept', 'application/json');
@@ -35,14 +35,14 @@ const PagesList = ({item, pagesData}) => {
             .then(async (response) => {
                 const data = await response.json();
                 let chartData = [];
-                Object.entries(data.result.chart).map(([key, value]) => {
-                    let timestamp = key+1;
+                data.result.forEach((entry) => {
+                    let timestamp = entry.date+1;
                     if (time_period === 'h') timestamp = timestamp*100*60
                     if (time_period === 'd') timestamp = timestamp*100*60*60
                     if (time_period === 'm') timestamp = timestamp*100*60*60*24
                     if (time_period === 'y') timestamp = timestamp*100*60*60*24*30
                     let time = new Date(new Date().getTime() - timestamp);
-                    chartData.push(formatChartData(time, value))
+                    chartData.push(formatChartData(time, entry.value))
                 })
                 currentPage.current={service: service_name, page: page_name}
                 setChartData(chartData.sort(function (a, b) {
@@ -62,7 +62,7 @@ const PagesList = ({item, pagesData}) => {
 
     function updateChart(time_period, time_value){
         time_value = Math.max(time_value)
-        const url = `${process.env.REACT_APP_SERVER_URL}/api/v1/chart/service/pagechart?service_name=${currentPage.current.service}&page_name=${currentPage.current.page}&time_period=${time_period}&time_value=${time_value}`;
+        const url = `${process.env.REACT_APP_SERVER_URL}/api/v1/chart/service/page_chart?service_name=${currentPage.current.service}&page_name=${currentPage.current.page}&time_period=${time_period}&time_value=${time_value}`;
         const headers = new Headers();
         headers.append('Content-Type', 'application/json');
         headers.append('Accept', 'application/json');
@@ -75,14 +75,14 @@ const PagesList = ({item, pagesData}) => {
             .then(async (response) => {
                 const data = await response.json();
                 let chartData = [];
-                Object.entries(data.result.chart).map(([key, value]) => {
-                    let timestamp = key+1;
+                data.result.forEach((value) => {
+                    let timestamp = value.data+1;
                     if (time_period === 'h') timestamp = timestamp*100*60
                     if (time_period === 'd') timestamp = timestamp*100*60*60
                     if (time_period === 'm') timestamp = timestamp*100*60*60*24
                     if (time_period === 'y') timestamp = timestamp*100*60*60*24*30
                     let time = new Date(new Date().getTime() - timestamp);
-                    chartData.push(formatChartData(time, value))
+                    chartData.push(formatChartData(time, value.value))
                 })
                 setChartData(chartData.sort(function (a, b) {
                     if (a.timeForSort < b.timeForSort) {
@@ -210,17 +210,16 @@ const ServerStatusList = ({socketState, serverStatusData}) => {
         }
         fetch(url, request).then(async response => {
             let data = await response.json();
-            data = data.result.chart;
-            
+            data = data.result;
             let chartData = [];
-            Object.entries(data).map(([key, value]) => {
-                let timestamp = key+1;
+            data.forEach((value) => {
+                let timestamp = value.data+1;
                 if (time_period === 'h') timestamp = timestamp*100*60
                 if (time_period === 'd') timestamp = timestamp*100*60*60
                 if (time_period === 'm') timestamp = timestamp*100*60*60*24
                 if (time_period === 'y') timestamp = timestamp*100*60*60*24*30
                 let time = new Date(new Date().getTime() - timestamp);
-                chartData.push(formatChartData(time, value))
+                chartData.push(formatChartData(time, value.value))
             })
             let apexBarChartData = {
                 name: 'Response Time',

@@ -59,18 +59,17 @@ const StatusPage = (props): React$Element<React$FragmentType> => {
 
     useEffect(() => {
         if (lastMessage) {
-            // console.log( JSON.parse(lastMessage.data));
             try{
                 var lastmsgJSON = JSON.parse(lastMessage.data);
                 setMessageHistory(prev => prev.concat(lastMessage));
-                setServersStatusResponse(lastmsgJSON.services);
-                var liteservers = lastmsgJSON.liteservers.map((server) => {return {ip:server.ip,port:server.port,time:server.time ? server.time.toFixed(0)+"ms" : "offline"}});
+                setServersStatusResponse(lastmsgJSON.services?lastmsgJSON.services:serversStatusResponse);
+                var liteservers = lastmsgJSON.liteservers?lastmsgJSON.liteservers.map((server) => {return {ip:server.ip,port:server.port,time:server.time ? server.time.toFixed(0)+"ms" : "offline"}}):dataLT;
                 setDataLT(liteservers);
-                setDataElections({electionId:lastmsgJSON.electionId,start:lastmsgJSON.startElection,next:lastmsgJSON.startNextElection,end:lastmsgJSON.endElection});
-                setDataBridges(lastmsgJSON.bridge);
-                setDataValidators({active:lastmsgJSON.onlineValidators ? lastmsgJSON.onlineValidators : 0,total:lastmsgJSON.totalValidators ? lastmsgJSON.totalValidators : 0});
+                setDataElections(lastmsgJSON.electionId?{electionId:lastmsgJSON.electionId,start:lastmsgJSON.startElection,next:lastmsgJSON.startNextElection,end:lastmsgJSON.endElection}:dataElections);
+                // setDataBridges(lastmsgJSON.bridge);
+                setDataValidators(lastmsgJSON.onlineValidators&lastmsgJSON.total?{active:lastmsgJSON.onlineValidators ? lastmsgJSON.onlineValidators : 0,total:lastmsgJSON.totalValidators ? lastmsgJSON.totalValidators : 0}:dataValidators);
                 
-                let ValidatorsResponse = lastmsgJSON.validators;
+                let ValidatorsResponse = lastmsgJSON.validators ?lastmsgJSON.validators:[];
                 let tableDataValidators = [];
                 let totalWeight = 0
                 Object.keys(ValidatorsResponse).forEach(row => {
@@ -95,11 +94,11 @@ const StatusPage = (props): React$Element<React$FragmentType> => {
                     return 0;
                 });
                 setDataValidatorsList(tableDataValidators);
-                setDataVoting(lastmsgJSON.offers);
-                setDataComplaints(lastmsgJSON.complaints);
-                setDataLastBlock(lastmsgJSON.last_block);
+                setDataVoting(lastmsgJSON.offers?lastmsgJSON.offers:dataVoting);
+                setDataComplaints(lastmsgJSON.complaints?lastmsgJSON.complaints:dataComplaints);
+                setDataLastBlock(lastmsgJSON.last_block?lastmsgJSON.last_block:dataLastBlock);
                 setDataBlocks(lastmsgJSON.blocks);
-                setDataTPS(lastmsgJSON.tpsAvg[0]);
+                setDataTPS(lastmsgJSON.tpsAvg?lastmsgJSON.tpsAvg:dataTPS);
             }
             catch (error) {
                 console.error(error);

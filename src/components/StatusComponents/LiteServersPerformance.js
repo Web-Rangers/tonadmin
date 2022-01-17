@@ -48,7 +48,7 @@ const LiteServersPerformance = ({socketState, data}) => {
     const [modal, setModal] = useState(false)
     const [chartData, setChartData] = useState()
     const [isActiveChart, setIsActiveChart] = useState('1m')
-    const [tableData, setTableData] = useState(data)
+    // const [tableData, setTableData] = useState(data)
     const currentServer = useRef({ip: '', port: ''})
 
     function showModal(info){
@@ -71,14 +71,14 @@ const LiteServersPerformance = ({socketState, data}) => {
             .then(async (response) => {
                 const data = await response.json();
                 let chartData = [];
-                Object.entries(data.result.chart).map(([key, value]) => {
-                    let timestamp = key+1;
+                data.result.forEach(value => {
+                    let timestamp = value.data+1;
                     if (time_period === 'h') timestamp = timestamp*100*60
                     if (time_period === 'd') timestamp = timestamp*100*60*60
                     if (time_period === 'm') timestamp = timestamp*100*60*60*24
                     if (time_period === 'y') timestamp = timestamp*100*60*60*24*30
                     let time = new Date(new Date().getTime() - timestamp);
-                    chartData.push(formatChartData(time, value))
+                    chartData.push(formatChartData(time, value.value))
                 })
                 setChartData(chartData.sort(function (a, b) {
                     if (a.timeForSort < b.timeForSort) {
@@ -168,7 +168,7 @@ const LiteServersPerformance = ({socketState, data}) => {
                 <Card.Body>
                     <Table
                         columns={columns}
-                        data={tableData}
+                        data={data}
                         pageSize={10}
                         sizePerPageList={sizePerPageList}
                         isSortable={true}

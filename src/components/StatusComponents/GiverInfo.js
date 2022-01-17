@@ -39,7 +39,7 @@ const sizePerPageList = [
 export default function GiverInfo() {
     const [data, setData] = useState([])
     useEffect(async () => {
-        const url = `${process.env.REACT_APP_SERVER_URL}/api/v1/metric/givers`;
+        const url = `${process.env.REACT_APP_SERVER_URL}/api/v1/status/givers`;
         const headers = new Headers();
         headers.append('Content-Type', 'application/json');
         headers.append('Accept', 'application/json');
