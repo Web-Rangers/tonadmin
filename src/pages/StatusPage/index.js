@@ -67,7 +67,7 @@ const StatusPage = (props): React$Element<React$FragmentType> => {
                 setDataLT(liteservers);
                 setDataElections(lastmsgJSON.electionId?{electionId:lastmsgJSON.electionId,start:lastmsgJSON.startElection,next:lastmsgJSON.startNextElection,end:lastmsgJSON.endElection}:dataElections);
                 // setDataBridges(lastmsgJSON.bridge);
-                setDataValidators(lastmsgJSON.onlineValidators&lastmsgJSON.total?{active:lastmsgJSON.onlineValidators ? lastmsgJSON.onlineValidators : 0,total:lastmsgJSON.totalValidators ? lastmsgJSON.totalValidators : 0}:dataValidators);
+                setDataValidators(lastmsgJSON.onlineValidators&lastmsgJSON.totalValidators?{active:lastmsgJSON.onlineValidators ? lastmsgJSON.onlineValidators : 0,total:lastmsgJSON.totalValidators ? lastmsgJSON.totalValidators : 0}:dataValidators);
                 
                 let ValidatorsResponse = lastmsgJSON.validators ?lastmsgJSON.validators:[];
                 let tableDataValidators = [];
