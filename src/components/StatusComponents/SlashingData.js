@@ -12,7 +12,6 @@ const ComplaintsList = ({item, complaintsData}) => {
     const toggle = () => {
         setOpen((prevState) => !prevState);
     };
-
     return (
         complaintsData ?
             <>

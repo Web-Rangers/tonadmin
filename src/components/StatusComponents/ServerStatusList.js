@@ -36,11 +36,11 @@ const PagesList = ({item, pagesData}) => {
                 const data = await response.json();
                 let chartData = [];
                 data.result.forEach((entry) => {
-                    let timestamp = entry.date+1;
-                    if (time_period === 'h') timestamp = timestamp*100*60
-                    if (time_period === 'd') timestamp = timestamp*100*60*60
-                    if (time_period === 'm') timestamp = timestamp*100*60*60*24
-                    if (time_period === 'y') timestamp = timestamp*100*60*60*24*30
+                    let timestamp = Number(entry.date)+1;
+                    if (time_period === 'h') timestamp = timestamp*1000*60
+                    if (time_period === 'd') timestamp = timestamp*1000*60*60
+                    if (time_period === 'm') timestamp = timestamp*1000*60*60*24
+                    if (time_period === 'y') timestamp = timestamp*1000*60*60*24*30
                     let time = new Date(new Date().getTime() - timestamp);
                     chartData.push(formatChartData(time, entry.value))
                 })
@@ -76,11 +76,11 @@ const PagesList = ({item, pagesData}) => {
                 const data = await response.json();
                 let chartData = [];
                 data.result.forEach((value) => {
-                    let timestamp = value.data+1;
-                    if (time_period === 'h') timestamp = timestamp*100*60
-                    if (time_period === 'd') timestamp = timestamp*100*60*60
-                    if (time_period === 'm') timestamp = timestamp*100*60*60*24
-                    if (time_period === 'y') timestamp = timestamp*100*60*60*24*30
+                    let timestamp = Number(value.date)+1;
+                    if (time_period === 'h') timestamp = timestamp*1000*60
+                    if (time_period === 'd') timestamp = timestamp*1000*60*60
+                    if (time_period === 'm') timestamp = timestamp*1000*60*60*24
+                    if (time_period === 'y') timestamp = timestamp*1000*60*60*24*30
                     let time = new Date(new Date().getTime() - timestamp);
                     chartData.push(formatChartData(time, value.value))
                 })
@@ -213,11 +213,11 @@ const ServerStatusList = ({socketState, serverStatusData}) => {
             data = data.result;
             let chartData = [];
             data.forEach((value) => {
-                let timestamp = value.data+1;
-                if (time_period === 'h') timestamp = timestamp*100*60
-                if (time_period === 'd') timestamp = timestamp*100*60*60
-                if (time_period === 'm') timestamp = timestamp*100*60*60*24
-                if (time_period === 'y') timestamp = timestamp*100*60*60*24*30
+                let timestamp = Number(value.date)+1;
+                if (time_period === 'h') timestamp = timestamp*1000*60
+                if (time_period === 'd') timestamp = timestamp*1000*60*60
+                if (time_period === 'm') timestamp = timestamp*1000*60*60*24
+                if (time_period === 'y') timestamp = timestamp*1000*60*60*24*30
                 let time = new Date(new Date().getTime() - timestamp);
                 chartData.push(formatChartData(time, value.value))
             })
