@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Card } from 'react-bootstrap'
+import shortenNumber from '../../functions/shortenNumber';
 import Table from '../Table';
 
 const columns = [
@@ -59,8 +60,8 @@ export default function GiverInfo() {
                     // console.log(key, value);
                     tableData.push({
                         address: <a href={`https://ton.sh/address/${key}`} target="_blank">{key}</a>,
-                        balance: `${value.toFixed(2)} TON`,
-                        usd: `${(value * prices['the-open-network'].usd).toFixed(2)} USD`,
+                        balance: `${shortenNumber(value.toFixed(2))} TON`,
+                        usd: `${shortenNumber(value * prices['the-open-network'].usd)} USD`,
                     })
                 })
                 setData(tableData);
