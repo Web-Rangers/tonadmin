@@ -30,7 +30,7 @@ const Statistics = (props): React$Element<React$FragmentType> => {
         for(let item of data.data){
            maxHash = (item[0] > maxHash) ? item[0] : maxHash;
         }
-        setHash((maxHash/10**9).toFixed(0))
+        setHash((maxHash/10**12).toFixed(0))
       })
 
       let price = await api.get("https://ton.org/getpriceg/")
@@ -41,25 +41,7 @@ const Statistics = (props): React$Element<React$FragmentType> => {
 
     return (
         <>
-        <Col xs={12} sm={6} md={3}>
-          {!statusdata ?
-            <Card className="tilebox-one">
-              <Card.Body>
-                <SkeletonTheme >
-                    <Skeleton count={4} />
-                </SkeletonTheme>
-              </Card.Body>
-            </Card>
-            :
-            <StatisticsWidget
-                icon={`mdi mdi-pickaxe bg-white ${(statusdata.minerAddr && statusdata.powAddr) ? "text-success" : "text-warning"}`}
-                description="Mining"
-                title="Mining status"
-                stats={(statusdata.minerAddr && statusdata.powAddr) ? "Mining" : "Not mining"}
-                bgclassName={(statusdata.minerAddr && statusdata.powAddr) ? "bg-success" : "bg-warning"}
-                textClass="text-white"></StatisticsWidget>
-              }
-          </Col>
+      
           <Col xs={12} sm={6} md={3}>
               {!statusdata ?
                 <Card className="tilebox-one">
@@ -98,7 +80,7 @@ const Statistics = (props): React$Element<React$FragmentType> => {
                       <i className=" mdi mdi-chart-timeline-variant float-end"></i>
                       <h6 className="text-uppercase mt-0">Network hashrate</h6>
                       <h2 className="my-2" id="active-users-count">
-                          {hash ? hash : 0} Gh/s
+                          {hash ? hash : 0} Th/s
                       </h2>
                       <p className="mb-0 text-muted">
                           <span className="text-nowrap">Today's max hashrate</span>
@@ -107,22 +89,7 @@ const Statistics = (props): React$Element<React$FragmentType> => {
               </Card>
             }
           </Col>
-          <Col xs={12} sm={6} md={3}>
-            <Card className="tilebox-one">
-                <Card.Body>
-                    <h6 className="text-uppercase mt-0">Today's winning</h6>
-                    <h2 className="my-2" id="active-users-count">
-                        <div>
-                            <span style={{float: 'left', fontSize: 28}}>{income ? income : '0'}</span>
-                            <Lottie className="diamond" style={{width: 25, display: 'inline-block', marginLeft: 4}} animationData={diamondAnimation} />
-                         </div>
-                    </h2>
-                    <p className="mb-0 text-muted">
-                        <span className="text-nowrap">Lambo is so close..</span>
-                    </p>
-                </Card.Body>
-            </Card>
-          </Col>
+
         </>
     );
 };

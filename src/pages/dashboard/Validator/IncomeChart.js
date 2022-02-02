@@ -11,7 +11,7 @@ import { APICore } from '../../../helpers/api/apiCore';
 import Spinner from '../../../components/Spinner';
 
 const api = new APICore();
-const tonweb = new TonWeb()
+const tonweb = new TonWeb(new TonWeb.HttpProvider('https://wallet.toncenter.com/api/v2/jsonRPC'))
 const Address = tonweb.utils.Address;
 
 const IncomeChart = (props): React$Element<React$FragmentType> => {
@@ -94,21 +94,21 @@ const IncomeChart = (props): React$Element<React$FragmentType> => {
     const updateChart = async () => {
       let validatorAddress = props.validatorAddress;
 
-      let txs = localStorage.getItem('earnings@' + validatorAddress)
+      //let txs = localStorage.getItem('earnings@' + validatorAddress)
       // localStorage.removeItem('earnings@' + validatorAddress)
-
+      let txs
       if(txs && JSON.parse(txs) && JSON.parse(txs).length > 0){
         txs = JSON.parse(txs)
-        let newtxs = await tonweb.getTransactions(validatorAddress, 400, null, null, txs[0].transaction_id.lt);
-        if(newtxs.length > 0 ){
+    /*    let newtxs = await tonweb.getTransactions(validatorAddress, 200, null, null, txs[txs.length-1].transaction_id.lt, true);
+        if(newtxs.length > 1 ){
           txs = newtxs.concat(txs);
-        }
+        }*/
       }else{
 
         let lt = null, txhash = null;
         txs = [];
         do {
-           txs = txs.concat(await tonweb.getTransactions(validatorAddress, 400, lt, txhash))
+           txs = txs.concat(await tonweb.getTransactions(validatorAddress, 200, lt, txhash, undefined, true))
            if(txs.length > 0){
              lt = Number(txs[txs.length-1].transaction_id.lt)
              txhash = tonweb.utils.bytesToHex(tonweb.utils.base64ToBytes(txs[txs.length-1].transaction_id.hash))
@@ -116,7 +116,7 @@ const IncomeChart = (props): React$Element<React$FragmentType> => {
              break;
              setLoading(false)
            }
-        } while (txs[0].utime < (Math.floor(Date.now() / 1000) - 2628000) )
+        } while (txs[0].utime < (Math.floor(Date.now() / 1000) - 604800) )
       }
       if(txs.length > 0){
         let txDataArray = []
@@ -127,6 +127,7 @@ const IncomeChart = (props): React$Element<React$FragmentType> => {
           }
         }
         buildChart(txDataArray);
+        console.log(txDataArray)
         localStorage.setItem('earnings@' + validatorAddress, JSON.stringify(txDataArray))
       }else{
         setLoading(false)
@@ -217,6 +218,7 @@ const IncomeChart = (props): React$Element<React$FragmentType> => {
       }
     }
     useEffect(() => {
+
       if(props.validatorAddress && loading){
         updateChart()
       }

@@ -77,15 +77,7 @@ const MinerDashboardPage = (): React$Element<React$FragmentType> => {
             <Row>
                   <Statistics statusData={statusdata} wallets={wallets}/>
             </Row>
-            <Row>
-              <Col xs={12} >
-                  {statusdata.minerAddr ?
-                  <IncomeChart wallet={statusdata.minerAddr}/>
-                  :
-                  <IncomeChart/>
-                  }
-              </Col>
-            </Row>
+
             <Row>
               <Col xs={12} >
                   <HashrateChart/>
@@ -99,11 +91,7 @@ const MinerDashboardPage = (): React$Element<React$FragmentType> => {
                   <Wallets changeWallets={setWallets} />
               </Col>
             </Row>
-            <Row>
-              <Col lg={12}>
-                  <History wallet={statusdata.minerAddr} />
-              </Col>
-            </Row>
+        
         </>
     );
 };

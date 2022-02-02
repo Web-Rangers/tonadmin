@@ -61,7 +61,7 @@ class HashrateChart extends React.Component{
         yaxis: {
             labels: {
                 formatter: function (val) {
-                    return (val/10**12).toFixed(0) + ' Th/s';
+                    return val.toFixed(0) + " TONS";
                 },
                 offsetX: -15,
             },
@@ -81,7 +81,7 @@ class HashrateChart extends React.Component{
 
     let apexBarChartData = [
         {
-            name: 'Hashrate',
+            name: 'Income',
             data: [],
         },
     ];
@@ -90,39 +90,36 @@ class HashrateChart extends React.Component{
       apexBarChartData,
       apexBarChartOpts,
       loading: true,
+      wallet: props.wallet,
       labelsArray: []
     }
+
   }
 
 
 
   componentDidMount(){
-
-    this.updateChart('1month')
-
+    if(localStorage.getItem('validatorAddress') || props.wallet){
+        this.updateChart('m', 1)
+    }
   }
 
-  async updateChart(period){
+  async updateChart(period, value){
     let chartData = []
-    api.get(window.location.protocol + "//ton.swisscops.com/statistics/jsons/hashrate_"+period + '.json').then(response => {
-      let data = JSON.parse(response.data.replace(/[\n\r\t]/g,""));
-      let start = data.meta.start;
-      let step = data.meta.step;
-      for(let item of data.data){
-        if(item[0]){
-          chartData.push({'x': new Date(start * 1000), 'y' : item[0]})
-        }
-        start += step;
+    api.get("/api/v1/chart/validator?wallet="+this.state.wallet+"&time_period=" + period + "&time_value=" + value).then(response => {
+      let data = response.data.result
+      for(let item of data){
+          chartData.push({'x': new Date(item.date * 1000), 'y' : item.value})
       }
 
       let apexBarChartData = [
           {
-              name: 'Hashrate',
+              name: 'Income',
               data: chartData,
           },
       ];
 
-      this.setState({apexBarChartData, isActiveChart: period, loading: false})
+      this.setState({apexBarChartData, isActiveChart: period + value, loading: false})
     })
 
   }
@@ -136,37 +133,31 @@ class HashrateChart extends React.Component{
             <Card.Body>
                 <ul className="nav float-end d-none d-lg-flex">
                     <li className="nav-item">
-                        <button className={`nav-link ${isActiveChart == '1day' ? "active" : "text-muted"}`} onClick={() => this.updateChart('1day') }>
-                            1d
-                        </button>
-                    </li>
-                    <li className="nav-item">
-                        <button className={`nav-link ${isActiveChart == '1week' ? "active" : "text-muted"}`} onClick={() => this.updateChart('1week') } >
+                        <button className={`nav-link ${isActiveChart == 'd7' ? "active" : "text-muted"}`} onClick={() => this.updateChart('h', 168) } >
                             7d
                         </button>
                     </li>
                     <li className="nav-item">
-                        <button className={`nav-link ${isActiveChart == '1month' ? "active" : "text-muted"}`} onClick={() => this.updateChart('1month') } >
+                        <button className={`nav-link ${isActiveChart == 'm1' ? "active" : "text-muted"}`} onClick={() => this.updateChart('m', 1) } >
                             1m
                         </button>
                     </li>
                     <li className="nav-item">
-                        <button className={`nav-link ${isActiveChart == '3month' ? "active" : "text-muted"}`} onClick={() => this.updateChart('3month') } >
+                        <button className={`nav-link ${isActiveChart == 'm3' ? "active" : "text-muted"}`} onClick={() => this.updateChart('m', 3) } >
                             3m
                         </button>
                     </li>
                     <li className="nav-item">
-                        <button className={`nav-link ${isActiveChart == '6months' ? "active" : "text-muted"}`} onClick={() => this.updateChart('6months') } >
-                            6m
+                        <button className={`nav-link ${isActiveChart == 'y1' ? "active" : "text-muted"}`} onClick={() => this.updateChart('y', 1) } >
+                            1y
                         </button>
                     </li>
                 </ul>
 
-                <h4 className="header-title mb-3">Network hashrate Overview</h4>
+                <h4 className="header-title mb-3">Validator earnings overview</h4>
                   {loading ?
                     <div style={{position: "absolute", left: "calc(50% - 50px)", top: "calc(50% - 50px)"}}>
                       <Lottie style={{width: 100, display: 'inline-block'}} animationData={stonksAnimation} />
-                      {/*<Spinner color="light" type="grow" />*/}
                     </div>
                     :
                     <Chart
@@ -177,8 +168,6 @@ class HashrateChart extends React.Component{
                         height={550}
                     />
                   }
-
-
             </Card.Body>
         </Card>
     );

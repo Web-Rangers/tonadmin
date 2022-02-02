@@ -69,13 +69,19 @@ axios.interceptors.response.use(
     (error) => {
         let message;
         if (error && error.response && error.response.status === 404) {
-
+          console.log('Not found')
         } else if (error && error.response && error.response.status === 403) {
-            window.location.href = '/access-denied';
+            window.location.href = '/account/login';
         } else {
             switch (!error.response || error.response.status) {
                 case 401:
                     message = 'Invalid credentials';
+                    break;
+                case 500:
+                    message = 'Server error';
+                    break;
+                case 400:
+                    message = 'Server connection error';
                     break;
                 case 403:
                     message = 'Access Forbidden';
@@ -88,6 +94,18 @@ axios.interceptors.response.use(
                         error.response && error.response.data ? error.response.data['message'] : error.message || error;
                 }
             }
+            store.addNotification({
+              title: "JSONRPC error: " + error.response.status,
+              message: message,
+              type: "danger",
+              insert: "top",
+              container: "top-right",
+              animationIn: ["animated", "fadeIn"],
+              animationOut: ["animated", "fadeOut"],
+              dismiss: { duration: 10000 },
+              dismissable: { click: true }
+            });
+
             return Promise.reject(message);
         }
     }
@@ -280,7 +298,6 @@ class APICore {
         if (session) {
           sessionStorage.setItem(AUTH_SESSION_KEY, JSON.stringify(session));
           sessionStorage.setItem('URL', config.SERVER_URL);
-          console.log("SET BASE URL: "+config.SERVER_URL)
           axios.defaults.baseURL = config.SERVER_URL;
         }
         else {

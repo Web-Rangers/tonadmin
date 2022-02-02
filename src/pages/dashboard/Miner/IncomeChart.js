@@ -200,6 +200,8 @@ const IncomeChart = (props): React$Element<React$FragmentType> => {
                   chartData.push({'x': date, 'y' : value })
                   if(today.getDate() == new Date().getDate() && today.getMonth() == new Date().getMonth()){
                     localStorage.setItem('winning', value)
+                  }else{
+                    localStorage.setItem('winning', 0)
                   }
                 }
 

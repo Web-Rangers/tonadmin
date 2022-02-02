@@ -60,7 +60,7 @@ const Login = (): React$Element<any> => {
 
     return (
         <>
-            {userLoggedIn || user ? <Redirect to={next ? next : '/'}></Redirect> : null}
+            {userLoggedIn && user ? <Redirect to={next ? next : '/'}></Redirect> : null}
 
             <AccountLayout>
                 <div className="text-center w-75 m-auto">

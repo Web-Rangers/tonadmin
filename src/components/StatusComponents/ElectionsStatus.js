@@ -9,7 +9,7 @@ import { APICore } from '../../helpers/api/apiCore';
 Moment.globalFormat = 'DD.MM.YYYY HH:mm';
 const api = new APICore();
 
-const ElectionsStatus = ({socketState, data}) => {       
+const ElectionsStatus = ({socketState, data}) => {
     const selectedDate = useRef(new Date()/1000);
 
     useEffect(async () => {
@@ -19,11 +19,9 @@ const ElectionsStatus = ({socketState, data}) => {
     return (
         <>
         {(!data)||(socketState!=ReadyState.OPEN)||(data.electionId==0)||(data.end==0)||(data.start==0)||(data.next==0) ?
-            <Card> 
+            <Card>
               <Card.Body>
-                <SkeletonTheme>
                     <Skeleton count={5} />
-                </SkeletonTheme>
               </Card.Body>
             </Card>
             :
@@ -44,9 +42,9 @@ const ElectionsStatus = ({socketState, data}) => {
                 textClass="text-white">
             </StatisticsWidget>
             </>
-        }        
+        }
         </>
     )
 }
-  
+
 export default ElectionsStatus;

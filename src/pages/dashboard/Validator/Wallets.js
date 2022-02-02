@@ -6,7 +6,10 @@ import Select from 'react-select';
 import classNames from 'classnames';
 import Lottie from "lottie-react";
 import eggAnimation from "../../../assets/egg.json";
-
+import keyAnimation from "../../../assets/key.json";
+import walletAnimation from "../../../assets/wallet.json";
+import oopsAnimation from "../../../assets/oops.json";
+import boomstickAnimation from "../../../assets/boomstick.json";
 
 // components
 
@@ -16,65 +19,147 @@ import { APICore } from '../../../helpers/api/apiCore';
 
 const api = new APICore();
 
-const columns = [
-    {
-        Header: 'Name',
-        accessor: 'name',
-        sort: true,
+const AwModal = ({ props }) => {
+    useEffect(async () => {
+      setShow(props.show)
+    }, [props]);
+    const [show, setShow] = useState(props.show);
 
-    },
-    {
-        Header: 'Status',
-        accessor: 'status',
-        sort: true,
-    },
-    {
-        Header: 'Balance',
-        accessor: 'balance',
-        sort: true,
-    },
-    {
-        Header: 'Workchain',
-        accessor: 'workchain',
-        sort: true,
-    },
-    {
-        Header: 'Address',
-        accessor: 'address',
-        sort: false,
-        Cell: Cell,
-    },
-];
-
-const sizePerPageList = [
-    {
-        text: '5',
-        value: 5,
-    },
-    {
-        text: '10',
-        value: 10,
-    },
-    {
-        text: '25',
-        value: 25,
-    }
-];
-
-function Cell({ value }) {
-  let url = "https://ton.sh/address/" + value;
-  return <a target="_blank" href={url}>{value}</a>
+    return (
+      <Modal show={show} onHide={() => {setShow(!show); props.onHide}} className="bg-modal-dialog-centered">
+        <Modal.Body className="text-center">
+          {(props.balance > 0 || props.status) ?
+          <>
+            {!props.status ?
+              <>
+                <Lottie className="lottie-modal" loop={true} animationData={keyAnimation} />
+                <br/><br/>
+                <p>Activating wallet "{props.wallet}"...</p>
+              </>
+            :
+              <>
+                {props.status == 'success' ?
+                  <>
+                    <Lottie className="lottie-modal" loop={true} animationData={boomstickAnimation} />
+                    <br/><br/>
+                    <p>Wallet was successfully activated</p>
+                    <Button className="mt-2" onClick={() => setShow(!show)}>Great</Button>
+                  </>
+                :
+                  <>
+                    <Lottie className="lottie-modal" loop={true} animationData={oopsAnimation} />
+                    <br/><br/>
+                    <p>Something went wrong. Please try again later</p>
+                    <Button className="mt-2" onClick={() => setShow(!show)}>OK</Button>
+                  </>
+                }
+              </>
+            }
+          </>
+          :
+          <span>
+            <Lottie className="lottie-modal" loop={false} animationData={walletAnimation} />
+            <br/><br/>
+            <p>To activate your wallet, you should have at least 0.1 TON on your balance. Please send some TONs to your wallet "{props.wallet}" and retry the activation.</p>
+            <Button className="mt-2" onClick={() => setShow(!show)}>OK</Button>
+          </span>}
+        </Modal.Body>
+      </Modal>
+    )
 }
 
-
-const Wallets = (): React$Element<any> => {
+const Wallets = () => {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [addButton, setAddButton] = useState(false);
+    const [addButton, setAddButton] = useState(0);
     const [createModal, setCreateModal] = useState(false);
-    const [walletName, setWalletName] = useState(false);
+    const [awModal, setAwModal] = useState({
+      show: false,
+      wallet: null,
+      balance: null,
+      status: null
+    });
+    const [walletName, setWalletName] = useState(0);
     const [workchain, setWorkchain] = useState(0);
     const [success, setSuccess] = useState(0);
+
+    const Cell = ({ value }) => {
+      let url = "https://ton.sh/address/" + value;
+      return <a target="_blank" href={url}>{value}</a>
+    }
+
+    const StatusCell = ({value}) => {
+      let status = (value[0] == 'empty' || value[0] == 'uninit') ?
+          <button onClick={() => {
+              setAwModal({show: true, wallet: value[1], balance: value[2]})
+              if(value[2] > 0 && !awModal.status){
+                activateWallet(value[1])
+              }
+              }} variant="link" className="btn btn-link" style={{padding: 0}}>
+              activate wallet
+          </button>
+         : value[0]
+      return status;
+    }
+
+    const columns = [
+        {
+            Header: 'Name',
+            accessor: 'name',
+            sort: true,
+
+        },
+        {
+            Header: 'Status',
+            accessor: 'status',
+            sort: true,
+            Cell: StatusCell
+        },
+        {
+            Header: 'Balance',
+            accessor: 'balance',
+            sort: true,
+        },
+        {
+            Header: 'Workchain',
+            accessor: 'workchain',
+            sort: true,
+        },
+        {
+            Header: 'Address',
+            accessor: 'address',
+            sort: false,
+            Cell: Cell,
+        },
+    ];
+
+    const sizePerPageList = [
+        {
+            text: '5',
+            value: 5,
+        },
+        {
+            text: '10',
+            value: 10,
+        },
+        {
+            text: '25',
+            value: 25,
+        }
+    ];
+
+
+    const activateWallet = async (wallet) => {
+        const result = await api.sendJRPC('/', 'aw', [wallet])
+        console.log(result)
+        if(result.data.result){
+          setAwModal({show: true, status: 'success'})
+          updateWallets()
+        }else{
+          setAwModal({show: true, status: 'error'})
+        }
+        return false;
+    }
 
     const toggleCreate = () => {
         setSuccess(false)
@@ -107,6 +192,7 @@ const Wallets = (): React$Element<any> => {
       }
     }
 
+
     const updateWallets = async () =>{
       setData([]);
       setLoading(true)
@@ -118,7 +204,7 @@ const Wallets = (): React$Element<any> => {
             Object.keys(data).forEach(row => {
               tableData.push({
                   name: data[row].name,
-                  status: data[row].status,
+                  status: [data[row].status, data[row].name, data[row].balance],
                   workchain: data[row].workchain,
                   balance: data[row].balance,
                   address: data[row].addr,
@@ -179,14 +265,14 @@ const Wallets = (): React$Element<any> => {
               </Col>
           </Row>
           <Modal show={createModal} onHide={toggleCreate} className="bg-modal-dialog-centered">
-
               <Modal.Body >
                   {success ?
                     <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', padding: 40, flexDirection: 'column'}}>
                       <div className="text-center mb-4">
                         <h4 className="header-title">Wallet successfully created!</h4>
                       </div>
-                      <Lottie style={{width: 150, display: 'inline-block', marginBottom: 40}} loop={false} animationData={eggAnimation} />
+                      <Lottie className="lottie-modal" loop={false} animationData={eggAnimation} />
+                      <br/><br/>
                       <Button className="mt-2" onClick={toggleCreate}>Got it</Button>
                     </div>
                     :
@@ -198,7 +284,6 @@ const Wallets = (): React$Element<any> => {
                         <Alert variant="info">
                             <i className={classNames('dripicons-information', 'me-2')}></i>Wallet private key will be saved in your server <strong>local</strong> storage.
                         </Alert>
-
                           <div className="mb-3">
                               <label htmlFor="walletname" className="form-label">
                                   Wallet name
@@ -238,10 +323,14 @@ const Wallets = (): React$Element<any> => {
                     </div>
                 }
               </Modal.Body>
-
           </Modal>
+          <AwModal show={awModal.show} props={awModal}  onHide={() => {
+              console.log('closed');
+            setAwModal({show: false})}} />
         </>
     );
 };
+
+
 
 export default Wallets;

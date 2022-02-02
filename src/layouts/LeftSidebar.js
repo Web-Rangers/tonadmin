@@ -24,14 +24,7 @@ type SideBarContentProps = {
 const SideBarContent = ({ hideUserProfile }: SideBarContentProps) => {
     return (
         <>
-            {!hideUserProfile && (
-                <div className="leftbar-user">
-                    <Link to="/">
-                        <img src={profileImg} alt="" height="42" className="rounded-circle shadow-sm" />
-                        <span className="leftbar-user-name">Dominic Keller</span>
-                    </Link>
-                </div>
-            )}
+
 
             <AppMenu menuItems={getMenuItems()} />
 
@@ -155,7 +148,7 @@ const LeftSidebar = ({ isCondensed, isLight, hideLogo, hideUserProfile }: LeftSi
                             hideUserProfile={hideUserProfile}
                         />
                     </SimpleBar>
-                    {api.isUserAuthenticated() === true ? 
+                    {api.isUserAuthenticated() === true ?
                         <div  style={{ position: "absolute", bottom: 20, height: 40,width:"100%" }}>
                             {/* <div className="d-flex justify-content-end" style={{width: 260}}>
                                 <a href="/account/logout"><i className="uil uil-exit " style={{fontSize: 20, lineHeight: "40px", padding: 40}}></i></a>
@@ -164,7 +157,7 @@ const LeftSidebar = ({ isCondensed, isLight, hideLogo, hideUserProfile }: LeftSi
                                 <div className="side-nav-item">
                                     <Link
                                         to="/account/logout"
-                                        className="side-nav-link-ref side-sub-nav-link side-nav-link text-center"                                
+                                        className="side-nav-link-ref side-sub-nav-link side-nav-link text-center"
                                     >
                                         <span> Sign out </span>
                                         <i className="uil uil-exit " style={{margin:"0 0 0 10px"}}></i>
@@ -178,7 +171,7 @@ const LeftSidebar = ({ isCondensed, isLight, hideLogo, hideUserProfile }: LeftSi
                                 <div className="side-nav-item">
                                     <Link
                                         to="/account/login"
-                                        className="side-nav-link-ref side-sub-nav-link side-nav-link text-center"                                
+                                        className="side-nav-link-ref side-sub-nav-link side-nav-link text-center"
                                     >
                                         <span> Sign in </span>
                                         <i className="uil uil-entry " style={{margin:"0 0 0 10px"}}></i>
@@ -186,7 +179,7 @@ const LeftSidebar = ({ isCondensed, isLight, hideLogo, hideUserProfile }: LeftSi
                                 </div>
                             </div>
                         </div>
-                    }                    
+                    }
                   </div>
                 )}
                 {isCondensed && <SideBarContent isLight={isLight} hideUserProfile={hideUserProfile} />}

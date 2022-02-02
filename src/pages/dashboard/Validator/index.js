@@ -8,7 +8,7 @@ import { APICore } from '../../../helpers/api/apiCore';
 import HyperDatepicker from '../../../components/Datepicker';
 
 import Statistics from './Statistics';
-import IncomeChart from './IncomeChart';
+import IncomeChart from './IncomeChart2';
 
 import Wallets from './Wallets';
 import History from '../../AddressHistory';
@@ -21,32 +21,29 @@ const ValidatorDashboardPage = (): React$Element<React$FragmentType> => {
     const [statusdata, setStatusdata] = useState(0);
     const [validatorAddress, setValidatorAddress] = useState(localStorage.getItem('validatorAddress'));
 
-  //  localStorage.setItem('validatorAddress', 'kf8uw5J61EpzZiONm7hcz23nQMn7BxIE7d1hiM2xHXALek9I')
-    useEffect(async () => {
-      //  send()
-        getStatus()
 
+    useEffect(async () => {
+        getStatus()
     }, []);
 
     const getStatus = async () =>{
       setStatus(false)
+      const result2 = await api.sendJRPC('/', 'CheckUpdates')
+      console.log(result2)
       const result = await api.sendJRPC('/', 'status')
-      console.log(result);
+          console.log(result)
       if(result && !result.error && result.data &&  result.data.result !== "empty"){
         let data = result.data.result
+
           setValidatorAddress(data.validatorWalletAddr)
+          localStorage.setItem('validatorAddress', data.validatorWalletAddr)
           let unixTime = data.validatorStatus.unixtime;
 
-          switch(true){
-            case parseFloat(data.validatorEfficiency) > 90:
+          if(parseFloat(data.validatorEfficiency) > 0)
               data.validatorEfficiency =  <span className="text-success">{data.validatorEfficiency}%</span>
-            case parseFloat(data.validatorEfficiency) > 50:
-              data.validatorEfficiency = <span className="text-warning">{data.validatorEfficiency}%</span>
-            case parseFloat(data.validatorEfficiency) > 0:
-              data.validatorEfficiency = <span className="text-danger">{data.validatorEfficiency}%</span>
-            default:
-              data.validatorEfficiency = null
-          }
+          if(parseFloat(data.validatorEfficiency) == 0)
+            data.validatorEfficiency = <span className="text-warning">{data.validatorEfficiency}%</span>
+
           setStatusdata(data)
 
           /*  Object.keys(data).forEach(row => {
@@ -88,7 +85,7 @@ const ValidatorDashboardPage = (): React$Element<React$FragmentType> => {
                 </Col>
 
                 <Col lg={7} xl={8} xxl={9} >
-                    <IncomeChart validatorAddress={validatorAddress}/>
+                    <IncomeChart wallet={validatorAddress}/>
                 </Col>
             </Row>
             <Row>

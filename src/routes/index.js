@@ -16,11 +16,11 @@ const LockScreen = React.lazy(() => import('../pages/account/LockScreen'));
 
 // dashboard
 
-const EcommerceDashboard = React.lazy(() => import('../pages/dashboard/Ecommerce'));
-const CRMDashboard = React.lazy(() => import('../pages/dashboard/CRM'));
+
 const MinerDashboard = React.lazy(() => import('../pages/dashboard/Miner'));
 const ValidatorDashboard = React.lazy(() => import('../pages/dashboard/Validator'));
 const ValidatorsList = React.lazy(() => import('../pages/ValidatorsList'));
+const UpdateCenter = React.lazy(() => import('../pages/UpdateCenter'));
 
 const HashRate = React.lazy(() => import('../pages/analytics/HashRate'));
 const BleedRate = React.lazy(() => import('../pages/analytics/BleedRate'));
@@ -57,17 +57,7 @@ const dashboardRoutes = {
             name: 'Miner',
             component: MinerDashboard,
             route: PrivateRoute,
-        },
-        {
-            path: '/dashboard/ecommerce',
-            name: 'Ecommerce',
-            badge: {
-                variant: 'success',
-                text: '3',
-            },
-            component: EcommerceDashboard,
-            route: PrivateRoute,
-        },
+        }
     ],
 };
 
@@ -78,6 +68,15 @@ const ValidatorsListRoute = {
     roles: ['Admin'],
     icon: 'uil-list',
     component: ValidatorsList
+};
+
+const UpdateCenterRoute = {
+    path: '/updates',
+    name: 'Update Center',
+    route: PrivateRoute,
+    roles: ['Admin'],
+    icon: 'uil-download',
+    component: UpdateCenter
 };
 
 // flatten the list of all nested routes
@@ -165,7 +164,7 @@ const commonRoutes = [
 ]
 
 // All routes
-const authProtectedRoutes = [rootRoute, dashboardRoutes, ValidatorsListRoute];
+const authProtectedRoutes = [rootRoute, dashboardRoutes, ValidatorsListRoute, UpdateCenterRoute];
 const publicRoutes = [...authRoutes, ...analyticRoutes, ...commonRoutes];
 
 const authProtectedFlattenRoutes = flattenRoutes([...authProtectedRoutes]);
