@@ -99,7 +99,7 @@ const Wallets = () => {
               activate wallet
           </button>
          : value[0]
-      return status;
+      return value[0];
     }
 
     const columns = [
@@ -187,7 +187,7 @@ const Wallets = () => {
           updateWallets()
       }else{
           setData([]);
-          setAddButton(true)
+          setAddButton(false)
           setLoading(false)
       }
     }
@@ -213,7 +213,7 @@ const Wallets = () => {
             setData(tableData);
       }else{
           setData([]);
-          setAddButton(true)
+          setAddButton(false)
       }
       setLoading(false)
     }
@@ -237,12 +237,12 @@ const Wallets = () => {
                             <Skeleton count={3} height={15} />
                             :
                             <div className="text-center">
-                              <Row>
+                              {/*    <Row>
                                 <Col lg={12}>
                                   <Button onClick={toggleCreate} variant="link" style={{width: 200}}>Create new wallet</Button>
                                 </Col>
                               </Row>
-
+                              */}
                             </div>
                           }
                           {addButton ?
@@ -314,7 +314,7 @@ const Wallets = () => {
                                   ]}></Select>
                           </div>
 
-                          <div className="mb-3 text-center">
+                         <div className="mb-3 text-center">
                               <button onClick={createWallet} className="btn btn-rounded btn-primary" >
                                   Create
                               </button>
