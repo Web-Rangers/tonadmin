@@ -9,7 +9,8 @@ import HyperDatepicker from '../../../components/Datepicker';
 
 import Statistics from './Statistics';
 import IncomeChart from './IncomeChart2';
-
+import SystemInfo from '../../SystemInfo';
+import ElectionsTimeLine from '../../ElectionsTimeline';
 import Wallets from './Wallets';
 import History from '../../AddressHistory';
 const api = new APICore();
@@ -26,12 +27,11 @@ const ValidatorDashboardPage = (): React$Element<React$FragmentType> => {
         getStatus()
     }, []);
 
+
+
     const getStatus = async () =>{
       setStatus(false)
-      const result2 = await api.sendJRPC('/', 'CheckUpdates')
-      console.log(result2)
       const result = await api.sendJRPC('/', 'status')
-          console.log(result)
       if(result && !result.error && result.data &&  result.data.result !== "empty"){
         let data = result.data.result
 
@@ -90,11 +90,20 @@ const ValidatorDashboardPage = (): React$Element<React$FragmentType> => {
             </Row>
             <Row>
               <Col lg={12} md={12} xl={12} xxl={12}>
+                  <SystemInfo />
+              </Col>
+            </Row>
+            <Row>
+              <Col lg={12} md={12} xl={12} xxl={12}>
+                  <ElectionsTimeLine data={statusdata} />
+              </Col>
+            </Row>
+            <Row>
+              <Col lg={12} md={12} xl={12} xxl={12}>
                   <Wallets />
               </Col>
             </Row>
             <Row>
-
             <Col lg={12}>
               <History wallet={validatorAddress} />
             </Col>

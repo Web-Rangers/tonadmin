@@ -102,6 +102,7 @@ const IncomeChart = (props): React$Element<React$FragmentType> => {
 
     const updateChart = async () => {
       let address = props.wallet;
+
       let txs = localStorage.getItem('mining@' + address)
 
 
@@ -110,10 +111,7 @@ const IncomeChart = (props): React$Element<React$FragmentType> => {
       if(txs && JSON.parse(txs) && JSON.parse(txs).length > 0){
         txs = JSON.parse(txs)
 
-          let newtxs = await tonweb.getTransactions(address, 400, null, null, txs[0].transaction_id.lt);
-
-
-
+        let newtxs = await tonweb.getTransactions(address, 400, null, null, txs[0].transaction_id.lt);
         if(newtxs.length > 0 ){
           txs = newtxs.concat(txs);
         }

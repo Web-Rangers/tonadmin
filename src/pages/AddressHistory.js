@@ -100,7 +100,7 @@ const AddressHistory = (props): React$Element<any> => {
     }
 
     const updateWallets = async () =>{
-      const result = await api.sendJRPC('/', 'vah', [props.wallet, 100])
+      const result = await api.sendJRPC('/', 'vah', [props.wallet, 50])
 
       if(result && !result.error && result.data && result.data.result !== "empty"){
         let data = result.data.result

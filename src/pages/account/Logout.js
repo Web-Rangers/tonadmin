@@ -49,6 +49,8 @@ const Logout = (): React$Element<any> | React$Element<React$FragmentType> => {
                     <div className="logout-icon m-auto">
                         <img src={logoutIcon} alt="" />
                     </div>
+                    <br />
+                    <a href="/account/login" className="btn btn-primary">Log in</a>
                 </div>
             </AccountLayout>
         </>

@@ -17,7 +17,6 @@ const Address = tonweb.utils.Address;
 const IncomeChart = (props): React$Element<React$FragmentType> => {
     const [loading, setLoading] = useState(true);
 
-
     let apexBarChartOpts = {
         annotations: {
           xaxis:[
@@ -93,7 +92,7 @@ const IncomeChart = (props): React$Element<React$FragmentType> => {
 
     const updateChart = async () => {
       let validatorAddress = props.validatorAddress;
-
+      
       //let txs = localStorage.getItem('earnings@' + validatorAddress)
       // localStorage.removeItem('earnings@' + validatorAddress)
       let txs
