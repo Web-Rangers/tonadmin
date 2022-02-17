@@ -53,7 +53,7 @@ const SystemInfo = (props) => {
                           <h4 className="header-title">System Monitor</h4>
                           <div className="d-flex">
                             <Gauge  name={["CPU usage"]} percent={systemData.cpu_load ? [systemData.cpu_load] : [0]} units="%"/>
-                            <Gauge  name={["CPU temperature"]} percent={systemData.temp  ? [((systemData.temp.coretemp[0][1]/systemData.temp.coretemp[0][3])*100).toFixed(0)] : [0]} units="°C"/>
+                            <Gauge  name={["CPU temperature"]} percent={(systemData.temp && systemData.temp.coretemp)  ? [((systemData.temp.coretemp[0][1]/systemData.temp.coretemp[0][3])*100).toFixed(0)] : [0]} units="°C"/>
                             <Gauge  name={["RAM usage"]} percent={systemData.memory  ? [systemData.memory[2]] : [0]} units="%"/>
                             {diskNames.length > 0 ? <GaugeDisks name={diskNames}  percent={percents}/> : ''}
                           </div>
