@@ -16,8 +16,8 @@ const UpdateCenter = (): React$Element<React$FragmentType> => {
     const [statusdata, setStatusdata] = useState(0);
     const [validatorAddress, setValidatorAddress] = useState(localStorage.getItem('validatorAddress'));
     const [show, setShow] = useState(false);
-    const [showToast, setShowToast] = useState(Boolean(localStorage.getItem('updateToast')));
-
+    //const [showToast, setShowToast] = useState(Boolean(localStorage.getItem('updateToast')));
+    const [showToast, setShowToast] = useState(true);
     useEffect(async () => {
         getStatus()
     }, []);
@@ -104,9 +104,9 @@ const UpdateCenter = (): React$Element<React$FragmentType> => {
                                   <>Update required</>
                                 }
                             </h3>
-                            {status[1] == true ?
+                          {/*  {status[1] == true ?
                             <button onClick={() => update('MTC')} className="btn btn-primary">Update</button>
-                            : ''}
+                            : ''}*/}
                         </Card.Body>
                     </Card>
                     :
@@ -154,9 +154,9 @@ const UpdateCenter = (): React$Element<React$FragmentType> => {
                                 <>Update required</>
                               }
                             </h3>
-                            {status[0] == true ?
+                          {/*  {status[0] == true ?
                             <button onClick={() => update('JR')} className="btn btn-primary">Update</button>
-                            : ''}
+                            : ''}*/}
                         </Card.Body>
                     </Card>
                     : '' }
