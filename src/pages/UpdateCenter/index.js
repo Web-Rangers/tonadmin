@@ -26,20 +26,28 @@ const UpdateCenter = (): React$Element<React$FragmentType> => {
       setStatus(false)
       const result = await api.sendJRPC('/', 'CheckUpdates')
       //  setStatus([null, null])
+
       setStatus(result.data.result)
+
     }
 
     const update = async (service) => {
       setUpdateStatus(null);
       setShow(true)
       const result = await api.sendJRPC('/', 'Update' + service, ['']);
+      console.log(result.data.result.message)
+      if(result.data.result.message == 'Method not found"}}' ){
+        setStatus([null, null])
+      }
       const result2 = await api.sendJRPC('/', 'CheckUpdates')
       if(result.data.result == 'Update - {green}OK{endc}'){
         setUpdateStatus(true)
       }else{
         setUpdateStatus(false)
       }
+
       setStatus(false)
+
     }
 
     const closeToast = () => {
