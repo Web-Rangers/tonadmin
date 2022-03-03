@@ -1,5 +1,5 @@
  // @flow
-import React, { useEffect } from 'react';
+import React, { useEffect, useCallback, useState, useRef } from 'react';
 import { Button, Alert, Row, Col } from 'react-bootstrap';
 import { Link, Redirect } from 'react-router-dom';
 import * as yup from 'yup';
@@ -11,26 +11,25 @@ import diamondAnimation from "../../assets/money.json";
 
 //actions
 import { resetAuth, loginUser } from '../../redux/actions';
-
 import { useQuery } from '../../hooks/';
 
 // components
-import { VerticalForm, FormInput } from '../../components/';
-
+import {VerticalForm, FormInput } from '../../components/';
 import AccountLayout from './AccountLayout';
-
-
+import reCAPTCHA from '../../components/reCAPTCHA';
 
 const Login = (): React$Element<any> => {
     const { t } = useTranslation();
-    const dispatch = useDispatch();
 
+    const dispatch = useDispatch();
     const query = useQuery();
     const next = query.get('next');
-
+    let recaptcha = new reCAPTCHA("6LdQipEeAAAAAM9qmC0vs4WUEM8B40TLAgzX_iAs", "login");
     useEffect(() => {
         dispatch(resetAuth());
     }, [dispatch]);
+
+
 
     const { loading, userLoggedIn, user, error } = useSelector((state) => ({
         loading: state.Auth.loading,
@@ -45,15 +44,17 @@ const Login = (): React$Element<any> => {
     const schemaResolver = yupResolver(
         yup.object().shape({
             apiURL: yup.string().required(t('Please enter API URL')),
-            password: yup.string().required(t('Please enter Password')),
+            password: yup.string().required(t('Please enter Password'))
         })
     );
 
     /*
     handle form submission
     */
-    const onSubmit = (formData) => {
-        dispatch(loginUser(formData['apiURL'], formData['password']));
+
+    const onSubmit = async (formData) => {
+      let token = await recaptcha.getToken();
+      dispatch(loginUser(formData['apiURL'], formData['password'], token));
     };
 
 
@@ -61,7 +62,6 @@ const Login = (): React$Element<any> => {
     return (
         <>
             {userLoggedIn && user ? <Redirect to={next ? next : '/'}></Redirect> : null}
-
             <AccountLayout>
                 <div className="text-center w-75 m-auto">
 
@@ -72,11 +72,10 @@ const Login = (): React$Element<any> => {
                 </div>
 
                 {error && (
-                    <Alert variant="danger" className="my-2">
-                        {error}
-                    </Alert>
+                  <Alert variant="danger" className="my-2">
+                      {error}
+                  </Alert>
                 )}
-
                 <VerticalForm
                     onSubmit={onSubmit}
                     resolver={schemaResolver}
@@ -94,8 +93,8 @@ const Login = (): React$Element<any> => {
                         name="password"
                         placeholder={t('Enter your password')}
                         containerClass={'mb-3'}>
-
                     </FormInput>
+
 
                     <div className="mb-3 mb-0 text-center">
                         <Button variant="primary" type="submit" disabled={loading}>

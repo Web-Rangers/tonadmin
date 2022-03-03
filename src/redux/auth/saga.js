@@ -19,9 +19,9 @@ const api = new APICore();
  * Login the user
  * @param {*} payload - username and password
  */
-function* login({ payload: { apiURL, password } }) {
+function* login({ payload: { apiURL, password, token } }) {
     try {
-        const response = yield call(loginApi, [apiURL, password]);
+        const response = yield call(loginApi, [apiURL, password, token]);
         const user = response.data.result;
 
         api.setLoggedInUser(user);
