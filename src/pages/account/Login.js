@@ -8,6 +8,8 @@ import { useTranslation } from 'react-i18next';
 import { useSelector, useDispatch } from 'react-redux';
 import Lottie from "lottie-react";
 import diamondAnimation from "../../assets/money.json";
+import { APICore } from '../../helpers/api/apiCore';
+
 
 //actions
 import { resetAuth, loginUser } from '../../redux/actions';
@@ -23,6 +25,7 @@ const Login = (): React$Element<any> => {
     const dispatch = useDispatch();
     const query = useQuery();
     const next = query.get('next');
+    const api = new APICore();
     let recaptcha = new reCAPTCHA("6LdQipEeAAAAAM9qmC0vs4WUEM8B40TLAgzX_iAs", "login");
     useEffect(() => {
         dispatch(resetAuth());
@@ -67,7 +70,9 @@ const Login = (): React$Element<any> => {
       }
     };
 
-
+    if (api.isUserAuthenticated() === true) {
+        return <Redirect to={{ pathname: '/dashboard/validator'}} />;
+    }
 
     return (
         <>
