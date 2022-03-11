@@ -54,6 +54,7 @@
     "react-loading-skeleton": "^2.2.0",
     "react-moment": "^1.1.1",
     "react-notifications-component": "^3.1.0",
+    "react-qrcode-logo": "^2.6.0",
     "react-rating": "^2.0.5",
     "react-redux": "^7.2.3",
     "react-router-dom": "^5.2.0",
@@ -71,6 +72,8 @@
     "simplebar-react": "^2.3.3",
     "tonweb": "^0.0.18",
     "universal-cookie": "^4.0.4",
+    "use-interval": "^1.4.0",
+    "usehooks-ts": "^2.4.2",
     "web-vitals": "^1.0.1",
     "yup": "^0.32.9"
   },

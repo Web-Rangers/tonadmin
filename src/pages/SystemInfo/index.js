@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { Row, Col, Card, Button} from 'react-bootstrap';
 import Skeleton from 'react-loading-skeleton';
 import Select from 'react-select';
+import useInterval from 'use-interval'
 
 // components
 
@@ -22,12 +23,13 @@ const SystemInfo = (props) => {
 
     useEffect(async () => {
       getData()
-      setInterval(getData, 5000)
     }, []);
+
+
 
     const getData = async () => {
       const response = await api.sendJRPC('/', 'getSystemLoad')
-      if(response.data.result.disksLoadPercentAvg){
+      if(response.data.result && response.data.result.disksLoadPercentAvg){
         setSystemData(response.data.result)
         let data = response.data.result
         let diskNames = Object.keys(data.disksLoadPercentAvg);
@@ -42,6 +44,7 @@ const SystemInfo = (props) => {
         setSystemData([1])
       }
     }
+    useInterval(getData, 5000)
 
     return (
         <>

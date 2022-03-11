@@ -11,77 +11,38 @@ axios.defaults.headers.post['Content-Type'] = 'application/json';
 // intercepting to capture errors
 axios.interceptors.response.use(
     (response) => {
-        if(response && response.data && response.data.error){
-          store.addNotification({
-            title: "JSONRPC error: " + response.data.error.message,
-            message: response.data.error.data ? response.data.error.data.message : " ",
-            type: "danger",
-            insert: "top",
-            container: "top-right",
-            animationIn: ["animated", "fadeIn"],
-            animationOut: ["animated", "fadeOut"],
-            dismiss: { duration: 15000 },
-            dismissable: { click: true }
-          });
-
-          let error = response.data.error
-
-
-          let message;
-          if (error && error.data && error.data.args[0] === 404) {
-
-          } else if (error && error.data && error.data.args[0] === 403) {
-              sessionStorage.removeItem(AUTH_SESSION_KEY);
-              window.location.href = '/account/login';
-              store.addNotification({
-                title: "Wrong AUTH token",
-                message: "Please, login again.",
-                type: "warning",
-                insert: "top",
-                container: "top-right",
-                animationIn: ["animated", "fadeIn"],
-                animationOut: ["animated", "fadeOut"],
-                dismiss: { duration: 5000 },
-                dismissable: { click: true }
-              });
-          } else {
-              switch (!error.data || error.data.args[0]) {
-                  case 401:
-                      message = 'Invalid credentials';
-                      break;
-                  case 403:
-                      message = 'Access Forbidden';
-                      break;
-                  case 404:
-                      message = 'Sorry! the data you are looking for could not be found';
-                      break;
-                  default: {
-                      message =
-                          error.response && error.response.data ? error.response.data['message'] : error.message || error;
-                  }
-              }
-              return Promise.reject(message);
-        }
-        return "JsonRPC Error: " + response.data.error.data.message;
-      }
-      return response;
+        return response;
     },
     (error) => {
+
+        // Any status codes that falls outside the range of 2xx cause this function to trigger
         let message;
+
         if (error && error.response && error.response.status === 404) {
-          console.log('Not found')
+            // window.location.href = '/not-found';
         } else if (error && error.response && error.response.status === 403) {
-            window.location.href = '/account/login';
+            store.addNotification({
+              title: "Error: " + error.response.status,
+              message: error.response.data.message ? error.response.data.message : " ",
+              type: "danger",
+              insert: "top",
+              container: "top-right",
+              animationIn: ["animated", "fadeIn"],
+              animationOut: ["animated", "fadeOut"],
+              dismiss: { duration: 5000 },
+              dismissable: { click: true }
+            });
+            if(error.response.data.message == 'Forbidden'){
+              localStorage.removeItem(AUTH_SESSION_KEY);
+              window.location.href = '/account/login';
+            }
+            return Promise.reject(error.response.data.message);
+
         } else {
-            switch (!error.response || error.response.status) {
+          if(error.response){
+            switch (error.response.status) {
                 case 401:
                     message = 'Invalid credentials';
-                    break;
-                case 500:
-                    message = 'Server error';
-                    break;
-                case 400:
-                    message = 'Server connection error';
                     break;
                 case 403:
                     message = 'Access Forbidden';
@@ -94,18 +55,37 @@ axios.interceptors.response.use(
                         error.response && error.response.data ? error.response.data['message'] : error.message || error;
                 }
             }
-            store.addNotification({
-              title: "JSONRPC error: " + error.response.status,
-              message: message,
-              type: "danger",
-              insert: "top",
-              container: "top-right",
-              animationIn: ["animated", "fadeIn"],
-              animationOut: ["animated", "fadeOut"],
-              dismiss: { duration: 10000 },
-              dismissable: { click: true }
-            });
-
+            let errorMessage = error.response.data.error  ? (error.response.data.error.message ? error.response.data.error.message : " ") : "Bad Request"
+            if(error.response.data.message){
+              errorMessage = error.response.data.message
+            }
+            if(error.response.data.message != 'Method not found'){
+              store.addNotification({
+                title: "Error: " + error.response.status,
+                message: errorMessage,
+                type: "danger",
+                insert: "top",
+                container: "top-right",
+                animationIn: ["animated", "fadeIn"],
+                animationOut: ["animated", "fadeOut"],
+                dismiss: { duration: 5000 },
+                dismissable: { click: true }
+              });
+            }
+            if(error.response.data.message == 'Method not found'){
+              store.addNotification({
+                title: "Error: Method not found." ,
+                message: "Please update mtc-jsonrpc module. Run in MyTonCtrl > installer > enable JR",
+                type: "warning",
+                insert: "top",
+                container: "top-right",
+                animationIn: ["animated", "fadeIn"],
+                animationOut: ["animated", "fadeOut"],
+                dismiss: { duration: 5000 },
+                dismissable: { click: true }
+              });
+            }
+            }
             return Promise.reject(message);
         }
     }
@@ -123,7 +103,7 @@ const setAuthorization = (token) => {
 };
 
 const getUserFromSession = () => {
-    const user = sessionStorage.getItem(AUTH_SESSION_KEY);
+    const user = localStorage.getItem(AUTH_SESSION_KEY);
     return user ? (typeof user == 'object' ? user : JSON.parse(user)) : null;
 };
 
@@ -296,12 +276,12 @@ class APICore {
     setLoggedInUser = (session) => {
 
         if (session) {
-          sessionStorage.setItem(AUTH_SESSION_KEY, JSON.stringify(session));
-          sessionStorage.setItem('URL', config.SERVER_URL);
+          localStorage.setItem(AUTH_SESSION_KEY, JSON.stringify(session));
+          localStorage.setItem('URL', config.SERVER_URL);
           axios.defaults.baseURL = config.SERVER_URL;
         }
         else {
-            sessionStorage.removeItem(AUTH_SESSION_KEY);
+            localStorage.removeItem(AUTH_SESSION_KEY);
         }
     };
 
@@ -313,14 +293,14 @@ class APICore {
     };
 
     setUserInSession = (modifiedUser) => {
-        let userInfo = sessionStorage.getItem(AUTH_SESSION_KEY);
+        let userInfo = localStorage.getItem(AUTH_SESSION_KEY);
         if (userInfo) {
             const { username, token } = JSON.parse(userInfo);
             this.setLoggedInUser({ token, ...username, ...modifiedUser });
         }
     };
     removeSession = () => {
-        sessionStorage.removeItem(AUTH_SESSION_KEY);
+        localStorage.removeItem(AUTH_SESSION_KEY);
     };
 }
 

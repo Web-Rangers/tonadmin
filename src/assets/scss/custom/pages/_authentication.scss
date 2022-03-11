@@ -1,4 +1,4 @@
-// 
+//
 // authentication.scss
 //
 
@@ -25,7 +25,7 @@ body.auth-fluid-pages[data-leftbar-compact-mode=condensed] {
     width: 140px;
 }
 
-// Authentication fluid 
+// Authentication fluid
 .auth-fluid {
     position: relative;
     display: flex;
@@ -33,7 +33,7 @@ body.auth-fluid-pages[data-leftbar-compact-mode=condensed] {
     min-height: 100vh;
     flex-direction: row;
     align-items: stretch;
-    background: url("../../../images/bg-auth.jpg") center;
+
     background-size: cover;
 
     .auth-fluid-form-box {
@@ -97,7 +97,7 @@ body.auth-fluid-pages[data-leftbar-compact-mode=condensed] {
             max-width: 100%;
             min-height: 100vh
         }
-    
+
         .auth-fluid-right {
             display: none;
         }

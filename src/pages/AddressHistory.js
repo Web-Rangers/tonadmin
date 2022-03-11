@@ -59,7 +59,7 @@ const sizePerPageList = [
 ];
 
 function Cell({ value }) {
-  let url = "https://ton.sh/address/" + value[1];
+  let url = "https://tonscan.org/address/" + value[1];
   return <a target="_blank" rel="noreferrer" href={url}>{value[0]}</a>
 }
 
@@ -72,7 +72,7 @@ function TypeFrom({ value }) {
     type = <span className="badge badge-danger-lighten" style={{width: 35}}>OUT</span>
   }
 
-  let url = "https://ton.sh/address/" + value[1];
+  let url = "https://tonscan.org/address/" + value[1];
   return <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}><a target="_blank" rel="noreferrer" href={url}>{value[0]}</a>{type}</div>
 }
 

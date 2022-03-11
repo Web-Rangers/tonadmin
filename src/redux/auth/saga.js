@@ -17,11 +17,18 @@ const api = new APICore();
 
 /**
  * Login the user
- * @param {*} payload - username and password
+ * @param {*} payload - URL and password
  */
-function* login({ payload: { apiURL, password, token } }) {
+function* login({ payload: { apiURL, password, token, code } }) {
     try {
-        const response = yield call(loginApi, [apiURL, password, token]);
+        // For old versions
+        let response = null;
+        if(code){
+           response = yield call(loginApi, [apiURL, password, token, code]);
+        }else{
+           response = yield call(loginApi, [apiURL, password, token]);
+        }
+
         const user = response.data.result;
 
         api.setLoggedInUser(user);
@@ -29,8 +36,10 @@ function* login({ payload: { apiURL, password, token } }) {
 
         yield put(authApiResponseSuccess(AuthActionTypes.LOGIN_USER, user));
     } catch (error) {
-        console.log(error);
-        yield put(authApiResponseError(AuthActionTypes.LOGIN_USER, error));
+        if(error == "Request failed with status code 502"){
+          error = 'Failed to connect to mtc-jsonrpc server.'
+        }
+        yield put(authApiResponseError(AuthActionTypes.LOGIN_USER, error.toString()));
         api.setLoggedInUser(null);
         setAuthorization(null);
     }

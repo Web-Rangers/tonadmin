@@ -75,7 +75,7 @@ function Online({ value }) {
 }
 
 function Wallet({ value }) {
-  let url = "https://ton.sh/address/" + value;
+  let url = "https://tonscan.org/address/" + value;
   if(value.length <= 48){
     return <a target="_blank" href={url}>{value}</a>
   }else{
@@ -158,9 +158,10 @@ const ValidatorsList = (): React$Element<any> => {
         <>
           <Row>
               <Col>
-                  <Card>
+                <h4 className="header-title mb-3">TON Validators list</h4>
+                  <Card className="mt-2">
                       <Card.Body>
-                          <h4 className="header-title">TON Validators list</h4>
+
                           {data.length > 0 ?
                           <Table
                               columns={columns}

@@ -4,6 +4,7 @@ export const MENU_ITEMS = [
     { key: 'miner', label: 'Miner', isTitle: false, icon: 'mdi mdi-pickaxe', url: '/dashboard/miner' },
     { key: 'validators-list', label: 'Validators list', isTitle: false, icon: 'mdi mdi-format-list-bulleted', url: '/validators' },
     { key: 'status-page', label: 'TON Status', isTitle: false, icon: 'mdi mdi-speedometer-medium', url: '/status' },
+    { key: '2fa', label: 'Security', isTitle: false, icon: 'uil uil-shield-check', url: '/2fa' },
     { key: 'updates', label: 'Update center', isTitle: false, icon: 'mdi mdi-download', url: '/updates' },
 ];
 

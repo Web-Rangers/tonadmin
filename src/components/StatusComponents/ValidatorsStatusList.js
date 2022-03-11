@@ -71,7 +71,7 @@ function Online({ value }) {
 }
 
 function Wallet({ value }) {
-  let url = "https://ton.sh/address/" + value;
+  let url = "https://tonscan.org/address/" + value;
   if(value.length <= 48){
     return <a target="_blank" href={url}>{value}</a>
   }else{

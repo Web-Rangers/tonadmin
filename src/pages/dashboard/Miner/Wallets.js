@@ -58,7 +58,7 @@ const sizePerPageList = [
 ];
 
 function Cell({ value }) {
-  let url = "https://ton.sh/address/" + value;
+  let url = "https://tonscan.org/address/" + value;
   return <a target="_blank" href={url}>{value}</a>
 }
 

@@ -84,7 +84,7 @@ const Wallets = () => {
     const [success, setSuccess] = useState(0);
 
     const Cell = ({ value }) => {
-      let url = "https://ton.sh/address/" + value;
+      let url = "https://tonscan.org/address/" + value;
       return <a target="_blank" href={url}>{value}</a>
     }
 

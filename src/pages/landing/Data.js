@@ -1,9 +1,3 @@
-import layout1 from '../../assets/images/layouts/layout-1.png';
-import layout2 from '../../assets/images/layouts/layout-2.png';
-import layout3 from '../../assets/images/layouts/layout-3.png';
-import layout4 from '../../assets/images/layouts/layout-4.png';
-import layout5 from '../../assets/images/layouts/layout-5.png';
-import layout6 from '../../assets/images/layouts/layout-6.png';
 
 import image1 from '../../assets/images/features-1.svg';
 import image2 from '../../assets/images/features-2.svg';
@@ -41,32 +35,6 @@ const services = [
     },
 ];
 
-const layouts = [
-    {
-        image: layout1,
-        layout: 'Vertical Layout',
-    },
-    {
-        image: layout2,
-        layout: 'Horizontal Layout',
-    },
-    {
-        image: layout3,
-        layout: 'Detached Layout',
-    },
-    {
-        image: layout5,
-        layout: 'Light Sidenav Layout',
-    },
-    {
-        image: layout6,
-        layout: 'Boxed Layout',
-    },
-    {
-        image: layout4,
-        layout: 'Semi Dark Layout',
-    },
-];
 
 const features = [
     {
@@ -162,4 +130,4 @@ const rawFaqs = [
     },
 ];
 
-export { services, layouts, features, plans, rawFaqs };
+export { services, features, plans, rawFaqs };

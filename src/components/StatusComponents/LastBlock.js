@@ -19,7 +19,7 @@ export default function LastBlock({socketState, data}) {
                     <div>
                         <h3 className="mt-3 mb-3">{data}</h3>
                         <p className="mb-0 text-muted">
-                            <a target="_blank" href={`https://ton.sh/block/-1/${data}`} className="text-nowrap">Explore block</a>
+                            <a target="_blank" href={`https://tonscan.org/block/-1/${data}`} className="text-nowrap">Explore block</a>
                         </p>
                     </div>
                     </>

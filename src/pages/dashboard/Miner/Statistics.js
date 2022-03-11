@@ -5,7 +5,6 @@ import Moment from 'react-moment';
 import Lottie from "lottie-react";
 import diamondAnimation from "../../../assets/diamond.json";
 
-import statsImg from '../../../assets/images/email-campaign.svg';
 import StatisticsWidget from '../../../components/StatisticsWidget';
 import StatisticsChartWidget from '../../../components/StatisticsChartWidget';
 
@@ -41,7 +40,7 @@ const Statistics = (props): React$Element<React$FragmentType> => {
 
     return (
         <>
-      
+
           <Col xs={12} sm={6} md={3}>
               {!statusdata ?
                 <Card className="tilebox-one">

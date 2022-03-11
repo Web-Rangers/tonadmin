@@ -20,7 +20,6 @@ import reCAPTCHA from '../../components/reCAPTCHA';
 
 const Login = (): React$Element<any> => {
     const { t } = useTranslation();
-
     const dispatch = useDispatch();
     const query = useQuery();
     const next = query.get('next');
@@ -28,8 +27,6 @@ const Login = (): React$Element<any> => {
     useEffect(() => {
         dispatch(resetAuth());
     }, [dispatch]);
-
-
 
     const { loading, userLoggedIn, user, error } = useSelector((state) => ({
         loading: state.Auth.loading,
@@ -44,9 +41,19 @@ const Login = (): React$Element<any> => {
     const schemaResolver = yupResolver(
         yup.object().shape({
             apiURL: yup.string().required(t('Please enter API URL')),
-            password: yup.string().required(t('Please enter Password'))
+            password: yup.string().required(t('Please enter Password')),
+            code: yup.string()
         })
     );
+
+    async function waitForCaptcha(){
+    if(typeof someVariable !== "undefined"){
+      return recaptcha;
+    }
+    else{
+        setTimeout(waitForCaptcha, 250);
+    }
+}
 
     /*
     handle form submission
@@ -54,7 +61,10 @@ const Login = (): React$Element<any> => {
 
     const onSubmit = async (formData) => {
       let token = await recaptcha.getToken();
-      dispatch(loginUser(formData['apiURL'], formData['password'], token));
+      if(token){
+        let code = formData['code'] ? formData['code'] : null
+        dispatch(loginUser(formData['apiURL'], formData['password'], token, code));
+      }
     };
 
 
@@ -77,8 +87,8 @@ const Login = (): React$Element<any> => {
                   </Alert>
                 )}
                 <VerticalForm
-                    onSubmit={onSubmit}
-                    resolver={schemaResolver}
+                  onSubmit={onSubmit}
+                  resolver={schemaResolver}
                 >
                     <FormInput
                         label={t('Validator URL')}
@@ -94,8 +104,13 @@ const Login = (): React$Element<any> => {
                         placeholder={t('Enter your password')}
                         containerClass={'mb-3'}>
                     </FormInput>
-
-
+                    <FormInput
+                        label={'Google Authenticator Code'}
+                        type="text"
+                        name="code"
+                        placeholder="Enter Google 2FA code if it's enabled"
+                        containerClass={'mb-3'}>
+                    </FormInput>
                     <div className="mb-3 mb-0 text-center">
                         <Button variant="primary" type="submit" disabled={loading}>
                             {t('Log In')}

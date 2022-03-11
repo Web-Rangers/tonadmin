@@ -26,17 +26,20 @@ const UpdateCenter = (): React$Element<React$FragmentType> => {
       setStatus(false)
       const result = await api.sendJRPC('/', 'CheckUpdates')
       //  setStatus([null, null])
-
+      
       setStatus(result.data.result)
 
+      if(!result){
+        setStatus([null, null])
+      }
     }
 
     const update = async (service) => {
       setUpdateStatus(null);
       setShow(true)
       const result = await api.sendJRPC('/', 'Update' + service, ['']);
-      console.log(result.data.result.message)
-      if(result.data.result.message == 'Method not found"}}' ){
+
+      if(result.data.message == 'Method not found"}}' ){
         setStatus([null, null])
       }
       const result2 = await api.sendJRPC('/', 'CheckUpdates')
@@ -59,15 +62,9 @@ const UpdateCenter = (): React$Element<React$FragmentType> => {
         <>
             <Row>
                 <Col>
+                    <h4 className="page-title mb-3" >Update center</h4>
                     <div className="page-title-box">
-                        <div className="page-title-right">
-                            <form className="d-flex">
-                                <button className="btn btn-primary ms-2">
-                                    <i className="mdi mdi-autorenew"></i>
-                                </button>
-                            </form>
-                        </div>
-                        <h4 className="page-title" >Update center</h4>
+
                         <Toast
                         className="d-flex align-items-center text-white bg-primary border-0 mb-3"
                         style={{ width: '100%'}}

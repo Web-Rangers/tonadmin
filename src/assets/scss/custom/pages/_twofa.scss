@@ -1,0 +1,41 @@
+//
+// twofa.scss
+//
+
+.twofa-link{
+  color: #6c757d;
+  div{
+      padding: 25px 0;
+      border-radius: 5px;
+  }
+  &:hover{
+    color: #6c757d;
+  }
+}
+
+
+.twofa-link:hover > div {
+  background: #f4f6ff;
+}
+.twofa-form{
+  display: flex;
+  justify-content: flex-start;
+  margin: auto;
+  width: 400px;
+}
+.twofa-form form{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.twofa-form button{
+  margin-top: 29px;
+  float: right;
+  height: 39px;
+}
+.twofa-incorrect{
+  color: red;
+  width:100%;
+  display: block;
+}

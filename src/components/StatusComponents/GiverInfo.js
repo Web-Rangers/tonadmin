@@ -59,7 +59,7 @@ export default function GiverInfo() {
                 Object.entries(data.result.givers).forEach(([key, value]) => {
                     // console.log(key, value);
                     tableData.push({
-                        address: <a href={`https://ton.sh/address/${key}`} target="_blank">{key}</a>,
+                        address: <a href={`https://tonscan.org/address/${key}`} target="_blank">{key}</a>,
                         balance: `${shortenNumber(value.toFixed(2))} TON`,
                         usd: `${shortenNumber(value * prices['the-open-network'].usd)} USD`,
                     })

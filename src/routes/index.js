@@ -21,6 +21,7 @@ const MinerDashboard = React.lazy(() => import('../pages/dashboard/Miner'));
 const ValidatorDashboard = React.lazy(() => import('../pages/dashboard/Validator'));
 const ValidatorsList = React.lazy(() => import('../pages/ValidatorsList'));
 const UpdateCenter = React.lazy(() => import('../pages/UpdateCenter'));
+const TwoFa = React.lazy(() => import('../pages/TwoFa'));
 
 const HashRate = React.lazy(() => import('../pages/analytics/HashRate'));
 const BleedRate = React.lazy(() => import('../pages/analytics/BleedRate'));
@@ -77,6 +78,15 @@ const UpdateCenterRoute = {
     roles: ['Admin'],
     icon: 'uil-download',
     component: UpdateCenter
+};
+
+const TwoFaRoute = {
+    path: '/2fa',
+    name: '2fa auth',
+    route: PrivateRoute,
+    roles: ['Admin'],
+    icon: 'uil-download',
+    component: TwoFa
 };
 
 // flatten the list of all nested routes
@@ -164,7 +174,7 @@ const commonRoutes = [
 ]
 
 // All routes
-const authProtectedRoutes = [rootRoute, dashboardRoutes, ValidatorsListRoute, UpdateCenterRoute];
+const authProtectedRoutes = [rootRoute, dashboardRoutes, ValidatorsListRoute, UpdateCenterRoute, TwoFaRoute];
 const publicRoutes = [...authRoutes, ...analyticRoutes, ...commonRoutes];
 
 const authProtectedFlattenRoutes = flattenRoutes([...authProtectedRoutes]);
