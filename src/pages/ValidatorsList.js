@@ -95,36 +95,13 @@ const ValidatorsList = (): React$Element<any> => {
     const [walletName, setWalletName] = useState(false);
     const [workchain, setWorkchain] = useState(0);
 
-    const toggleCreate = () => {
-        setCreateModal(!createModal);
-    };
 
     useEffect(async () => {
-      updateWallets()
+      updateVL()
     }, []);
 
-    const updateWalletName = (event) => {
-      setWalletName(event.target.value)
-    }
-    const updateWorkchain = (event) => {
-      setWorkchain(event.target.value)
-    }
 
-    const createWallet = async (e) => {
-      e.preventDefault();
-      setLoading(true)
-      setAddButton(false)
-      const result = await api.sendJRPC('/', 'nw', [walletName, workchain])
-      if(result && result.data && result.data.result){
-          updateWallets()
-      }else{
-          setData([]);
-          setAddButton(true)
-          setLoading(false)
-      }
-    }
-
-    const updateWallets = async () =>{
+    const updateVL = async () =>{
       setLoading(true)
       const result = await api.sendJRPC('/', 'vl')
 

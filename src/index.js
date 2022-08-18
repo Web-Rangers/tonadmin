@@ -8,7 +8,6 @@ import { configureStore } from './redux/store';
 import ReactNotifications from 'react-notifications-component'
 
 ReactDOM.render(
-
    <Provider store={configureStore({})}>
        <ReactNotifications />
        <App />

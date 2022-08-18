@@ -23,7 +23,7 @@ axios.interceptors.response.use(
         } else if (error && error.response && error.response.status === 403) {
             store.addNotification({
               title: "Error: " + error.response.status,
-              message: error.response.data.message ? error.response.data.message : " ",
+              message: error.response.data.message ? error.response.data.message : "Authorization required",
               type: "danger",
               insert: "top",
               container: "top-right",
@@ -32,8 +32,8 @@ axios.interceptors.response.use(
               dismiss: { duration: 5000 },
               dismissable: { click: true }
             });
+            localStorage.removeItem(AUTH_SESSION_KEY);
             if(error.response.data.message == 'Forbidden'){
-              localStorage.removeItem(AUTH_SESSION_KEY);
               window.location.href = '/account/login';
             }
             return Promise.reject(error.response.data.message);
@@ -112,6 +112,7 @@ class APICore {
      * Fetches data from given url
      */
     get = (url, params) => {
+        let headers = {}
         let response;
         if (params) {
             var queryString = params
@@ -119,13 +120,14 @@ class APICore {
                       .map((key) => key + '=' + params[key])
                       .join('&')
                 : '';
-            response = axios.get(`${url}?${queryString}`, params);
-        } else {
+            let domain = (new URL(url));
 
-            response = axios.get(`${url}`,   {transformRequest: (data, headers) => {
+            response = axios.get(`${url}?${queryString}`, {headers, params});
+        } else {
+            response = axios.get(`${url}`, {transformRequest: (data, headers) => {
                   delete headers.common['Authorization'];
                   return data;
-                }});
+              }}, headers);
         }
         return response;
     };
@@ -313,7 +315,6 @@ if (user) {
     if (token) {
         axios.defaults.baseURL = config.SERVER_URL;
         setAuthorization(token);
-
     }
 }
 

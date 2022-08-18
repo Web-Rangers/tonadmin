@@ -16,7 +16,6 @@ const LockScreen = React.lazy(() => import('../pages/account/LockScreen'));
 
 // dashboard
 
-
 const MinerDashboard = React.lazy(() => import('../pages/dashboard/Miner'));
 const ValidatorDashboard = React.lazy(() => import('../pages/dashboard/Validator'));
 const ValidatorsList = React.lazy(() => import('../pages/ValidatorsList'));
@@ -30,6 +29,9 @@ const Machines = React.lazy(() => import('../pages/analytics/Machines'));
 //public pages
 const StatusPage = React.lazy(() => import('../pages/StatusPage'));
 const Landing = React.lazy(() => import('../pages/landing'));
+const Metrics = React.lazy(() => import('../pages/metrics/index'));
+const Info = React.lazy(() => import('../pages/metrics/info'));
+
 
 // app
 // root routes
@@ -170,11 +172,23 @@ const commonRoutes = [
         name: 'Landing',
         component: Landing,
         route: Route,
-    }
+    },
+    {
+        path: '/metrics/view',
+        name: 'Metrics',
+        component: Metrics,
+        route: Route,
+    },
+    {
+        path: '/metrics/info/:address',
+        name: 'Info',
+        component: Info,
+        route: Route,
+    },
 ]
 
 // All routes
-const authProtectedRoutes = [rootRoute, dashboardRoutes, ValidatorsListRoute, UpdateCenterRoute, TwoFaRoute];
+const authProtectedRoutes = [rootRoute, dashboardRoutes, UpdateCenterRoute, TwoFaRoute, ValidatorsListRoute];
 const publicRoutes = [...authRoutes, ...analyticRoutes, ...commonRoutes];
 
 const authProtectedFlattenRoutes = flattenRoutes([...authProtectedRoutes]);

@@ -99,17 +99,19 @@ class HashrateChart extends React.Component{
 
 
   componentDidMount(){
-    if(localStorage.getItem('validatorAddress') || props.wallet){
+    if(localStorage.getItem('validatorAddress') || this.props.wallet){
         this.updateChart('m', 1)
     }
   }
 
   async updateChart(period, value){
     let chartData = []
-    api.get("/api/v1/chart/validator?wallet="+this.state.wallet+"&time_period=" + period + "&time_value=" + value).then(response => {
+    api.get("https://tonadmin.org/api/v1/chart/validator?wallet="+this.state.wallet+"&time_period=" + period + "&time_value=" + value).then(response => {
       let data = response.data.result
       for(let item of data){
-          chartData.push({'x': new Date(item.date * 1000), 'y' : item.value})
+          if(item.value < 3000 && item.value > -100){
+                 chartData.push({'x': new Date(item.date * 1000), 'y' : item.value})
+          }
       }
 
       let apexBarChartData = [
